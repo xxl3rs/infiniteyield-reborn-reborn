@@ -4333,6 +4333,7 @@ end
 CMDs = {}
 CMDs[#CMDs + 1] = {NAME = 'discord / dc', DESC = 'Invite to the Discord server.'}
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Loads old Roblox console'}
+CMDs[#CMDs + 1] = {NAME = 'unc / unctest / unccheckevn', DESC = 'Tests all UNC Environment'}
 CMDs[#CMDs + 1] = {NAME = 'explorer / dex', DESC = 'Opens DEX by Moon'}
 CMDs[#CMDs + 1] = {NAME = 'secureexplorer / securedex / bypasseddex', DESC = 'Opens Bypassed DEX by HamstaGang'}
 CMDs[#CMDs + 1] = {NAME = 'olddex / odex', DESC = 'Opens Old DEX by Moon'}
@@ -4382,6 +4383,7 @@ CMDs[#CMDs + 1] = {NAME = 'notify [text]', DESC = 'Sends you a notification with
 CMDs[#CMDs + 1] = {NAME = 'lastcommand / lastcmd', DESC = 'Executes the previous command used'}
 CMDs[#CMDs + 1] = {NAME = 'exit', DESC = 'Kills roblox process'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
+CMDs[#CMDs + 1] = {NAME = 'antivoid / voidbooster', DESC = 'Launches you up when You\'re close to the Void'}
 CMDs[#CMDs + 1] = {NAME = 'noclip', DESC = 'Go through objects'}
 CMDs[#CMDs + 1] = {NAME = 'unnoclip / clip', DESC = 'Disables noclip'}
 CMDs[#CMDs + 1] = {NAME = 'fly [speed]', DESC = 'Makes you fly'}
@@ -4435,7 +4437,7 @@ CMDs[#CMDs + 1] = {NAME = 'notifyposition / notifypos [player]', DESC = 'Notifie
 CMDs[#CMDs + 1] = {NAME = 'copyposition / copypos [player]', DESC = 'Copies the coordinates of a character to your clipboard'}
 CMDs[#CMDs + 1] = {NAME = 'walktoposition / walktopos [X Y Z]', DESC = 'Makes you walk to a coordinate'}
 CMDs[#CMDs + 1] = {NAME = 'spawnpoint / spawn [delay]', DESC = 'Sets a position where you will spawn'}
-CMDs[#CMDs + 1] = {NAME = 'nospawnpoint / nospawn', DESC = 'Removes your custom spawn point'}
+CMDs[#CMDs + 1] = {NAME = 'nospawnpoint / nospawn / removespawnpoint / unspawnpoint / unspawn', DESC = 'Removes your custom spawn point'}
 CMDs[#CMDs + 1] = {NAME = 'flashback / diedtp', DESC = 'Teleports you to where you last died'}
 CMDs[#CMDs + 1] = {NAME = 'walltp', DESC = 'Teleports you above/over any wall you run into'}
 CMDs[#CMDs + 1] = {NAME = 'nowalltp / unwalltp', DESC = 'Disables walltp'}
@@ -7381,6 +7383,17 @@ addcmd('hidewaypoints',{'hidewp','hidewps'},function(args, speaker)
 	waypointParts = {}
 end)
 
+antivoidenabled = false
+addcmd('antivoid', {"voidbooster",},function(args, speaker)
+	local voidheight = workspace.FallenPartsDestroyHeight
+	antivoidenabled = true
+	repeat
+		if getRoot(speaker.character).Position.Y == voidheight + 5 then
+			getRoot(speaker.character).Velocity = Vector3.new(0,250,0)
+		end
+	until speaker.character == nil or antivoidenabled == false
+end)
+
 addcmd('waypoint',{'wp','lpos','loadposition','loadpos'},function(args, speaker)
 	local WPName = tostring(getstring(1))
 	if speaker.Character then
@@ -10185,6 +10198,11 @@ addcmd('console',{},function(args, speaker)
 	notify('Console','Press F9 to open the console')
 end)
 
+addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/unified-naming-convention/NamingStandard/main/UNCCheckEnv.lua"))()
+	notify("Check console", "Press F9 or type /console in chat to see results")
+end)
+
 addcmd('explorer', {'dex'}, function(args, speaker)
 	notify('Loading', 'Hold on a sec')
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
@@ -10876,7 +10894,7 @@ addcmd('spawnpoint',{'spawn'},function(args, speaker)
 	notify('Spawn Point','Spawn point created at '..tostring(spawnpos))
 end)
 
-addcmd('nospawnpoint',{'nospawn','removespawnpoint'},function(args, speaker)
+addcmd('nospawnpoint',{'nospawn','removespawnpoint',"unspawnpoint", "unspawn"},function(args, speaker)
 	spawnpoint = false
 	notify('Spawn Point','Removed spawn point')
 end)
@@ -12489,7 +12507,7 @@ task.spawn(function()
 
 	if success then
 		if currentVersion ~= latestVersionInfo.Version then
-			notify('Outdated','Get the new version at infyiff.github.io')
+			notify('Outdated','Get the new version by executing it again (or rejoin if keepiy is enabled)')
 		end
 
 		if latestVersionInfo.Announcement and latestVersionInfo.Announcement ~= '' then
