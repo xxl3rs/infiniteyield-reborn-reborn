@@ -7391,6 +7391,7 @@ addcmd('antivoid', {"voidbooster",},function(args, speaker)
 		if getRoot(speaker.character).Position.Y == voidheight + 5 then
 			getRoot(speaker.character).Velocity = Vector3.new(0,250,0)
 		end
+		task.wait()
 	until speaker.character == nil or antivoidenabled == false
 end)
 
