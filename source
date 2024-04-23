@@ -4383,7 +4383,8 @@ CMDs[#CMDs + 1] = {NAME = 'notify [text]', DESC = 'Sends you a notification with
 CMDs[#CMDs + 1] = {NAME = 'lastcommand / lastcmd', DESC = 'Executes the previous command used'}
 CMDs[#CMDs + 1] = {NAME = 'exit', DESC = 'Kills roblox process'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
-CMDs[#CMDs + 1] = {NAME = 'antivoid / voidbooster', DESC = 'Launches you up when You\'re close to the Void'}
+CMDs[#CMDs + 1] = {NAME = 'antivoid / voidbooster / voidboost', DESC = 'Launches you up when You\'re close to the Void'}
+CMDs[#CMDs + 1] = {NAME = 'unantivoid / unvoidbooster / unvoidboost', DESC = 'Disables antivoid'}
 CMDs[#CMDs + 1] = {NAME = 'noclip', DESC = 'Go through objects'}
 CMDs[#CMDs + 1] = {NAME = 'unnoclip / clip', DESC = 'Disables noclip'}
 CMDs[#CMDs + 1] = {NAME = 'fly [speed]', DESC = 'Makes you fly'}
@@ -7384,22 +7385,29 @@ addcmd('hidewaypoints',{'hidewp','hidewps'},function(args, speaker)
 end)
 
 local antivoidenabled = false
-addcmd('antivoid', {"voidbooster"},function(args, speaker)
-	local voidheight = workspace.FallenPartsDestroyHeight + 30
+addcmd('antivoid', {"voidbooster", "voidboost"},function(args, speaker)
+	local voidheight = workspace.FallenPartsDestroyHeight + 20
 	antivoidenabled = true
 	task.wait(0.1)
+	--TASK SPAWN IN A TASK SPAWN IM BUSTING (last words before reaching max memory after using)
 	task.spawn(function()
 		while task.wait() do
-			local charhrp = game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-			if charhrp.Position.Y <= voidheight then
-				charhrp.Velocity += Vector3.new(0,250,0)
-			end
+			task.spawn(function()
+				if getRoot(speaker.Character).Position.Y <= voidheight then
+					getRoot(speaker.Character).Velocity += Vector3.new(0,250,0)
+				end
+			end)
 			if antivoidenabled == false then
 				break
 			end
 		end
 	end)
 	notify("Antivoiding")
+end)
+
+addcmd('unantivoid',{"unvoidbooster","unvoidboost"},function(args, speaker)
+	antivoidenabled = false
+	notify("No longer preventing you from falling off the void")
 end)
 
 addcmd('waypoint',{'wp','lpos','loadposition','loadpos'},function(args, speaker)
