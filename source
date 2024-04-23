@@ -16,7 +16,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '5.9.4'
+currentVersion = '5.9.5'
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -3286,7 +3286,7 @@ end
 IYMouse.KeyDown:Connect(function(Key)
 	if (Key==prefix) then
 		Cmdbar:CaptureFocus()
-		task.defer(function()
+		spawn(function()
 			repeat Cmdbar.Text = '' until Cmdbar.Text == ''
 		end)
 		maximizeHolder()
@@ -6293,7 +6293,7 @@ local TeleportCheck = false
 Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if KeepInfYield and (not TeleportCheck) and queueteleport then
 		TeleportCheck = true
-		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()")
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/fuckusfm/infiniteyield-reborn/master/source'))()")
 	end
 end)
 
@@ -6703,8 +6703,8 @@ addcmd('serverinfo',{'info','sinfo'},function(args, speaker)
 			local seconds = math.floor(workspace.DistributedGameTime)
 			local minutes = math.floor(workspace.DistributedGameTime / 60)
 			local hours = math.floor(workspace.DistributedGameTime / 60 / 60)
-			local seconds -= minutes * 60
-			local minutes -= hours * 60
+			seconds -= minutes * 60
+			minutes -= hours * 60
 			if hours < 1 then if minutes < 1 then
 					SINFOGUI.Time.Text = seconds .. " Second(s)" else
 					SINFOGUI.Time.Text = minutes .. " Minute(s), " .. seconds .. " Second(s)"
@@ -9202,6 +9202,7 @@ addcmd('god',{},function(args, speaker)
 	nHuman.Health = nHuman.MaxHealth
 end)
 
+--nah lazy
 invisRunning = false
 addcmd('invisible',{'invis'},function(args, speaker)
 	if invisRunning then return end
@@ -12482,7 +12483,7 @@ IYMouse.Move:Connect(checkTT)
 
 task.spawn(function()
 	local success, latestVersionInfo = pcall(function() 
-		local versionJson = game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/version')
+		local versionJson = game:HttpGet('https://raw.githubusercontent.com/fuckusfm/infiniteyield-reborn/master/version')
 		return HttpService:JSONDecode(versionJson)
 	end)
 
