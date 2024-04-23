@@ -7384,15 +7384,17 @@ addcmd('hidewaypoints',{'hidewp','hidewps'},function(args, speaker)
 end)
 
 antivoidenabled = false
-addcmd('antivoid', {"voidbooster",},function(args, speaker)
+addcmd('antivoid', {"voidbooster"},function(args, speaker)
 	local voidheight = workspace.FallenPartsDestroyHeight
 	antivoidenabled = true
-	repeat
-		if getRoot(speaker.character).Position.Y == voidheight + 5 then
-			getRoot(speaker.character).Velocity = Vector3.new(0,250,0)
-		end
-		task.wait()
-	until speaker.character == nil or antivoidenabled == false
+	task.spawn(function()
+		repeat
+			if getRoot(speaker.character).Position.Y == voidheight + 5 then
+				getRoot(speaker.character).Velocity = Vector3.new(0,250,0)
+			end
+			task.wait(0.1)
+		until speaker.character == nil or antivoidenabled == false
+	end)
 end)
 
 addcmd('waypoint',{'wp','lpos','loadposition','loadpos'},function(args, speaker)
