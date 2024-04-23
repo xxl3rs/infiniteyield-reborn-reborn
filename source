@@ -7383,19 +7383,23 @@ addcmd('hidewaypoints',{'hidewp','hidewps'},function(args, speaker)
 	waypointParts = {}
 end)
 
-antivoidenabled = false
+local antivoidenabled = false
 addcmd('antivoid', {"voidbooster"},function(args, speaker)
-	local voidheight = workspace.FallenPartsDestroyHeight
-	local charhrp = speaker.Character:WaitForChild("HumanoidRootPart")
+	local voidheight = workspace.FallenPartsDestroyHeight + 30
 	antivoidenabled = true
+	task.wait(0.1)
 	task.spawn(function()
-		repeat
-			if charhrp.Position.Y == voidheight + 15 then
-				charhrp.Velocity = Vector3.new(0,250,0)
+		while task.wait() do
+			local charhrp = game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+			if charhrp.Position.Y <= voidheight then
+				charhrp.Velocity += Vector3.new(0,250,0)
 			end
-			task.wait(0.1)
-		until speaker.character == nil or antivoidenabled == false
+			if antivoidenabled == false then
+				break
+			end
+		end
 	end)
+	notify("Antivoiding")
 end)
 
 addcmd('waypoint',{'wp','lpos','loadposition','loadpos'},function(args, speaker)
@@ -12547,7 +12551,7 @@ task.spawn(function()
 			TextBox.Font = Enum.Font.SourceSans
 			TextBox.TextSize = 18
 			TextBox.TextWrapped = true
-			TextBox.Text = Announcement
+			TextBox.Text = latestVersionInfo.Announcement
 			TextBox.TextColor3 = currentText1
 			TextBox.TextXAlignment = Enum.TextXAlignment.Left
 			TextBox.TextYAlignment = Enum.TextYAlignment.Top
