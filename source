@@ -9333,7 +9333,7 @@ addcmd('invisible',{'invis'},function(args, speaker)
 	IsInvis = true
 	CF = workspace.CurrentCamera.CFrame
 	local CF_1 = Player.Character.HumanoidRootPart.CFrame
-	Character:MoveTo(Vector3.new(0,math.pi*1000000,0))
+	Character:MoveTo(Vector3.new(9e9,9e9,9e9))
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
 	task.wait(.2)
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
