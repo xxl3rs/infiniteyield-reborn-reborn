@@ -11714,7 +11714,7 @@ if game.PlaceId == 574746640 then
 		for i,v in pairs(workspace:GetChildren()) do
 			if v:IsA("Model") then
 				if v:FindFirstChild("Torso") then
-					if v.Name == "Doge" or v.Name == "socky" or v.Name == "muffy" or v.Name == "girl" or v.Name == "Cat" then
+					if v.Name == "Doge" or v.Name == "socky" or v.Name == "muffy" or v.Name == "girl" or v.Name == "Cat" or v.Name == "baby" then
 						TweenService:Create(getRoot(speaker.Character), TweenInfo.new(0.1, Enum.EasingStyle.Sine,Enum.EasingDirection.InOut), {CFrame = v:FindFirstChild("Torso").CFrame}):Play()
 						task.wait(0.35)
 						for i=1,3 do
@@ -11795,6 +11795,7 @@ if game.PlaceId == 574746640 then
 	addcmd('unspamtime',{'unstime'},function(args,speaker)
 		spamtimeenabled = false
 	end)
+
 else
 	addcmd('dupetools', {'clonetools'}, function(args, speaker)
 		local LOOP_NUM = tonumber(args[1]) or 1
