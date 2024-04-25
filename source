@@ -16,7 +16,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '5.9.5'
+currentVersion = '5.9.6'
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -4569,13 +4569,19 @@ CMDs[#CMDs + 1] = {NAME = 'rolewatch [group id] [role name]', DESC = 'Notify if 
 CMDs[#CMDs + 1] = {NAME = 'rolewatchstop / unrolewatch', DESC = 'Disable Rolewatch'}
 CMDs[#CMDs + 1] = {NAME = 'rolewatchleave', DESC = 'Toggle if you should leave the game if someone from a watched group joins the server'}
 CMDs[#CMDs + 1] = {NAME = 'attach [player] (TOOL)', DESC = 'Attaches you to a player (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'kill [player] (TOOL)', DESC = 'Kills a player (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'fastkill [player] (TOOL)', DESC = 'Kills a player (less reliable) (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'bring [player] (TOOL)', DESC = 'Brings a player (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'fastbring [player] (TOOL)', DESC = 'Brings a player (less reliable) (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
+if game.PlaceId ~= 574746640 then
+	CMDs[#CMDs + 1] = {NAME = 'kill [player] (TOOL)', DESC = 'Kills a player (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'fastkill [player] (TOOL)', DESC = 'Kills a player (less reliable) (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'bring [player] (TOOL)', DESC = 'Brings a player (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'fastbring [player] (TOOL)', DESC = 'Brings a player (less reliable) (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
+else
+	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
+	CMDs[#CMDs + 1] = {NAME = 'dig / terriandig / removeterrian / digterrian', DESC = 'Attempts to dig part of terrian'}
+	CMDs[#CMDs + 1] = {NAME = 'brn / bringnpcs / bringallnpcs / bringall', DESC = 'Attempts to bring npc(s)'}
+end
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
 CMDs[#CMDs + 1] = {NAME = 'flyfling', DESC = 'Basically the invisfling command but not invisible'}
@@ -11627,12 +11633,6 @@ function attach(speaker,target)
 	end
 end
 
-addcmd('attach',{},function(args, speaker)
-	local players = getPlayer(args[1], speaker)
-	for i,v in pairs(players) do
-		attach(speaker,Players[v])
-	end
-end)
 
 function kill(speaker,target,fast)
 	if tools(speaker) then
@@ -11657,40 +11657,202 @@ function kill(speaker,target,fast)
 	end
 end
 
+function Ann1kill(speaker,target)
+	local hrp = getRoot(speaker.Character)
+	local thrp = getRoot(target.Character)
+	local cat = nil
+	if workspace:FindFirstChild("socky") and cat == nil then
+		cat = workspace:FindFirstChild("socky")
+	end
+	task.wait(.1)
+	if workspace:FindFirstChild("muffy") and cat == nil then
+		cat = workspace:FindFirstChild("muffy")
+	end
+	task.wait(.1)
+	local ct = cat:FindFirstChild("Torso")
+	hrp.CFrame = ct.CFrame
+	ct.CFrame = hrp.CFrame
+	task.wait(.5)
+	ct.CFrame = hrp.CFrame
+	task.spawn(function()
+		while task.wait() do
+			ct.CFrame = hrp.CFrame
+			if speaker.Character:FindFirstChild("Humanoid").Health <= 1 or target.Character:FindFirstChild("Humanoid").Health <= 1 then
+				break
+			end
+		end
+	end)
+	task.wait(.3)
+	task.spawn(function()
+		while task.wait() do
+			hrp.CFrame = thrp.CFrame + (target.Character:FindFirstChild("Humanoid").MoveDirection * 3)
+			if speaker.Character:FindFirstChild("Humanoid").Health <= 1 or target.Character:FindFirstChild("Humanoid").Health <= 1 then
+				break
+			end
+		end
+	end)
+	task.wait(.1)
+	cat:FindFirstChild("Humanoid"):TakeDamage(180)
+end
+
 addcmd('kill',{'fekill'},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
-		kill(speaker,Players[v])
+		if game.PlaceId ~= 574746640 then
+			kill(speaker,Players[v])
+		else
+			Ann1kill(speaker,Players[v])
+		end
 	end
 end)
-
-addcmd('handlekill', {'hkill'}, function(args, speaker)
-	if not firetouchinterest then
-		return notify('Incompatible Exploit', 'Your exploit does not support this command (missing firetouchinterest)')
-	end
-	local RS = RunService.RenderStepped
-	local Tool = speaker.Character.FindFirstChildWhichIsA(speaker.Character, "Tool")
-	local Handle = Tool and Tool.FindFirstChild(Tool, "Handle")
-	if not Tool or not Handle then
-		return notify("Handle Kill", "You need to hold a \"Tool\" that does damage on touch. For example the default \"Sword\" tool.")
-	end
-	for _, v in ipairs(getPlayer(args[1], speaker)) do
-		v = Players[v]
+-- guess how many ct.CFrame = hrp.CFrame there ARE!
+if game.PlaceId == 574746640 then
+	addcmd("dig",{"terriandig","removeterrian","digterrian"},function(args, speaker)
+		notify("Digging!")
+		local hrp = getRoot(speaker.Character)
+		local cat = nil
+		if workspace:FindFirstChild("socky") and cat == nil then
+			cat = workspace:FindFirstChild("socky")
+		end
+		task.wait(.1)
+		if workspace:FindFirstChild("muffy") and cat == nil then
+			cat = workspace:FindFirstChild("muffy")
+		end
+		cat:FindFirstChild("Humanoid").Health = 100
+		task.wait(.1)
+		local ct = cat:FindFirstChild("Torso")
+		local oldpos = hrp.CFrame
+		hrp.CFrame = ct.CFrame
+		task.wait(.1)
+		hrp.CFrame = ct.CFrame
+		ct.CFrame = hrp.CFrame
+		cat:FindFirstChild("Humanoid").Health = 100
+		task.wait(.1)
+		ct.CFrame = hrp.CFrame
+		task.wait(.1)
 		task.spawn(function()
-			while Tool and speaker.Character and v.Character and Tool.Parent == speaker.Character do
-				local Human = v.Character.FindFirstChildWhichIsA(v.Character, "Humanoid")
-				if not Human or Human.Health <= 0 then
+			while task.wait() do
+				ct.CFrame = hrp.CFrame
+				if speaker.Character:FindFirstChild("Humanoid").Health <= 1 or cat:FindFirstChild("Humanoid").Health <= 1 then
 					break
 				end
-				for _, v1 in ipairs(v.Character.GetChildren(v.Character)) do
-					v1 = ((v1.IsA(v1, "BasePart") and firetouchinterest(Handle, v1, 1, (RS.task.wait(RS) and nil) or firetouchinterest(Handle, v1, 0)) and nil) or v1) or v1
+			end
+		end)
+		task.wait(.3)
+		hrp.CFrame = ct.CFrame
+		ct.CFrame = oldpos
+		task.spawn(function()
+			while task.wait() do
+				hrp.CFrame = oldpos + Vector3.new(0,-4.5,0)
+				if speaker.Character:FindFirstChild("Humanoid").Health <= 1 or cat:FindFirstChild("Humanoid").Health <= 1 then
+					break
 				end
 			end
-			notify("Handle Kill Stopped!", v.Name .. " died/left or you unequipped the tool!")
 		end)
-	end
-end)
-
+		task.wait(.4)
+		cat:FindFirstChild("Humanoid"):TakeDamage(180)
+	end)
+	addcmd("bringnpcs",{"bringallnpcs","brn","bringall"},function(args,speaker)
+		local hrp = getRoot(speaker.Character)
+		local oldpos = hrp.CFrame
+		for i,v in pairs(workspace:GetChildren()) do
+			if v:IsA("Model") then
+				if v:FindFirstChild("Torso") then
+					if v.Name == "Doge" or v.Name == "socky" or v.Name == "muffy" or v.Name == "girl" or v.Name == "Cat" then
+						TweenService:Create(getRoot(speaker.Character), TweenInfo.new(0.1, Enum.EasingStyle.Sine,Enum.EasingDirection.InOut), {CFrame = v:FindFirstChild("Torso").CFrame}):Play()
+						task.wait(0.35)
+						for i=1,3 do
+							hrp.CFrame = v:FindFirstChild("Torso").CFrame
+							v:FindFirstChild("Torso").CFrame = hrp.CFrame
+							task.wait(0.1)
+						end
+						v:FindFirstChild("Torso").CFrame = oldpos
+					end
+				end
+			end
+		end
+		hrp.CFrame = oldpos
+	end)
+else
+	addcmd('handlekill', {'hkill'}, function(args, speaker)
+		if not firetouchinterest then
+			return notify('Incompatible Exploit', 'Your exploit does not support this command (missing firetouchinterest)')
+		end
+		local RS = RunService.RenderStepped
+		local Tool = speaker.Character.FindFirstChildWhichIsA(speaker.Character, "Tool")
+		local Handle = Tool and Tool.FindFirstChild(Tool, "Handle")
+		if not Tool or not Handle then
+			return notify("Handle Kill", "You need to hold a \"Tool\" that does damage on touch. For example the default \"Sword\" tool.")
+		end
+		for _, v in ipairs(getPlayer(args[1], speaker)) do
+			v = Players[v]
+			task.spawn(function()
+				while Tool and speaker.Character and v.Character and Tool.Parent == speaker.Character do
+					local Human = v.Character.FindFirstChildWhichIsA(v.Character, "Humanoid")
+					if not Human or Human.Health <= 0 then
+						break
+					end
+					for _, v1 in ipairs(v.Character.GetChildren(v.Character)) do
+						v1 = ((v1.IsA(v1, "BasePart") and firetouchinterest(Handle, v1, 1, (RS.task.wait(RS) and nil) or firetouchinterest(Handle, v1, 0)) and nil) or v1) or v1
+					end
+				end
+				notify("Handle Kill Stopped!", v.Name .. " died/left or you unequipped the tool!")
+			end)
+		end
+	end)
+	addcmd('tp',{'teleport'},function(args, speaker)
+		local players1=getPlayer(args[1], speaker)
+		local players2=getPlayer(args[2], speaker)
+		for i,v in pairs(players1)do
+			if getRoot(Players[v].Character) and getRoot(Players[players2[1]].Character) then
+				if speaker.Character:FindFirstChildOfClass('Humanoid') and speaker.Character:FindFirstChildOfClass('Humanoid').SeatPart then
+					speaker.Character:FindFirstChildOfClass('Humanoid').Sit = false
+					task.wait(.1)
+				end
+				teleport(speaker,Players[v],Players[players2[1]])
+			end
+		end
+	end)
+	
+	addcmd('fasttp',{'fastteleport'},function(args, speaker)
+		local players1=getPlayer(args[1], speaker)
+		local players2=getPlayer(args[2], speaker)
+		for i,v in pairs(players1)do
+			if getRoot(Players[v].Character) and getRoot(Players[players2[1]].Character) then
+				if speaker.Character:FindFirstChildOfClass('Humanoid') and speaker.Character:FindFirstChildOfClass('Humanoid').SeatPart then
+					speaker.Character:FindFirstChildOfClass('Humanoid').Sit = false
+					task.wait(.1)
+				end
+				teleport(speaker,Players[v],Players[players2[1]],true)
+			end
+		end
+	end)
+	addcmd('bring',{'febring'},function(args, speaker)
+		local players = getPlayer(args[1], speaker)
+		for i,v in pairs(players) do
+			bring(speaker,Players[v])
+		end
+	end)
+	
+	addcmd('fastbring',{'fastfebring'},function(args, speaker)
+		local players = getPlayer(args[1], speaker)
+		for i,v in pairs(players) do
+			bring(speaker,Players[v],true)
+		end
+	end)
+	addcmd('fastkill',{'fastfekill'},function(args, speaker)
+		local players = getPlayer(args[1], speaker)
+		for i,v in pairs(players) do
+			kill(speaker,Players[v],true)
+		end
+	end)
+	addcmd('attach',{},function(args, speaker)
+		local players = getPlayer(args[1], speaker)
+		for i,v in pairs(players) do
+			attach(speaker,Players[v])
+		end
+	end)
+end
 local hb = RunService.Heartbeat
 addcmd('tpwalk', {'teleportwalk'}, function(args, speaker)
 	tpwalking = true
@@ -11711,12 +11873,7 @@ addcmd('untpwalk', {'unteleportwalk'}, function(args, speaker)
 	tpwalking = false
 end)
 
-addcmd('fastkill',{'fastfekill'},function(args, speaker)
-	local players = getPlayer(args[1], speaker)
-	for i,v in pairs(players) do
-		kill(speaker,Players[v],true)
-	end
-end)
+
 
 function bring(speaker,target,fast)
 	if tools(speaker) then
@@ -11741,19 +11898,7 @@ function bring(speaker,target,fast)
 	end
 end
 
-addcmd('bring',{'febring'},function(args, speaker)
-	local players = getPlayer(args[1], speaker)
-	for i,v in pairs(players) do
-		bring(speaker,Players[v])
-	end
-end)
 
-addcmd('fastbring',{'fastfebring'},function(args, speaker)
-	local players = getPlayer(args[1], speaker)
-	for i,v in pairs(players) do
-		bring(speaker,Players[v],true)
-	end
-end)
 
 function teleport(speaker,target,target2,fast)
 	if tools(speaker) then
@@ -11780,33 +11925,7 @@ function teleport(speaker,target,target2,fast)
 	end
 end
 
-addcmd('tp',{'teleport'},function(args, speaker)
-	local players1=getPlayer(args[1], speaker)
-	local players2=getPlayer(args[2], speaker)
-	for i,v in pairs(players1)do
-		if getRoot(Players[v].Character) and getRoot(Players[players2[1]].Character) then
-			if speaker.Character:FindFirstChildOfClass('Humanoid') and speaker.Character:FindFirstChildOfClass('Humanoid').SeatPart then
-				speaker.Character:FindFirstChildOfClass('Humanoid').Sit = false
-				task.wait(.1)
-			end
-			teleport(speaker,Players[v],Players[players2[1]])
-		end
-	end
-end)
 
-addcmd('fasttp',{'fastteleport'},function(args, speaker)
-	local players1=getPlayer(args[1], speaker)
-	local players2=getPlayer(args[2], speaker)
-	for i,v in pairs(players1)do
-		if getRoot(Players[v].Character) and getRoot(Players[players2[1]].Character) then
-			if speaker.Character:FindFirstChildOfClass('Humanoid') and speaker.Character:FindFirstChildOfClass('Humanoid').SeatPart then
-				speaker.Character:FindFirstChildOfClass('Humanoid').Sit = false
-				task.wait(.1)
-			end
-			teleport(speaker,Players[v],Players[players2[1]],true)
-		end
-	end
-end)
 
 addcmd('spin',{},function(args, speaker)
 	local spinSpeed = 20
@@ -12371,6 +12490,7 @@ addcmd('removecmd',{'deletecmd'},function(args, speaker)
 	removecmd(args[1])
 end)
 
+
 if IsOnMobile then
 	local QuickCapture = Instance.new("TextButton")
 	local UICorner = Instance.new("UICorner")
@@ -12625,5 +12745,15 @@ task.spawn(function()
 	Credits:Destroy()
 	IntroBackground:Destroy()
 	minimizeHolder()
-	if IsOnMobile then notify("Unstable Device", "On mobile, Infinite Yield may have issues or features that are not functioning correctly.") end
+	if IsOnMobile then
+		notify("Unstable Device", "On mobile, Infinite Yield may have issues or features that are not functioning correctly.")
+		if game.PlaceId == 574746640 then
+			task.wait(3)
+			notify("4nn1's Place","Game Detected! Some commands were added/changed/removed")
+		end
+	else
+		if game.PlaceId == 574746640 then
+			notify("4nn1's Place","Game Detected! Some commands were added/changed/removed")
+		end
+	end
 end)
