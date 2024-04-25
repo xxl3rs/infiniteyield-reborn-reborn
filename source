@@ -16,7 +16,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '5.9.6'
+currentVersion = '5.9.7'
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -4577,10 +4577,13 @@ if game.PlaceId ~= 574746640 then
 	CMDs[#CMDs + 1] = {NAME = 'fastbring [player] (TOOL)', DESC = 'Brings a player (less reliable) (YOU NEED A TOOL)'}
 	CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
 	CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set ammount of times'}
 else
 	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
 	CMDs[#CMDs + 1] = {NAME = 'dig / terriandig / removeterrian / digterrian', DESC = 'Attempts to dig part of terrian'}
 	CMDs[#CMDs + 1] = {NAME = 'brn / bringnpcs / bringallnpcs / bringall', DESC = 'Attempts to bring npc(s)'}
+	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools / itemdupe / itemspam / is', DESC = 'Drops items'}
+	CMDs[#CMDs + 1] = {NAME = 'undupetools / unclonetools / unitemdupe / unitemspam / unis', DESC = 'Stops dropping items'}
 end
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
@@ -4701,7 +4704,6 @@ CMDs[#CMDs + 1] = {NAME = 'deleteselectedtool / dst', DESC = 'Removes any curren
 CMDs[#CMDs + 1] = {NAME = 'grabtools', DESC = 'Automatically get tools that are dropped'}
 CMDs[#CMDs + 1] = {NAME = 'ungrabtools / nograbtools', DESC = 'Disables grabtools'}
 CMDs[#CMDs + 1] = {NAME = 'copytools [player] (CLIENT)', DESC = 'Copies a players tools'}
-CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set ammount of times'}
 CMDs[#CMDs + 1] = {NAME = 'givetool / givetools', DESC = 'Gives all the tools you\'re holding to [player] using the attach method.'}
 CMDs[#CMDs + 1] = {NAME = 'droptools', DESC = 'Drops your tools'}
 CMDs[#CMDs + 1] = {NAME = 'droppabletools', DESC = 'Makes your tools droppable'}
@@ -11092,59 +11094,6 @@ local function GetHandleTools(p)
 	end
 	return r
 end
-addcmd('dupetools', {'clonetools'}, function(args, speaker)
-	local LOOP_NUM = tonumber(args[1]) or 1
-	local OrigPos = speaker.Character.HumanoidRootPart.Position
-	local Tools, TempPos = {}, Vector3.new(math.random(-2e5, 2e5), 2e5, math.random(-2e5, 2e5))
-	for i = 1, LOOP_NUM do
-		local Human = speaker.Character:WaitForChild("Humanoid")
-		task.wait(.1, Human.Parent:MoveTo(TempPos))
-		Human.RootPart.Anchored = speaker:ClearCharacterAppearance(task.wait(.1)) or true
-		local t = GetHandleTools(speaker)
-		while #t > 0 do
-			for _, v in ipairs(t) do
-				task.spawn(function()
-					for _ = 1, 25 do
-						v.Parent = speaker.Character
-						v.Handle.Anchored = true
-					end
-					for _ = 1, 5 do
-						v.Parent = workspace
-					end
-					table.insert(Tools, v.Handle)
-				end)
-			end
-			t = GetHandleTools(speaker)
-		end
-		task.wait(.1)
-		speaker.Character = speaker.Character:Destroy()
-		speaker.CharacterAdded:Wait():WaitForChild("Humanoid").Parent:MoveTo(LOOP_NUM == i and OrigPos or TempPos, task.wait(.1))
-		if i == LOOP_NUM or i % 5 == 0 then
-			local HRP = speaker.Character.HumanoidRootPart
-			if type(firetouchinterest) == "function" then
-				for _, v in ipairs(Tools) do
-					v.Anchored = not firetouchinterest(v, HRP, 1, firetouchinterest(v, HRP, 0)) and false or false
-				end
-			else
-				for _, v in ipairs(Tools) do
-					task.spawn(function()
-						local x = v.CanCollide
-						v.CanCollide = false
-						v.Anchored = false
-						for _ = 1, 10 do
-							v.CFrame = HRP.CFrame
-							task.wait()
-						end
-						v.CanCollide = x
-					end)
-				end
-			end
-			task.wait(.1)
-			Tools = {}
-		end
-		TempPos = TempPos + Vector3.new(10, math.random(-5, 5), 0)
-	end
-end)
 
 local RS = RunService.RenderStepped
 addcmd('givetool', {'givetools'}, function(args, speaker)
@@ -11773,7 +11722,109 @@ if game.PlaceId == 574746640 then
 		end
 		hrp.CFrame = oldpos
 	end)
+	local itemspamenabled = false
+	addcmd('dupetools',{'clonetools','itemdupe','itemspam','is'},function(args,speaker)
+		notify("Funny :3")
+		itemspamenabled = true
+		for i,v in pairs(Players.LocalPlayer.Backpack:GetChildren()) do
+			if v:IsA("Tool") then
+				v.Parent = Players.LocalPlayer.Character
+			end
+		end
+		task.wait(.1)
+		for i,v in pairs(Players.LocalPlayer.Character:GetChildren()) do
+			if v:IsA("Tool") then
+				v.Parent = workspace
+			end
+		end
+		task.spawn(function()
+			while task.wait() do
+				workspace.Tools.Chest_Acceleration_Coil.LidToggle:FireServer()
+				workspace.Tools.Chest_Cyclotron.LidToggle:FireServer()
+				workspace.Tools.Chest_Gravity_Coil.LidToggle:FireServer()
+				workspace.Tools.Chest_Invisibility_Cloak.LidToggle:FireServer()
+				workspace.Tools.Chest_Teleport.LidToggle:FireServer()
+				if itemspamenabled == false then
+					break
+				end
+			end
+		end)
+		task.spawn(function()
+			while task.wait() do
+				for i,v in pairs(Players.LocalPlayer.Backpack:GetChildren()) do
+					if v:IsA("Tool") then
+						v.Parent = Players.LocalPlayer.Character
+					end
+				end
+				task.wait(.1)
+				for i,v in pairs(Players.LocalPlayer.Character:GetChildren()) do
+					if v:IsA("Tool") then
+						v.Parent = workspace
+					end
+				end
+				if itemspamenabled == false then
+					break
+				end
+			end
+		end)
+	end)
+	addcmd('undupetools',{'unclonetools','unitemdupe','unitemspam','unis'},function(args,speaker)
+		itemspamenabled = false
+	end)
 else
+	addcmd('dupetools', {'clonetools'}, function(args, speaker)
+		local LOOP_NUM = tonumber(args[1]) or 1
+		local OrigPos = speaker.Character.HumanoidRootPart.Position
+		local Tools, TempPos = {}, Vector3.new(math.random(-2e5, 2e5), 2e5, math.random(-2e5, 2e5))
+		for i = 1, LOOP_NUM do
+			local Human = speaker.Character:WaitForChild("Humanoid")
+			task.wait(.1, Human.Parent:MoveTo(TempPos))
+			Human.RootPart.Anchored = speaker:ClearCharacterAppearance(task.wait(.1)) or true
+			local t = GetHandleTools(speaker)
+			while #t > 0 do
+				for _, v in ipairs(t) do
+					task.spawn(function()
+						for _ = 1, 25 do
+							v.Parent = speaker.Character
+							v.Handle.Anchored = true
+						end
+						for _ = 1, 5 do
+							v.Parent = workspace
+						end
+						table.insert(Tools, v.Handle)
+					end)
+				end
+				t = GetHandleTools(speaker)
+			end
+			task.wait(.1)
+			speaker.Character = speaker.Character:Destroy()
+			speaker.CharacterAdded:Wait():WaitForChild("Humanoid").Parent:MoveTo(LOOP_NUM == i and OrigPos or TempPos, task.wait(.1))
+			if i == LOOP_NUM or i % 5 == 0 then
+				local HRP = speaker.Character.HumanoidRootPart
+				if type(firetouchinterest) == "function" then
+					for _, v in ipairs(Tools) do
+						v.Anchored = not firetouchinterest(v, HRP, 1, firetouchinterest(v, HRP, 0)) and false or false
+					end
+				else
+					for _, v in ipairs(Tools) do
+						task.spawn(function()
+							local x = v.CanCollide
+							v.CanCollide = false
+							v.Anchored = false
+							for _ = 1, 10 do
+								v.CFrame = HRP.CFrame
+								task.wait()
+							end
+							v.CanCollide = x
+						end)
+					end
+				end
+				task.wait(.1)
+				Tools = {}
+			end
+			TempPos = TempPos + Vector3.new(10, math.random(-5, 5), 0)
+		end
+	end)
 	addcmd('handlekill', {'hkill'}, function(args, speaker)
 		if not firetouchinterest then
 			return notify('Incompatible Exploit', 'Your exploit does not support this command (missing firetouchinterest)')
