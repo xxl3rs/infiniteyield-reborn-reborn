@@ -11349,7 +11349,6 @@ addcmd('droptools',{'droptool'},function(args, speaker)
 	for i,v in pairs(Players.LocalPlayer.Backpack:GetChildren()) do
 		if v:IsA("Tool") then
 			v.Parent = Players.LocalPlayer.Character
-			task.wait()
 		end
 	end
 	task.wait()
