@@ -11786,9 +11786,10 @@ if game.PlaceId == 574746640 then
 		task.spawn(function()
 			while spamtimeenabled do
 				Players:Chat("day")
-				Players:Chat("night")
-				Players:Chat("@"..utf8.char(math.random(65,90)))
 				task.wait(TIME_SPAM_SPEED)
+				Players:Chat("night")
+				task.wait(TIME_SPAM_SPEED)
+				Players:Chat("@"..utf8.char(math.random(65,90)))
 			end
 		end)
 	end)
