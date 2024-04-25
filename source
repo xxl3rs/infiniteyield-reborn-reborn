@@ -4590,7 +4590,8 @@ else
 	CMDs[#CMDs + 1] = {NAME = 'brn / bringnpcs / bringallnpcs / bringall', DESC = 'Attempts to bring npc(s)'}
 	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools / itemdupe / itemspam / is', DESC = 'Drops items'}
 	CMDs[#CMDs + 1] = {NAME = 'undupetools / unclonetools / unitemdupe / unitemspam / unis', DESC = 'Stops dropping items'}
-	CMDs[#CMDs + 1] = {NAME = 'spamtime / stime [num]', DESC = 'Spams the time by given speed'}
+	CMDs[#CMDs + 1] = {NAME = 'spamtime / stime / flash [num]', DESC = 'Spams the time by given speed'}
+	CMDs[#CMDs + 1] = {NAME = 'unspamtime / unstime / unflash', DESC = 'Stops Spamming the time'}
 	CMDs[#CMDs + 1] = {NAME = 'sitcat / unexplodablecat [num]', DESC = 'Removes network ownership from cats'}
 end
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
@@ -11779,7 +11780,7 @@ if game.PlaceId == 574746640 then
 		itemspamenabled = false
 	end)
 	local spamtimeenabled = false
-	addcmd('spamtime',{'stime'},function(args,speaker)
+	addcmd('spamtime',{'stime','flash'},function(args,speaker)
 		notify("Spamtime enabled")
 		local TIME_SPAM_SPEED = tonumber(args[1]) or 0.01
 		spamtimeenabled = true
@@ -11793,7 +11794,7 @@ if game.PlaceId == 574746640 then
 			end
 		end)
 	end)
-	addcmd('unspamtime',{'unstime'},function(args,speaker)
+	addcmd('unspamtime',{'unstime',"unflash"},function(args,speaker)
 		spamtimeenabled = false
 	end)
 	addcmd('sitcat',{"unexplodablecat"},function(args,speaker)
