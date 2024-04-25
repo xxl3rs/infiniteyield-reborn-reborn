@@ -18,6 +18,10 @@ end
 
 currentVersion = '5.9.7'
 
+--[[
+	Reminder:
+	GOTO line 11660 for 4nn1's Place stuff
+--]]
 -- hi btw
 
 Holder = Instance.new("Frame")
@@ -4580,6 +4584,7 @@ if game.PlaceId ~= 574746640 then
 	CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
 	CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
 	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set ammount of times'}
+	CMDs[#CMDs + 1] = {NAME = 'spamtime / stime [num]', DESC = 'Spams the time by given speed'}
 else
 	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
 	CMDs[#CMDs + 1] = {NAME = 'dig / terriandig / removeterrian / digterrian', DESC = 'Attempts to dig part of terrian'}
@@ -11772,6 +11777,23 @@ if game.PlaceId == 574746640 then
 	end)
 	addcmd('undupetools',{'unclonetools','unitemdupe','unitemspam','unis'},function(args,speaker)
 		itemspamenabled = false
+	end)
+	local spamtimeenabled = false
+	addcmd('spamtime',{'stime'},function(args,speaker)
+		notify("Spamtime enabled")
+		local TIME_SPAM_SPEED = tonumber(args[1]) or 0.01
+		spamtimeenabled = true
+		task.spawn(function()
+			while spamtimeenabled do
+				Players:Chat("day")
+				Players:Chat("night")
+				Players:Chat("@"..utf8.char(math.random(65,90)))
+				task.wait(TIME_SPAM_SPEED)
+			end
+		end)
+	end)
+	addcmd('unspamtime',{'unstime'},function(args,speaker)
+		spamtimeenabled = false
 	end)
 else
 	addcmd('dupetools', {'clonetools'}, function(args, speaker)
