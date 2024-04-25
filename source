@@ -11731,7 +11731,6 @@ if game.PlaceId == 574746640 then
 	end)
 	local itemspamenabled = false
 	addcmd('dupetools',{'clonetools','itemdupe','itemspam','is'},function(args,speaker)
-		notify("Funny :3")
 		itemspamenabled = true
 		for i,v in pairs(Players.LocalPlayer.Backpack:GetChildren()) do
 			if v:IsA("Tool") then
