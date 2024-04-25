@@ -11351,11 +11351,10 @@ addcmd('droptools',{'droptool'},function(args, speaker)
 			v.Parent = Players.LocalPlayer.Character
 		end
 	end
-	task.wait()
+	task.wait(.1)
 	for i,v in pairs(Players.LocalPlayer.Character:GetChildren()) do
 		if v:IsA("Tool") then
 			v.Parent = workspace
-			task.wait()
 		end
 	end
 end)
