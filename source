@@ -4591,6 +4591,7 @@ else
 	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools / itemdupe / itemspam / is', DESC = 'Drops items'}
 	CMDs[#CMDs + 1] = {NAME = 'undupetools / unclonetools / unitemdupe / unitemspam / unis', DESC = 'Stops dropping items'}
 	CMDs[#CMDs + 1] = {NAME = 'spamtime / stime [num]', DESC = 'Spams the time by given speed'}
+	CMDs[#CMDs + 1] = {NAME = 'sitcat / unexplodablecat [num]', DESC = 'Removes network ownership from cats'}
 end
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
@@ -11795,7 +11796,32 @@ if game.PlaceId == 574746640 then
 	addcmd('unspamtime',{'unstime'},function(args,speaker)
 		spamtimeenabled = false
 	end)
-
+	addcmd('sitcat',{"unexplodablecat"},function(args,speaker)
+		if args[1] then
+			if args[1] == "accept" then
+				local seat1 = CFrame.new(348.899994, 16.1130314, 177.499969, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+				local seat2 = CFrame.new(324.5, 16.1130486, 183.099976, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+				local cat1 = workspace:FindFirstChild("socky")
+				local cat2 = workspace:FindFirstChild("muffy")
+				local hrp = getRoot(speaker.Character)
+				local ct1 = cat1:FindFirstChild("Torso")
+				local ct2 = cat2:FindFirstChild("Torso")
+				hrp.CFrame = ct1.CFrame
+				task.wait(.3)
+				hrp.CFrame = ct2.CFrame
+				ct1.CFrame = seat1
+				task.wait(.1)
+				hrp.CFrame = ct2.CFrame
+				task.wait(.4)
+				hrp.CFrame = ct2.CFrame
+				ct2.CFrame = seat2
+			else
+				notify("This will make cats unusable.. Run 'sitcat accept' to make it unusable")
+			end
+		else
+			notify("This will make cats unusable.. Run 'sitcat accept' to make it unusable")
+		end
+	end)
 else
 	addcmd('dupetools', {'clonetools'}, function(args, speaker)
 		local LOOP_NUM = tonumber(args[1]) or 1
