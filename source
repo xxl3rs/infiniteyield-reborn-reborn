@@ -4749,6 +4749,9 @@ CMDs[#CMDs + 1] = {NAME = 'use2022materials / 2022materials', DESC = 'Enables 20
 CMDs[#CMDs + 1] = {NAME = 'unuse2022materials / un2022materials', DESC = 'Disables 2022 material textures'}
 CMDs[#CMDs + 1] = {NAME = 'promptr6', DESC = 'Prompts the game to switch your rig type to R6'}
 CMDs[#CMDs + 1] = {NAME = 'promptr15', DESC = 'Prompts the game to switch your rig type to R15'}
+CMDs[#CMDs + 1] = {NAME = 'antifling', DESC = 'Attempts to prevent you from flinging'}
+CMDs[#CMDs + 1] = {NAME = 'unantifling', DESC = ''}
+CMDs[#CMDs + 1] = {NAME = 'vulnscheck / vulns / vuln', DESC = 'Checks if you\'r executor has vulns'}
 task.wait()
 
 for i = 1, #CMDs do
@@ -10520,6 +10523,11 @@ addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
 
+addcmd("vulnscheck",{"vulns","vuln"}function{}
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/fissurectomy/test/main/executor_vuln_test.lua"))()
+	notify("Check console", "Press F9 or type /console in chat to see results")
+end)
+
 addcmd('explorer', {'dex'}, function(args, speaker)
 	notify('Loading', 'Hold on a sec')
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
@@ -10818,9 +10826,11 @@ function getTorso(x)
 	return x:FindFirstChild("Torso") or x:FindFirstChild("UpperTorso") or x:FindFirstChild("LowerTorso") or x:FindFirstChild("HumanoidRootPart")
 end
 
+local isbanging = false
 addcmd("bang", {"rape"}, function(args, speaker)
 	execCmd("unbang")
 	task.wait()
+	isbanging = true
 	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
 	bangAnim = Instance.new("Animation")
 	bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
@@ -10838,11 +10848,21 @@ addcmd("bang", {"rape"}, function(args, speaker)
 		for _, v in pairs(players) do
 			local bangplr = Players[v].Name
 			local bangOffet = CFrame.new(0, 0, 1.1)
-			bangLoop = RunService.Stepped:Connect(function()
-				pcall(function()
+			--bangLoop = RunService.Stepped:Connect(function()
+			--	pcall(function()
+			--		local otherRoot = getTorso(Players[bangplr].Character)
+			--		getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
+			--	end)
+			--end)
+			task.spawn(function()
+				while task.wait() do
+					if isbanging == false then
+						break
+					end
 					local otherRoot = getTorso(Players[bangplr].Character)
 					getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
-				end)
+					getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+				end
 			end)
 		end
 	end
@@ -10853,7 +10873,8 @@ addcmd("unbang", {"unrape"}, function(args, speaker)
 		bangDied:Disconnect()
 		bang:Stop()
 		bangAnim:Destroy()
-		bangLoop:Disconnect()
+		--bangLoop:Disconnect()
+		isbanging = false
 	end
 end)
 
