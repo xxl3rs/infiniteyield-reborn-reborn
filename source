@@ -6898,7 +6898,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 			UIListLayout.Parent = ScrollingFrame
 			UIListLayout.Name = "UIListLayout"
 			UIListLayout.Padding = UDim.new(0,5)
-			
+
 			local serverlist = HttpService:JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Des"))
 			local function addservertemplate()
 				task.spawn(function()
@@ -6913,14 +6913,14 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 						local frame2 = Instance.new("Frame")
 						local UIGradient = Instance.new("UIGradient")
 						local joinbutton = Instance.new("TextButton")
-						
+
 						frame1.Name = "Server"..tostring(i)
 						frame1.ZIndex = 10
 						frame1.BackgroundColor3 = currentShade3
 						frame1.BorderSizePixel = 0
 						frame1.Size = UDim2.new(0,438,0,125)
 						frame1.Parent = ScrollingFrame
-						
+
 						textlabel.ZIndex = 10
 						textlabel.Size = UDim2.new(1,0,1,0)
 						textlabel.Text = "Server "..tostring(i)
@@ -6931,17 +6931,17 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 						textlabel.BackgroundTransparency = 1
 						textlabel.TextTransparency = 0.85
 						textlabel.Parent = frame1
-						
+
 						frame2.ZIndex = 11
 						frame2.BorderSizePixel = 0
 						frame2.Size = UDim2.new(1,0,1,0)
 						frame2.Parent = frame1
-						
+
 						UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.312,0,0),NumberSequenceKeypoint.new(1,1,0)}
 						UIGradient.Rotation = 15
 						UIGradient.Color = ColorSequence.new(currentShade3)
 						UIGradient.Parent = frame2
-						
+
 						if v.id ~= game.JobId then
 							joinbutton.Name = "JoinButton"
 							joinbutton.ZIndex = 11
@@ -6956,7 +6956,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 							end)
 							joinbutton.Parent = frame2
 						end
-						
+
 						textlabel2.ZIndex = 11
 						textlabel2.Size = UDim2.new(0,116,0,35)
 						if v.id ~= game.JobId then
@@ -6969,16 +6969,16 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 						textlabel2.TextWrapped = true
 						textlabel2.BackgroundTransparency = 1
 						textlabel2.Parent = frame2
-						
+
 						textlabel3.ZIndex = 11
 						textlabel3.Size = UDim2.new(0,100,0,35)
 						textlabel3.Position = UDim2.new(0,0,0.16,0)
 						textlabel3.Text = "Players: "..v.playing.."/"..v.maxPlayers
-						
+
 						textlabel3.TextColor3 = currentText1
 						textlabel3.BackgroundTransparency = 1
 						textlabel3.Parent = frame2
-						
+
 						textlabel4.ZIndex = 11
 						textlabel4.Size = UDim2.new(0,100,0,35)
 						textlabel4.Position = UDim2.new(0,0,0.304,0)
@@ -6986,7 +6986,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 						textlabel4.TextColor3 = currentText1
 						textlabel4.BackgroundTransparency = 1
 						textlabel4.Parent = frame2
-						
+
 						textlabel5.ZIndex = 11
 						textlabel5.Size = UDim2.new(0,100,0,35)
 						textlabel5.Position = UDim2.new(0,0,0.44,0)
@@ -6994,7 +6994,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 						textlabel5.TextColor3 = currentText1
 						textlabel5.BackgroundTransparency = 1
 						textlabel5.Parent = frame2
-						
+
 						textlabel6.ZIndex = 11
 						textlabel6.Size = UDim2.new(0,265,0,35)
 						textlabel6.Position = UDim2.new(0,0,0.72,0)
@@ -7030,7 +7030,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 			end)
 		end)
 	else
-	notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
+		notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
 	end
 end)
 
@@ -10523,7 +10523,7 @@ addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
 
-addcmd("vulnscheck",{"vulns","vuln"}function{}
+addcmd("vulnscheck",{"vulns","vuln"},function()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/fissurectomy/test/main/executor_vuln_test.lua"))()
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
