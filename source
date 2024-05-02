@@ -215,9 +215,9 @@ Title.Size = UDim2.new(0, 250, 0, 20)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 18
 if os.date("*t", os.time()).month == 4 then
-	Title.Text = "Infinite Yiff FE v"  .. currentVersion
+	Title.Text = "Infinite Yiff UwU~ FE v"  .. currentVersion
 else
-	Title.Text = "Infinite Yield FE v"  .. currentVersion
+	Title.Text = "Infinite Yield Reborn FE v"  .. currentVersion
 end
 do
 	local emoji = ({
