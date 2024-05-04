@@ -215,9 +215,9 @@ Title.Size = UDim2.new(0, 250, 0, 20)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 18
 if os.date("*t", os.time()).month == 4 then
-	Title.Text = "Infinite Yiff UwU~ FE v"  .. currentVersion
+	Title.Text = "Infinite Yiff UwU~ v"  .. currentVersion
 else
-	Title.Text = "Infinite Yield Reborn FE v"  .. currentVersion
+	Title.Text = "Infinite Yield Reborn v"  .. currentVersion
 end
 do
 	local emoji = ({
@@ -10848,12 +10848,6 @@ addcmd("bang", {"rape"}, function(args, speaker)
 		for _, v in pairs(players) do
 			local bangplr = Players[v].Name
 			local bangOffet = CFrame.new(0, 0, 1.1)
-			--bangLoop = RunService.Stepped:Connect(function()
-			--	pcall(function()
-			--		local otherRoot = getTorso(Players[bangplr].Character)
-			--		getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
-			--	end)
-			--end)
 			task.spawn(function()
 				while task.wait() do
 					if isbanging == false then
@@ -10873,7 +10867,6 @@ addcmd("unbang", {"unrape"}, function(args, speaker)
 		bangDied:Disconnect()
 		bang:Stop()
 		bangAnim:Destroy()
-		--bangLoop:Disconnect()
 		isbanging = false
 	end
 end)
