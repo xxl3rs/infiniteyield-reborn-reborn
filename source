@@ -1950,19 +1950,11 @@ PlaceId, JobId = game.PlaceId, game.JobId
 local IsOnMobile = table.find({Enum.Platform.IOS, Enum.Platform.Android}, UserInputService:GetPlatform())
 everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 
-function textChatSayCmdRun(_string)
-    local txtchatver
-    TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-        txtchatver = "New"
-    else
-        txtchatver = "Legacy"
-    end
-
-    if txtchatver == "New" then
-        TextChatService.TextChannels.RBXGeneral:SendAsync(_string)
-    elseif txtchatver == "Legacy" then
-        ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(_string, "All")
-    end
+local txtchatver
+TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+    txtchatver = "New"
+else
+    txtchatver = "Legacy"
 end
 
 function writefileExploit()
@@ -10710,7 +10702,11 @@ end)
 
 addcmd('chat',{'say'},function(args, speaker)
 	local cString = getstring(1)
-	textChatSayCmdRun(cString)
+	if txtchatver == "New" then
+            TextChatService.TextChannels.RBXGeneral:SendAsync(cString)
+    	elseif txtchatver == "Legacy" then
+            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(cString, "All")
+        end
 end)
 
 
