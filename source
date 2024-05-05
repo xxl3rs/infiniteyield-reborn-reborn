@@ -16,7 +16,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.0.0'
+currentVersion = '5.9.8'
 
 --[[
 	Reminder:
@@ -1950,14 +1950,14 @@ PlaceId, JobId = game.PlaceId, game.JobId
 local IsOnMobile = table.find({Enum.Platform.IOS, Enum.Platform.Android}, UserInputService:GetPlatform())
 everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 
-local txtchatver
-TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-    txtchatver = "New"
-else
-    txtchatver = "Legacy"
-end
-
 function textChatSayCmdRun(_string)
+    local txtchatver
+    TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+        txtchatver = "New"
+    else
+        txtchatver = "Legacy"
+    end
+
     if txtchatver == "New" then
         TextChatService.TextChannels.RBXGeneral:SendAsync(_string)
     elseif txtchatver == "Legacy" then
