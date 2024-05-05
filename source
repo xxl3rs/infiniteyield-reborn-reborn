@@ -1957,6 +1957,14 @@ else
     txtchatver = "Legacy"
 end
 
+function textChatSayCmdRun(_string)
+    if txtchatver == "New" then
+        TextChatService.TextChannels.RBXGeneral:SendAsync(_string)
+    elseif txtchatver == "Legacy" then
+        ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(_string, "All")
+    end
+end
+
 function writefileExploit()
 	if writefile then
 		return true
@@ -10702,11 +10710,7 @@ end)
 
 addcmd('chat',{'say'},function(args, speaker)
 	local cString = getstring(1)
-	if r == "New" then
-        	TextChatService.TextChannels.RBXGeneral:SendAsync(cString)
-        elseif r == "Legacy" then
-        	ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(cString, "All")
-        end
+	textChatSayCmdRun(cString)
 end)
 
 
