@@ -10680,14 +10680,13 @@ end)
 
 addcmd('headsit',{},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
-	if headSit then headSit:Disconnect() end
 	for i,v in pairs(players)do
 		speaker.Character:FindFirstChildOfClass('Humanoid').Sit = true
-		headSit = RunService.Heartbeat:Connect(function()
+		task.spawn(function()
 			if Players:FindFirstChild(Players[v].Name) and Players[v].Character ~= nil and getRoot(Players[v].Character) and getRoot(speaker.Character) and speaker.Character:FindFirstChildOfClass('Humanoid').Sit == true then
 				getRoot(speaker.Character).CFrame = getRoot(Players[v].Character).CFrame * CFrame.Angles(0,math.rad(0),0)* CFrame.new(0,1.6,0.4)
 			else
-				headSit:Disconnect()
+				break
 			end
 		end)
 	end
@@ -13147,7 +13146,7 @@ task.spawn(function()
 	IntroBackground:Destroy()
 	minimizeHolder()
 	if IsOnMobile then
-		notify("Unstable Device", "On mobile, Infinite Yield may have issues or features that are not functioning correctly.")
+		notify("Unstable Device", "On mobile, IYR Has a lot of bugs. Its recommended to use Krampus.")
 		if game.PlaceId == 574746640 then
 			task.wait(3)
 			notify("4nn1's Place","Game Detected! Some commands were added/changed/removed")
