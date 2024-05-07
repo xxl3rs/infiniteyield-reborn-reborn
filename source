@@ -1950,6 +1950,20 @@ PlaceId, JobId = game.PlaceId, game.JobId
 local IsOnMobile = table.find({Enum.Platform.IOS, Enum.Platform.Android}, UserInputService:GetPlatform())
 everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 
+if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+    isChatModule = "New"
+else
+    isChatModule = "Legacy"
+end
+
+local function chatSend(str)
+    if isChatModule == "New" then
+        game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync(str)
+    elseif isChatModule == "Legacy" then
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(str, "All")
+    end
+end
+
 function writefileExploit()
 	if writefile then
 		return true
@@ -8995,7 +9009,7 @@ addcmd('chatage',{},function(args, speaker)
 		table.insert(ages, p.Name.."'s age is: "..p.AccountAge)
 	end
 	local chatString = table.concat(ages, ', ')
-	ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(chatString, "All")
+	chatSend(chatString)
 end)
 
 addcmd('joindate',{'jd'},function(args, speaker)
@@ -9024,7 +9038,7 @@ addcmd('chatjoindate',{'cjd'},function(args, speaker)
 		table.insert(dates,Players[v].Name.." joined: "..splitDates[2].."/"..splitDates[3].."/"..splitDates[1])
 	end
 	local chatString = table.concat(dates, ', ')
-	ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(chatString, "All")
+	chatString(chatString)
 end)
 
 addcmd('copyname',{'copyuser'},function(args, speaker)
@@ -10697,9 +10711,8 @@ end)
 
 addcmd('chat',{'say'},function(args, speaker)
 	local cString = getstring(1)
-    ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(cString, "All")
+    chatSend(cString)
 end)
-
 
 spamming = false
 spamspeed = 1
@@ -10707,7 +10720,7 @@ addcmd('spam',{},function(args, speaker)
 	spamming = true
 	local spamstring = getstring(1)
 	repeat task.wait(spamspeed)
-		ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(spamstring, "All")
+		chatSend(spamstring)
 	until spamming == false
 end)
 
@@ -10721,7 +10734,7 @@ addcmd('whisper',{'pm'},function(args, speaker)
 		task.spawn(function()
 			local plrName = Players[v].Name
 			local pmstring = getstring(2)
-			ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..plrName.." "..pmstring, "All")
+			chatSend("/w "..plrName.." "..pmstring)
 		end)
 	end
 end)
@@ -10738,7 +10751,7 @@ addcmd('pmspam',{},function(args, speaker)
 			repeat
 				if Players:FindFirstChild(v) then
 					task.wait(spamspeed)
-					ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/w "..plrName.." "..pmspamstring, "All")
+					chatSend("/w "..plrName.." "..pmspamstring)
 				else
 					for a,b in pairs(pmspamming) do if b == plrName then table.remove(pmspamming, a) end end
 				end
