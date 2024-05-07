@@ -1,7 +1,7 @@
 # Infinite Yield 
 The best command line script for roblox.
 
-## 421 Commands
+## 410 Commands
 
 # Devs
 ### Creator: Edge
