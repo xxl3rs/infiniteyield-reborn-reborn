@@ -12099,8 +12099,8 @@ if game.PlaceId == 574746640 then
 	addcmd('sitcat',{"unexplodablecat"},function(args,speaker)
 		if args[1] then
 			if args[1] == "accept" then
-				local seat1 = CFrame.new(348.899994, 16.1130314, 177.499969, 0, 0, 1, 0, 1, 0, -1, 0, 0)
-				local seat2 = CFrame.new(324.5, 16.1130486, 183.099976, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+				local seat1 = CFrame.new(348.899994, 16.1130314, 177.499969, 0, 0, 1, 0, 1, 0, -1, 0, 0) * CFrame.Angles(math.pi * 0.5, 0, 0)
+				local seat2 = CFrame.new(324.5, 16.1130486, 183.099976, -1, 0, 0, 0, 1, 0, 0, 0, -1) * CFrame.Angles(math.pi * 0.5, 0, 0)
 				local cat1 = workspace:FindFirstChild("socky")
 				local cat2 = workspace:FindFirstChild("muffy")
 				local hrp = getRoot(speaker.Character)
