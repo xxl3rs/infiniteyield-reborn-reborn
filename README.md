@@ -10,9 +10,11 @@ The best command line script for roblox.
 ### Developer: Zwolf
 ### Developer: Toon
 
-^ i have balls to update this for my own
-### _Real
-### FurryBoy
+# Reborn developers
+### Reborn: _Real
+
+### Developer: FurryBoy
+### Developer: AwesomeDudeIsHere
 
 ## Contributing
 There is no specific rules on contributing (as of now) just open a pull request and if it checks out we will merge it!
