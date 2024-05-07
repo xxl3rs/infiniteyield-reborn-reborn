@@ -4609,7 +4609,7 @@ else
 	CMDs[#CMDs + 1] = {NAME = 'undupetools / unclonetools / unitemdupe / unitemspam / unis', DESC = 'Stops dropping items'}
 	CMDs[#CMDs + 1] = {NAME = 'spamtime / stime / flash [num]', DESC = 'Spams the time by given speed'}
 	CMDs[#CMDs + 1] = {NAME = 'unspamtime / unstime / unflash', DESC = 'Stops Spamming the time'}
-	CMDs[#CMDs + 1] = {NAME = 'sitcat / unexplodablecat [num]', DESC = 'Removes network ownership from cats'}
+	CMDs[#CMDs + 1] = {NAME = 'sitcat / unexplodablecat', DESC = 'Removes network ownership from cats'}
 end
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
