@@ -4602,6 +4602,8 @@ if game.PlaceId ~= 574746640 then
 	CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
 	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set ammount of times'}
 else
+	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
+	CMDs[#CMDs + 1] = {NAME = '-- 4nn1s Place', DESC = '-- 4nn1s Place'}
 	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
 	CMDs[#CMDs + 1] = {NAME = 'dig / terriandig / removeterrian / digterrian', DESC = 'Attempts to dig part of terrian'}
 	CMDs[#CMDs + 1] = {NAME = 'brn / bringnpcs / bringallnpcs / bringall', DESC = 'Attempts to bring npc(s)'}
@@ -11976,6 +11978,7 @@ addcmd('kill',{'fekill'},function(args, speaker)
 		end
 	end
 end)
+
 -- guess how many ct.CFrame = hrp.CFrame there ARE!
 if game.PlaceId == 574746640 then
 	addcmd("dig",{"terriandig","removeterrian","digterrian"},function(args, speaker)
