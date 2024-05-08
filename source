@@ -18,13 +18,8 @@ end
 
 currentVersion = '6.0.0'
 
---[[
-	Reminder:
-	GOTO line 11660 for 4nn1's Place stuff
-	
-	For _Real: Fix bang, Add more useless stuff
---]]
--- hi btw
+-- GOTO line 11986 for 4nn1's Place stuff
+-- For _Real: Fix bang, Add more useless stuff
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
