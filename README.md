@@ -2,7 +2,7 @@
 A forked **IY** but **better**.
 Loadstring:
 ```lua
-loadstring(game:HttpGet(https://github.com/fuckusfm/infiniteyield-reborn/raw/master/source))()
+loadstring(game:HttpGet("https://github.com/fuckusfm/infiniteyield-reborn/raw/master/source"))()
 ```
 ## 412 Current Commands
 
