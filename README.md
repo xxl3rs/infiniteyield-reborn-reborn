@@ -1,9 +1,9 @@
 # Infinite Yield Reborn
-A forked IY but probably better.
+A forked **IY** but **better**.
 
-## 412 Commands
+## 412 Current Commands
 
-# Credit Devs
+# IY Devs Credit 
 ### Creator: Edge
 
 ### Developer: Moon
