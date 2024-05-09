@@ -1,9 +1,9 @@
-# Infinite Yield 
-The best command line script for roblox.
+# Infinite Yield Reborn
+A forked IY but probably better.
 
-## 410 Commands
+## 412 Commands
 
-# Devs
+# Credit Devs
 ### Creator: Edge
 
 ### Developer: Moon
