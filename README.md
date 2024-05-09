@@ -1,10 +1,11 @@
 # Infinite Yield Reborn
 A forked **IY** but **better**.
+
 Loadstring:
 ```lua
 loadstring(game:HttpGet("https://github.com/fuckusfm/infiniteyield-reborn/raw/master/source"))()
 ```
-## 412 Current Commands
+## 412 Commands
 
 # IY Devs Credit 
 ### Creator: Edge
