@@ -12,14 +12,15 @@ if not game:IsLoaded() then
 	local notLoaded = Instance.new("Message")
 	notLoaded.Parent = COREGUI
 	notLoaded.Text = 'Infinite Yield Reborn is waiting for the game to load'
+	
 	game.Loaded:Wait()
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.0.0'
+currentVersion = '6.0.1'
 
 -- GOTO line 11986 for 4nn1's Place stuff
--- For _Real: Fix bang, Add more useless stuff
+-- For _Real: Add more useless stuff
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -152,6 +153,12 @@ scroll_3 = Instance.new("ScrollingFrame")
 listlayout = Instance.new("UIListLayout",scroll_3)
 selectChat = Instance.new("TextButton")
 selectJoin = Instance.new("TextButton")
+
+-- i hate those people who uses bang cmd on devs 
+devblacklist = {
+	"faceb00k_real",
+	"Femboi_real"
+}
 
 function randomString()
 	local length = math.random(10,20)
@@ -4355,6 +4362,7 @@ CMDs = {}
 CMDs[#CMDs + 1] = {NAME = 'discord / dc', DESC = 'Invite to the Discord server.'}
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Loads old Roblox console'}
 CMDs[#CMDs + 1] = {NAME = 'unc / unctest / unccheckevn', DESC = 'Tests all UNC Environment'}
+CMDs[#CMDs + 1] = {NAME = 'addunc / addmoreunc / adduncevn', DESC = 'Adds some UNC Environment(s)'}
 CMDs[#CMDs + 1] = {NAME = 'explorer / dex', DESC = 'Opens DEX by Moon'}
 CMDs[#CMDs + 1] = {NAME = 'secureexplorer / securedex / bypasseddex', DESC = 'Opens Bypassed DEX by HamstaGang'}
 CMDs[#CMDs + 1] = {NAME = 'olddex / odex', DESC = 'Opens Old DEX by Moon'}
@@ -10538,6 +10546,11 @@ addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
 
+addcmd("addunc",{'addmoreunc','adduncevn'},function(args, speaker)
+	loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MoreUNC-13110"))()
+	notify("Adding UNC (Thanks to scriptblox community)")
+end)
+
 addcmd("vulnscheck",{"vulns","vuln"},function()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/fissurectomy/test/main/executor_vuln_test.lua"))()
 	notify("Check console", "Press F9 or type /console in chat to see results")
@@ -10637,7 +10650,7 @@ addcmd('remotespy',{'rspy'},function(args, speaker)
 	notify("Loading",'Hold on a sec')
 	-- Full credit to exx, creator of SimpleSpy
 	-- also thanks to NoobSploit for fixing
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/SimpleSpyV3/main.lua"))()
+	loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpyBeta.lua"))()
 end)
 
 addcmd('audiologger',{'alogger'},function(args, speaker)
@@ -10857,11 +10870,16 @@ addcmd("bang", {"rape"}, function(args, speaker)
 		bang:Stop()
 		bangAnim:Destroy()
 		bangDied:Disconnect()
-		bangLoop:Disconnect()
+		isbanging = false
 	end)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
+			if table.find(devblacklist) ~= nil then
+				notify("Come on. You can't just do that to a dev.")
+				return
+			end
+		else
 			local bangplr = Players[v].Name
 			local bangOffet = CFrame.new(0, 0, 1.1)
 			task.spawn(function()
