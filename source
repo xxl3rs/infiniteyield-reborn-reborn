@@ -10896,18 +10896,19 @@ addcmd("bang", {"rape"}, function(args, speaker)
 				notify("Come on. You can't just do that to a dev.")
 				return
 			else
-			local bangplr = Players[v].Name
-			local bangOffet = CFrame.new(0, 0, 1.1)
-			task.spawn(function()
-				while task.wait() do
-					if isbanging == false then
-						break
+				local bangplr = Players[v].Name
+				local bangOffet = CFrame.new(0, 0, 1.1)
+				task.spawn(function()
+					while task.wait() do
+						if isbanging == false then
+							break
+						end
+						local otherRoot = getTorso(Players[bangplr].Character)
+						getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
+						getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
 					end
-					local otherRoot = getTorso(Players[bangplr].Character)
-					getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
-					getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
-				end
-			end)
+				end)
+			end
 		end
 	end
 end)
