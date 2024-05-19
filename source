@@ -12,7 +12,7 @@
 
 	If it executes then you're good if not then thats why.
 	
-]]
+]]--
 
 if IY_LOADED and not _G.IY_DEBUG == true then
 	return
@@ -10894,7 +10894,6 @@ addcmd("bang", {"rape"}, function(args, speaker)
 			if table.find(devblacklist) ~= nil then
 				notify("Come on. You can't just do that to a dev.")
 				return
-			end
 		else
 			local bangplr = Players[v].Name
 			local bangOffet = CFrame.new(0, 0, 1.1)
