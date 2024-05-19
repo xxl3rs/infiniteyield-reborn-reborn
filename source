@@ -10881,7 +10881,7 @@ addcmd("bang", {"rape"}, function(args, speaker)
 	bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
 	bang = humanoid:LoadAnimation(bangAnim)
 	bang:Play(0.1, 1, 1)
-	bang:AdjustSpeed(args[2] or 3)
+	bang:AdjustSpeed(args[2] or 2)
 	bangDied = humanoid.Died:Connect(function()
 		bang:Stop()
 		bangAnim:Destroy()
