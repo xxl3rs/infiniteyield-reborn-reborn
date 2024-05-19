@@ -10892,6 +10892,7 @@ addcmd("bang", {"rape"}, function(args, speaker)
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
 			if table.find(devblacklist) ~= nil then
+				execCmd("unbang")
 				notify("Come on. You can't just do that to a dev.")
 				return
 			else
