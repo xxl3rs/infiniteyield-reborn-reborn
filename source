@@ -1,3 +1,19 @@
+--[[
+	Hello! You might wonder why it's not executing.
+	or wondered if the script is obfuscated or not
+
+	If your executor warns/errors with > '=' expected near '+' < or > unexpected symbol near 'number' < then read this.
+
+	Your executor doesnt support += (and *= etc) Try executing this:
+
+	local test = 1
+	test += 1
+	print(test)
+
+	If it executes then you're good if not then thats why.
+	
+]]
+
 if IY_LOADED and not _G.IY_DEBUG == true then
 	return
 end
