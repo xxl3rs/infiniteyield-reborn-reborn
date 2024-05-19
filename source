@@ -10894,7 +10894,7 @@ addcmd("bang", {"rape"}, function(args, speaker)
 			if table.find(devblacklist) ~= nil then
 				notify("Come on. You can't just do that to a dev.")
 				return
-		else
+			else
 			local bangplr = Players[v].Name
 			local bangOffet = CFrame.new(0, 0, 1.1)
 			task.spawn(function()
