@@ -1,4 +1,4 @@
 {
-	"Version": "6.0.1",
-	"Announcement": "fixed a bug where u cant execute!\n\n-fb_real"
+	"Version": "6.0.2",
+	"Announcement": "First time actually updating with a detected exec (solara) now both serverhop, serverlist should tell you why it doesnt work\n\n-fb_real"
 }
