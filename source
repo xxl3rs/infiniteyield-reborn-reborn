@@ -10944,6 +10944,7 @@ addcmd("antibang",{},function(args, speaker)
 				task.spawn(function()
 					for _, v in pairs(Players:GetPlayers()) do
 						otherchar = getRoot(Players[v].Character)
+						task.wait()
 					end
 					local distance = (localchar.Position - otherchar.Position).Magnitude
 					if distance <= distancelimit then
