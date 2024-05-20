@@ -6820,7 +6820,7 @@ addcmd("serverhop", {"shop"}, function(args, speaker)
 	-- thanks to NoobSploit (also fb_real for adding a reason why isnt working) for fixing
 	if httprequest then
 		local servers = {}
-		local req = httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)})
+		local req = game:HttpGetAsync("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Des")
 		local body
 		if string.find(req,"<!DOCTYPE html>") then
 			notify("Your executor is cloudflare blocked.")
