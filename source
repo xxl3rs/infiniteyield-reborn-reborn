@@ -33,7 +33,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.0.2'
+currentVersion = '6.0.3'
 
 -- GOTO line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff
@@ -4791,6 +4791,8 @@ CMDs[#CMDs + 1] = {NAME = 'promptr15', DESC = 'Prompts the game to switch your r
 CMDs[#CMDs + 1] = {NAME = 'antifling', DESC = 'Attempts to prevent you from flinging'}
 CMDs[#CMDs + 1] = {NAME = 'unantifling', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'vulnscheck / vulns / vuln', DESC = 'Checks if you\'r executor has vulns'}
+CMDs[#CMDs + 1] = {NAME = 'antibang', DESC = 'Prevents you from getting raped'}
+CMDs[#CMDs + 1] = {NAME = 'unantibang', DESC = ''}
 task.wait()
 
 for i = 1, #CMDs do
@@ -10923,6 +10925,48 @@ addcmd("bang", {"rape"}, function(args, speaker)
 			end
 		end
 	end
+end)
+
+local isantibangon = false
+addcmd("antibang",{},function(args, speaker)
+	-- i didnt had any idea to make this so i will just do this for now
+	isantibangon = true
+	task.wait()
+	if isantibangon == true then
+		task.spawn(function()
+			while task.wait() do
+				if isantibangon == false then
+					break
+				end
+				local localchar = getRoot(speaker.Character)
+				local otherchar
+				local distancelimit = args[1] or 2.3
+				task.spawn(function()
+					for _, v in pairs(Players:GetPlayers()) do
+						otherchar = getRoot(Players[v].Character)
+					end
+					local distance = (localchar.Position - otherchar.Position).Magnitude
+					if distance <= distancelimit then
+						if invisRunning == true then
+						else
+							execCmd("invis")
+						end
+					elseif distance >= distancelimit then
+						if invisRunning == false then
+						else
+							execCmd("vis")
+						end
+					end
+				end)
+			end
+		end)
+		notify("AntiBang","Started")
+	end
+end)
+
+addcmd("unantibang",{},function(args, speaker)
+	isantibangon = false
+	notify("AntiBang","Stopped")
 end)
 
 addcmd("unbang", {"unrape"}, function(args, speaker)
