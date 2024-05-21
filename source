@@ -6824,13 +6824,14 @@ addcmd("serverhop", {"shop"}, function(args, speaker)
 		local servers = {}
 		local req = game:HttpGetAsync("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Des")
 		local body
-		if string.find(req,"<!DOCTYPE html>") then
-			notify("Your executor is cloudflare blocked.")
-			return
-		else
-			body = HttpService:JSONDecode(httprequestslist)
-		end
-
+		task.spawn(function()
+			if string.find(req,"<!DOCTYPE html>") then
+				notify("Your executor is cloudflare blocked.")
+				return
+			else
+				body = HttpService:JSONDecode(httprequestslist)
+			end
+		end)
 		if body and body.data then
 			for i, v in next, body.data do
 				if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= JobId then
@@ -6947,12 +6948,14 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 			UIListLayout.Padding = UDim.new(0,5)
 			local serverlist
 			local httprequestslist = game:HttpGetAsync("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Des")
-			if string.find(httprequestslist,"<!DOCTYPE html>") then
-				notify("Your executor is cloudflare blocked.")
-				return
-			else
-				serverlist = HttpService:JSONDecode(httprequestslist)
-			end
+			task.spawn(function()
+				if string.find(httprequestslist,"<!DOCTYPE html>") then
+					notify("Your executor is cloudflare blocked.")
+					return
+				else
+					serverlist = HttpService:JSONDecode(httprequestslist)
+				end
+			end)
 			local function addservertemplate()
 				task.spawn(function()
 					for i,v in ipairs(serverlist.data) do
