@@ -33,7 +33,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.0.4'
+currentVersion = '6.0.3'
 
 -- GOTO line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff
@@ -6822,7 +6822,7 @@ addcmd("serverhop", {"shop"}, function(args, speaker)
 	-- thanks to NoobSploit (also fb_real for adding a reason why isnt working) for fixing
 	if httprequest then
 		local servers = {}
-		local req = game:HttpGetAsync("https://corsproxy.io/?https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Des")
+		local req = game:HttpGetAsync("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Des")
 		local body
 		if string.find(req,"<!DOCTYPE html>") then
 			notify("Your executor is cloudflare blocked.")
@@ -6946,7 +6946,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 			UIListLayout.Name = "UIListLayout"
 			UIListLayout.Padding = UDim.new(0,5)
 			local serverlist
-			local httprequestslist = game:HttpGetAsync("https://corsproxy.io/?https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Des")
+			local httprequestslist = game:HttpGetAsync("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Des")
 			if string.find(httprequestslist,"<!DOCTYPE html>") then
 				notify("Your executor is cloudflare blocked.")
 				return
