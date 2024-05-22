@@ -10945,7 +10945,7 @@ addcmd("antibang",{},function(args, speaker)
 	-- i didnt had any idea to make this so i will just do this for now
 	isantibangon = true
 	task.wait()
-	if isantibangon == true then
+	if isantibangon == false then
 		task.spawn(function()
 			while task.wait() do
 				if isantibangon == false then
