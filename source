@@ -12345,7 +12345,7 @@ if game.PlaceId == 574746640 then
 		local function deactivateSession(event)
 			deactivationEvents[event] = true
 			if event == "Died" and deactivationEvents["Activated"] then
-				return
+				return 0
 			end
 			task.spawn(function()
 				while isSessionActive do
