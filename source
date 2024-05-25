@@ -7150,9 +7150,11 @@ addcmd("antifling",{},function(args,speaker)
 	-- yes this is trash this needs to be changed. or someone edit this
 	antiflinging = true
 	execCmd("noclip")
+	local name = "BISHALLAH DONT LET ME GET FLUNGED "..randomString()
 	local part = Instance.new("Part")
 	part.Anchored = true
 	part.CanCollide = false
+	part.Name = name
 	part.Transparency = 1
 	part.Parent = speaker.Character
 	task.spawn(function()
@@ -7163,19 +7165,28 @@ addcmd("antifling",{},function(args,speaker)
 			end
 			task.spawn(function()
 				local hrp = getRoot(speaker.Character)
-				if hrp.Velocity.X >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Z >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Y >= speaker.Character:FindFirstChild("Humanoid").JumpPower * 1.2 then
-					hrp.Anchored = true
-					hrp.CFrame = part.CFrame
-					hrp.Velocity = Vector3.new(0,0,0)
-					hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
-					speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
-					hrp.CFrame = part.CFrame
-					task.wait(.05)
-					hrp.CFrame = part.CFrame
-					speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
-					hrp.Anchored = false
-					hrp.CFrame = part.CFrame
-					hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
+				if speaker.Character:FindFirstChild(name) then
+					if hrp.Velocity.X >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Z >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Y >= speaker.Character:FindFirstChild("Humanoid").JumpPower * 1.2 then
+						hrp.Anchored = true
+						hrp.CFrame = part.CFrame
+						hrp.Velocity = Vector3.new(0,0,0)
+						hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
+						speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
+						hrp.CFrame = part.CFrame
+						task.wait(.05)
+						hrp.CFrame = part.CFrame
+						speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
+						hrp.Anchored = false
+						hrp.CFrame = part.CFrame
+						hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
+					end
+				else
+					part = Instance.new("Part")
+					part.Anchored = true
+					part.CanCollide = false
+					part.Name = name
+					part.Transparency = 1
+					part.Parent = speaker.Character
 				end
 			end)
 		end
