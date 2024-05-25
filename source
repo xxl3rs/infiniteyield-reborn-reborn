@@ -12287,19 +12287,16 @@ if game.PlaceId == 574746640 then
 		end
 	end)
 	addcmd('bombvest',{'bvest'},function(args,speaker)
-		local Humanoid = speaker:FindFirstAncestorWhichIsA("Humanoid")
+		local Humanoid = speaker.Character:FindFirstAncestorWhichIsA("Humanoid")
 		if not Humanoid then
 			return 1
 		end
-		print(args[1])
 		local workspace = game:GetService("Workspace")
 		local RunService = game:GetService("RunService")
 		local isSessionActive = false
 		local cat = catSelector(args[1]) or "socky"
-		print(cat)
 		
 		local kitten = getCat(cat)
-		print(kitten)
 		local hrp = getHRP(speaker.Character)
 		
 		isSessionActive = true
