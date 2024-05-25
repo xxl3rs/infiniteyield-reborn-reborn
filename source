@@ -173,7 +173,8 @@ selectJoin = Instance.new("TextButton")
 -- i hate those people who uses bang cmd on devs 
 devblacklist = {
 	"faceb00k_real",
-	"Femboi_real"
+	"Femboi_real",
+	"QQQQQQQQOQQQQQQQQQOQ"
 }
 
 function randomString()
@@ -4627,7 +4628,7 @@ if game.PlaceId ~= 574746640 then
 	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set ammount of times'}
 else
 	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
-	CMDs[#CMDs + 1] = {NAME = '-- 4nn1s Place', DESC = '-- 4nn1s Place'}
+	CMDs[#CMDs + 1] = {NAME = '-- 4nn1\'s Place --', DESC = 'Commands for 4nn1\'s Place'}
 	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
 	CMDs[#CMDs + 1] = {NAME = 'dig / terriandig / removeterrian / digterrian', DESC = 'Attempts to dig part of terrian'}
 	CMDs[#CMDs + 1] = {NAME = 'brn / bringnpcs / bringallnpcs / bringall', DESC = 'Attempts to bring npc(s)'}
@@ -4636,6 +4637,8 @@ else
 	CMDs[#CMDs + 1] = {NAME = 'spamtime / stime / flash [num]', DESC = 'Spams the time by given speed'}
 	CMDs[#CMDs + 1] = {NAME = 'unspamtime / unstime / unflash', DESC = 'Stops Spamming the time'}
 	CMDs[#CMDs + 1] = {NAME = 'sitcat / unexplodablecat', DESC = 'Removes network ownership from cats'}
+	CMDs[#CMDs + 1] = {NAME = 'bombvest / creeper [cat]', DESC = 'Puts the selected cat in your torso'}
+	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 end
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
@@ -12092,6 +12095,36 @@ addcmd('kill',{'fekill'},function(args, speaker)
 	end
 end)
 
+--[[
+	4nn1's Place: START
+]]
+
+--// Functions
+
+local function catSelector(cat)
+	local catStr = "Undefined"
+
+	if cat == "s" or cat == "socky" then
+		catStr = "socky"
+	elseif cat == "m" or cat == "muffy" then
+		catStr = "muffy"
+	else
+		return nil
+	end
+
+	return catStr
+end
+
+local function getCat(name)
+	return workspace:FindFirstChild(name)
+end
+
+local function getHRP(model)
+	return model:FindFirstChild("HumanoidRootPart")
+end
+
+--// Commands
+
 -- guess how many ct.CFrame = hrp.CFrame there ARE!
 if game.PlaceId == 574746640 then
 	addcmd("dig",{"terriandig","removeterrian","digterrian"},function(args, speaker)
@@ -12210,7 +12243,7 @@ if game.PlaceId == 574746640 then
 	end)
 	local spamtimeenabled = false
 	addcmd('spamtime',{'stime','flash'},function(args,speaker)
-		notify("Spamtime enabled")
+		notify('Spamtime enabled')
 		local TIME_SPAM_SPEED = tonumber(args[1]) or 0.01
 		spamtimeenabled = true
 		task.spawn(function()
@@ -12223,7 +12256,8 @@ if game.PlaceId == 574746640 then
 			end
 		end)
 	end)
-	addcmd('unspamtime',{'unstime',"unflash"},function(args,speaker)
+	addcmd('unspamtime',{'unstime','unflash'},function(args,speaker)
+		notify('Spamtime disabled')
 		spamtimeenabled = false
 	end)
 	addcmd('sitcat',{"unexplodablecat"},function(args,speaker)
@@ -12252,7 +12286,102 @@ if game.PlaceId == 574746640 then
 			notify("This will make cats unusable.. Run 'sitcat accept' to make it unusable")
 		end
 	end)
+	addcmd('bombvest',{'creeper'},function(args,speaker)
+		local Humanoid = speaker:FindFirstAncestorWhichIsA("Humanoid")
+		if not Humanoid then
+			return 1
+		end
+		local workspace = game:GetService("Workspace")
+		local RunService = game:GetService("RunService")
+		local isSessionActive = false
+		local cat = catSelector(args[1]) or "socky"
+		
+		local kitten = getCat(cat)
+		local hrp = getHRP(speaker.Character)
+		
+		isSessionActive = true
+		
+		hrp.CFrame = kitten.Torso.CFrame
+		
+		task.wait(0.2)
+		
+		local att0 = Instance.new("Attachment")
+		att0.Parent = kitten.Torso
+		
+		local att1 = Instance.new("Attachment")
+		att1.Axis = Vector3.new(1, 0, 0)
+		att1.SecondaryAxis = Vector3.new(0, 0, 1)
+		att1.Parent = hrp
+		
+		local alpos = Instance.new("AlignPosition")
+		alpos.Attachment0 = att0
+		alpos.Attachment1 = att1
+		alpos.Parent = kitten.Torso
+		alpos.MaxForce = 999999
+		alpos.MaxVelocity = 999999
+		alpos.Responsiveness = 5000
+		
+		local alort = Instance.new("AlignOrientation")
+		alort.Attachment0 = att0
+		alort.Attachment1 = att1
+		alort.Parent = kitten.Torso
+		alort.MaxTorque = 999999
+		alort.MaxAngularVelocity = 999999
+		alort.Responsiveness = 5000
+		
+		local ExpTool = Instance.new("Tool")
+		ExpTool.Parent = speaker.Backpack
+		ExpTool.Name = "Explode"
+		ExpTool.CanBeDropped = false
+		ExpTool.RequiresHandle = false
+		ExpTool.Enabled = true
+		
+		local Activated
+		local Died
+		local Stepped
+		
+		local function deactivateSession()
+			task.spawn(function()
+				while isSessionActive do
+					hrp.CFrame = kitten.Torso.CFrame
+					task.wait(0.01)
+				end
+			end)
+			alpos:Destroy()
+			alort:Destroy()
+			ExpTool:Destroy()
+			kitten.Head:Destroy()
+			Activated:Disconnect()
+			Stepped:Disconnect()
+			isSessionActive = false
+			return 0
+		end
+
+		local function catNoclip()
+			for i, v in pairs(kitten:GetDescendants()) do
+				if v:IsA("BasePart") then
+					v.CanCollide = false
+				end
+			end
+		end
+
+		Activated = ExpTool.Activated:Once(deactivateSession)
+		Died = Humanoid.Died:Once(deactivateSession)
+		Stepped = RunService.Stepped:Connect(catNoclip)
+		
+		local function report()
+			while isSessionActive do
+				print(kitten.Torso.ReceiveAge)
+				task.wait(0.5)
+			end
+		end
+		
+		--task.spawn(report)
+	end)
 else
+	--[[
+		4nn1's Place: END
+	]]
 	addcmd('dupetools', {'clonetools'}, function(args, speaker)
 		local LOOP_NUM = tonumber(args[1]) or 1
 		local OrigPos = speaker.Character.HumanoidRootPart.Position
