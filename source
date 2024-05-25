@@ -12287,7 +12287,7 @@ if game.PlaceId == 574746640 then
 		end
 	end)
 	addcmd('bombvest',{'bvest'},function(args,speaker)
-		local Humanoid = speaker.Character:FindFirstAncestorWhichIsA("Humanoid")
+		local Humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
 		if not Humanoid then
 			return 1
 		end
