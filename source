@@ -12335,12 +12335,18 @@ if game.PlaceId == 574746640 then
 		ExpTool.CanBeDropped = false
 		ExpTool.RequiresHandle = false
 		ExpTool.Enabled = true
-		
+
 		local Activated
 		local Died
 		local Stepped
-		
-		local function deactivateSession()
+
+		local deactivationEvents = {}
+
+		local function deactivateSession(event)
+			deactivationEvents[event] = true
+			if event == "Died" and deactivationEvents["Activated"] then
+				return
+			end
 			task.spawn(function()
 				while isSessionActive do
 					hrp.CFrame = kitten.Torso.CFrame
@@ -12350,7 +12356,9 @@ if game.PlaceId == 574746640 then
 			alpos:Destroy()
 			alort:Destroy()
 			ExpTool:Destroy()
-			kitten.Head:Destroy()
+			if event == "Activated" then
+				kitten.Head:Destroy()
+			end
 			Activated:Disconnect()
 			Stepped:Disconnect()
 			isSessionActive = false
@@ -12365,8 +12373,12 @@ if game.PlaceId == 574746640 then
 			end
 		end
 
-		Activated = ExpTool.Activated:Once(deactivateSession)
-		Died = Humanoid.Died:Once(deactivateSession)
+		Activated = ExpTool.Activated:Once(function()
+			deactivateSession("Activated")
+		end)
+		Died = Humanoid.Died:Once(function()
+			deactivateSession("Died")
+		end)
 		Stepped = RunService.Stepped:Connect(catNoclip)
 		
 		local function report()
