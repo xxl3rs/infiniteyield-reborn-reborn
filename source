@@ -36,7 +36,7 @@ end
 currentVersion = '6.0.3'
 
 -- GOTO line 11986 for 4nn1's Place stuff
--- For _Real: Add more useless stuff and fix antibang command
+-- For _Real: Add more useless stuff
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
