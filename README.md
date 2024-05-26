@@ -5,7 +5,7 @@ Loadstring:
 ```lua
 loadstring(game:HttpGet("https://github.com/fuckusfm/infiniteyield-reborn/raw/master/source"))()
 ```
-## 413 Commands
+## +400 Commands
 
 # IY Devs Credit 
 ### Creator: Edge
