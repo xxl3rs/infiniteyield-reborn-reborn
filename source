@@ -9687,7 +9687,7 @@ addcmd('invisible',{'invis'},function(args, speaker)
 	local CF_1 = Player.Character.HumanoidRootPart.CFrame
 	Character:MoveTo(Vector3.new(9e9,9e9,9e9))
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-	task.wait(.2)
+	task.wait()
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
 	InvisibleCharacter = InvisibleCharacter
 	Character.Parent = Lighting
@@ -10940,48 +10940,62 @@ end)
 local isantibangon = false
 addcmd("antibang",{},function(args, speaker)
 	-- i didnt had any idea to make this so i will just do this for now
-	isantibangon = true
-	task.wait()
-	if isantibangon == true then
-		task.spawn(function()
-			while task.wait() do
-				if isantibangon == false then
-					break
-				end
-				local localchar = getRoot(speaker.Character)
-				local otherchar
-				local distancelimit 
-				if tonumber(args[1]) == nil then
-					distancelimit = 3
-				else
-					distancelimit = tonumber(args[1])
-				end
-				task.spawn(function()
-					for _, v in pairs(Players:GetPlayers()) do
-						if v.Name == speaker.Name then
-						else
-							otherchar = getRoot(v.Character)
-						end
-					end
-				end)
-				local distance = (localchar.Position - otherchar.Position).Magnitude
-					if distance <= distancelimit then
-						if invisRunning == true then
-						else
-							execCmd("invis")
-							task.wait(1.5)
-						end
-					elseif distance >= distancelimit then
-						if invisRunning == false then
-						else
-							execCmd("vis")
-							task.wait(1.5)
-						end
-					end
+	local part = Instance.new("Part")
+	local size = Vector3.new(tonumber(args[1]),tonumber(args[1]),tonumber(args[1])) or Vector3.new(3,3,3)
+	local name = "hi "..randomString()
+	part.Anchored = true
+	part.CanCollide = false
+	part.Name = name
+	part.Transparency = 1
+	part.Parent = workspace.Terrain
+	task.spawn(function()
+		while task.wait() do
+			if isantibangon == false then
+				part:Destroy()
+				break
 			end
-		end)
-		notify("AntiBang","Started")
+			task.spawn(function()
+				local hrp = getRoot(speaker.Character)
+				if workspace.Terrain:FindFirstChild(name) then
+					part.Touched:Connect(function(otherPart)
+						local otherChar = otherPart.Parent
+						if otherChar:FindFirstChild('Humanoid') and otherChar.Name ~= speaker.Name and Players:FindFirstChild(otherChar.Name) then
+							if invisRunning == true then
+							else
+								execCmd("invis")
+								task.wait(1.5)
+							end							
+						end
+					end)
+					part.TouchEnded:Connect(function(otherPart)
+						local otherChar = otherPart.Parent
+						if otherChar:FindFirstChild('Humanoid') and otherChar.Name ~= speaker.Name and Players:FindFirstChild(otherChar.Name) then
+							if invisRunning == false then
+							else
+								execCmd("vis")
+								task.wait(1.5)
+							end			
+						end
+					end)
+				else
+					part = Instance.new("Part")
+					part.Anchored = true
+					part.CanCollide = false
+					part.Name = name
+					part.Transparency = 1
+					part.Parent = workspace.Terrain
+				end
+			end)
+		end
+	end)
+	while task.wait() do
+		if isantibangon == false then
+			break
+		end
+		local hrp = getRoot(speaker.Character)
+		part.CFrame = hrp.CFrame
 	end
+	notify("AntiBang","Started")
 end)
 
 addcmd("unantibang",{},function(args, speaker)
