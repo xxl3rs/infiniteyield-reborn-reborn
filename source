@@ -10978,7 +10978,6 @@ addcmd("antibang",{},function(args, speaker)
 						if mag <= distance then
 							if invisRunning == true then
 							else
-								invisRunning = true
 								execCmd("invis")
 								task.wait(1.5)
 							end
@@ -10986,7 +10985,6 @@ addcmd("antibang",{},function(args, speaker)
 						if mag >= distance then
 							if invisRunning == false then
 							else
-								invisRunning = false
 								execCmd("vis")
 								task.wait(1.5)
 							end
