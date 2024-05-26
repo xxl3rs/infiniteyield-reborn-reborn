@@ -10940,63 +10940,61 @@ end)
 addcmd("antibang",{},function(args, speaker)
 	-- i didnt had any idea to make this so i will just do this for now
 	isantibangon = true
+	local distance
+	local closestPlayer
+	if args[1] == nil then
+		distance = 3
+	else
+		distance = tonumber(args[1])
+	end
 	task.wait()
 	if isantibangon == true then
-		local part = Instance.new("Part")
-		local size = Vector3.new(tonumber(args[1]),tonumber(args[1]),tonumber(args[1])) or Vector3.new(3,3,3)
-		local name = "hi "..randomString()
-		part.Anchored = true
-		part.CanCollide = false
-		part.Name = name
-		part.Transparency = 1
-		part.Parent = workspace.Terrain
 		task.spawn(function()
 			while task.wait() do
 				if isantibangon == false then
-					part:Destroy()
 					break
 				end
 				task.spawn(function()
-					local hrp = getRoot(speaker.Character)
-					if workspace.Terrain:FindFirstChild(name) then
-						part.Touched:Connect(function(otherPart)
-							local otherChar = otherPart.Parent
-							if otherChar:FindFirstChild('Humanoid') and otherChar.Name ~= speaker.Name and Players:FindFirstChild(otherChar.Name) then
-								if invisRunning == true then
-								else
-									execCmd("invis")
-									task.wait(1.5)
-								end							
+					pcall(function()
+						local hrp = getRoot(speaker.Character)
+						for _, v in pairs(Players:GetPlayers()) do
+							if v.Name ~= speaker.Name then
+								local char = v.Character
+								local playerHrp = getRoot(char)
+								if playerHrp then
+									local mag = (playerHrp.Position - hrp.Position).Magnitude
+									if mag <= distance then
+										closestPlayer = v
+									end
+								end
 							end
-						end)
-						part.TouchEnded:Connect(function(otherPart)
-							local otherChar = otherPart.Parent
-							if otherChar:FindFirstChild('Humanoid') and otherChar.Name ~= speaker.Name and Players:FindFirstChild(otherChar.Name) then
-								if invisRunning == false then
-								else
-									execCmd("vis")
-									task.wait(1.5)
-								end			
+						end
+					end)
+				end)
+				task.spawn(function()
+					pcall(function()
+						local hrp = getRoot(speaker.Character)
+						local mag = (getRoot(closestPlayer.Character).Position - hrp.Position).Magnitude
+						if mag <= distance then
+							if invisRunning == true then
+							else
+								invisRunning = true
+								execCmd("invis")
+								task.wait(1.5)
 							end
-						end)
-					else
-						part = Instance.new("Part")
-						part.Anchored = true
-						part.CanCollide = false
-						part.Name = name
-						part.Transparency = 1
-						part.Parent = workspace.Terrain
-					end
+						end
+						if mag >= distance then
+							if invisRunning == false then
+							else
+								invisRunning = false
+								execCmd("vis")
+								task.wait(1.5)
+							end
+						end
+					end)
 				end)
 			end
 		end)
-		while task.wait() do
-			if isantibangon == false then
-				break
-			end
-			local hrp = getRoot(speaker.Character)
-			part.CFrame = hrp.CFrame
-		end
 	end
 	notify("AntiBang","Started")
 end)
