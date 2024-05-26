@@ -9602,6 +9602,7 @@ end)
 invisRunning = false
 addcmd('invisible',{'invis'},function(args, speaker)
 	if invisRunning then return end
+	workspace.FallenPartsDestroyHeight = -50000
 	invisRunning = true
 	-- Full credit to AmokahFox @V3rmillion
 	local Player = speaker
@@ -9685,7 +9686,7 @@ addcmd('invisible',{'invis'},function(args, speaker)
 	IsInvis = true
 	CF = workspace.CurrentCamera.CFrame
 	local CF_1 = Player.Character.HumanoidRootPart.CFrame
-	Character:MoveTo(Vector3.new(9e9,9e9,9e9))
+	Character:MoveTo(Vector3.new(9e9,-800,9e9))
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
 	task.wait()
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
@@ -10972,6 +10973,7 @@ addcmd("antibang",{},function(args, speaker)
 					end)
 				end)
 				task.spawn(function()
+					task.wait(.5)
 					pcall(function()
 						local hrp = getRoot(speaker.Character)
 						local mag = (getRoot(closestPlayer.Character).Position - hrp.Position).Magnitude
