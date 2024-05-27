@@ -11498,7 +11498,7 @@ addcmd('noroot',{'removeroot','rroot'},function(args, speaker)
 	end
 end)
 
-addcmd('crash', {'servercrash','crasher'.'servercrasher','crashserver'},function(args, speaker)
+addcmd('crash', {'servercrash','crasher','servercrasher','crashserver'},function(args, speaker)
 	notify("This will crash your instance and the server! Running in 3 seconds")
 	task.wait(3)
 	local Hum = speaker.Character:WaitForChild("Humanoid")
