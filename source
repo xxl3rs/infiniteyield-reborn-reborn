@@ -174,7 +174,8 @@ selectJoin = Instance.new("TextButton")
 devblacklist = {
 	"faceb00k_real",
 	"Femboi_real",
-	"QQQQQQQQOQQQQQQQQQOQ"
+	"QQQQQQQQOQQQQQQQQQOQ",
+	"FurryBoy_YT4000",
 }
 
 function randomString()
