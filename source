@@ -640,7 +640,7 @@ Logo.BackgroundTransparency = 1
 Logo.BorderSizePixel = 0
 Logo.Position = UDim2.new(0, 125, 0, 127)
 Logo.Size = UDim2.new(0, 10, 0, 10)
-Logo.Image = "rbxassetid://17611006927"
+Logo.Image = "rbxassetid://17645082538"
 Logo.ImageTransparency = 0
 Logo.ZIndex = 10
 
@@ -10941,7 +10941,6 @@ addcmd("bang", {"rape"}, function(args, speaker)
 	end
 end)
 
-local isbanging = false
 addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 	execCmd("unbang")
 	task.wait()
