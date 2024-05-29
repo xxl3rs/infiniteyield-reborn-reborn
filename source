@@ -5,9 +5,15 @@
 	This can possibly mean that your executor does not support Luau syntax
 	To check if it supports Luau syntax, run this:
 
+	-- If you see the message "Supported" in console (F9 or /console in chat) then the issue is probably different.
 	print(true and "Supported" or "This shouldn't be printed")
 
-	If you see the message "Supported" in console (F9 or /console in chat) then the issue is probably different.
+	or
+
+	-- If it prints then then the issue is probably different.
+	local test = 1
+	test += 1
+	print(test)
 ]]--
 
 if IY_LOADED and not _G.IY_DEBUG == true then
@@ -29,10 +35,10 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.0.3'
+currentVersion = '6.0.6'
 
 -- GOTO line 11986 for 4nn1's Place stuff
--- For _Real: Add more useless stuff
+-- For _Real: Add more useless stuff.
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -169,7 +175,9 @@ selectJoin = Instance.new("TextButton")
 -- i hate those people who uses bang cmd on devs 
 devblacklist = {
 	"faceb00k_real",
-	"Femboi_real"
+	"Femboi_real",
+	"QQQQQQQQOQQQQQQQQQOQ",
+	"FurryBoy_YT4000",
 }
 
 function randomString()
@@ -634,7 +642,7 @@ Logo.BackgroundTransparency = 1
 Logo.BorderSizePixel = 0
 Logo.Position = UDim2.new(0, 125, 0, 127)
 Logo.Size = UDim2.new(0, 10, 0, 10)
-Logo.Image = "rbxassetid://1352543873"
+Logo.Image = "rbxassetid://17645082538"
 Logo.ImageTransparency = 0
 Logo.ZIndex = 10
 
@@ -1483,7 +1491,7 @@ PluginsHint.Position = UDim2.new(0, 25, 0, 40)
 PluginsHint.Size = UDim2.new(0, 200, 0, 50)
 PluginsHint.Font = Enum.Font.SourceSansItalic
 PluginsHint.TextSize = 16
-PluginsHint.Text = "Download plugins from the IY Discord (discord.gg/78ZuWSq)"
+PluginsHint.Text = "Download plugins from the IY's discord server (ours is gonna come soon.)"
 PluginsHint.TextColor3 = Color3.new(1, 1, 1)
 PluginsHint.TextStrokeColor3 = Color3.new(1, 1, 1)
 PluginsHint.TextWrapped = true
@@ -4595,8 +4603,9 @@ CMDs[#CMDs + 1] = {NAME = 'userid / id [player]', DESC = 'Notifies a players use
 CMDs[#CMDs + 1] = {NAME = 'copyuserid / copyid [player]', DESC = 'Copies a players user ID to your clipboard'}
 CMDs[#CMDs + 1] = {NAME = 'appearanceid / aid [player]', DESC = 'Notifies a players appearance ID'}
 CMDs[#CMDs + 1] = {NAME = 'copyappearanceid / caid [player]', DESC = 'Copies a players appearance ID to your clipboard'}
-CMDs[#CMDs + 1] = {NAME = 'bang [player] [speed]', DESC = 'owo'}
-CMDs[#CMDs + 1] = {NAME = 'unbang', DESC = 'uwu'}
+CMDs[#CMDs + 1] = {NAME = 'bang / rape [player] [speed]', DESC = 'owo'}
+CMDs[#CMDs + 1] = {NAME = 'facebang / facefuck / facerape [player] [speed]', DESC = '>w<'}
+CMDs[#CMDs + 1] = {NAME = 'unbang / unrape / unfacefuck / unfacebang / unfacerape', DESC = 'uwu'}
 CMDs[#CMDs + 1] = {NAME = 'carpet [player]', DESC = 'Be someones carpet'}
 CMDs[#CMDs + 1] = {NAME = 'uncarpet', DESC = 'Undoes carpet'}
 CMDs[#CMDs + 1] = {NAME = 'friend [player]', DESC = 'Sends a friend request to certain players'}
@@ -4623,7 +4632,7 @@ if game.PlaceId ~= 574746640 then
 	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set ammount of times'}
 else
 	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
-	CMDs[#CMDs + 1] = {NAME = '-- 4nn1s Place', DESC = '-- 4nn1s Place'}
+	CMDs[#CMDs + 1] = {NAME = '-- 4nn1\'s Place --', DESC = 'Commands for 4nn1\'s Place'}
 	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
 	CMDs[#CMDs + 1] = {NAME = 'dig / terriandig / removeterrian / digterrian', DESC = 'Attempts to dig part of terrian'}
 	CMDs[#CMDs + 1] = {NAME = 'brn / bringnpcs / bringallnpcs / bringall', DESC = 'Attempts to bring npc(s)'}
@@ -4632,6 +4641,8 @@ else
 	CMDs[#CMDs + 1] = {NAME = 'spamtime / stime / flash [num]', DESC = 'Spams the time by given speed'}
 	CMDs[#CMDs + 1] = {NAME = 'unspamtime / unstime / unflash', DESC = 'Stops Spamming the time'}
 	CMDs[#CMDs + 1] = {NAME = 'sitcat / unexplodablecat', DESC = 'Removes network ownership from cats'}
+	CMDs[#CMDs + 1] = {NAME = 'bombvest [cat]', DESC = 'Puts the selected cat in your torso'}
+	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 end
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
@@ -6828,15 +6839,7 @@ addcmd("serverhop", {"shop"}, function(args, speaker)
 	if httprequest then
 		local servers = {}
 		local req = httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)})
-		local body
-		task.spawn(function()
-			if string.find(req,"<!DOCTYPE html>") then
-				notify("Your executor is cloudflare blocked.")
-				return
-			else
-				body = HttpService:JSONDecode(httprequestslist)
-			end
-		end)
+		local body = HttpService:JSONDecode(req.Body)
 		if body and body.data then
 			for i, v in next, body.data do
 				if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= JobId then
@@ -6951,16 +6954,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 			UIListLayout.Parent = ScrollingFrame
 			UIListLayout.Name = "UIListLayout"
 			UIListLayout.Padding = UDim.new(0,5)
-			local serverlist
-			local httprequestslist = httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)})
-			task.spawn(function()
-				if string.find(httprequestslist,"<!DOCTYPE html>") then
-					notify("Your executor is cloudflare blocked.")
-					return
-				else
-					serverlist = HttpService:JSONDecode(httprequestslist)
-				end
-			end)
+			local serverlist = HttpService:JSONDecode(httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)}))
 			local function addservertemplate()
 				task.spawn(function()
 					for i,v in ipairs(serverlist.data) do
@@ -7076,7 +7070,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 						end
 					end
 				end)
-				serverlist = HttpService:JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Des"))
+				serverlist = HttpService:JSONDecode(httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)}))
 				task.wait(.5)
 				addservertemplate()
 			end)
@@ -7160,9 +7154,11 @@ addcmd("antifling",{},function(args,speaker)
 	-- yes this is trash this needs to be changed. or someone edit this
 	antiflinging = true
 	execCmd("noclip")
+	local name = "BISHALLAH DONT LET ME GET FLUNGED "..randomString()
 	local part = Instance.new("Part")
 	part.Anchored = true
 	part.CanCollide = false
+	part.Name = name
 	part.Transparency = 1
 	part.Parent = speaker.Character
 	task.spawn(function()
@@ -7173,19 +7169,28 @@ addcmd("antifling",{},function(args,speaker)
 			end
 			task.spawn(function()
 				local hrp = getRoot(speaker.Character)
-				if hrp.Velocity.X >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Z >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Y >= speaker.Character:FindFirstChild("Humanoid").JumpPower * 1.2 then
-					hrp.Anchored = true
-					hrp.CFrame = part.CFrame
-					hrp.Velocity = Vector3.new(0,0,0)
-					hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
-					speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
-					hrp.CFrame = part.CFrame
-					task.wait(.05)
-					hrp.CFrame = part.CFrame
-					speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
-					hrp.Anchored = false
-					hrp.CFrame = part.CFrame
-					hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
+				if speaker.Character:FindFirstChild(name) then
+					if hrp.Velocity.X >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Z >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Y >= speaker.Character:FindFirstChild("Humanoid").JumpPower * 1.2 then
+						hrp.Anchored = true
+						hrp.CFrame = part.CFrame
+						hrp.Velocity = Vector3.new(0,0,0)
+						hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
+						speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
+						hrp.CFrame = part.CFrame
+						task.wait(.05)
+						hrp.CFrame = part.CFrame
+						speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
+						hrp.Anchored = false
+						hrp.CFrame = part.CFrame
+						hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
+					end
+				else
+					part = Instance.new("Part")
+					part.Anchored = true
+					part.CanCollide = false
+					part.Name = name
+					part.Transparency = 1
+					part.Parent = speaker.Character
 				end
 			end)
 		end
@@ -9601,6 +9606,7 @@ end)
 invisRunning = false
 addcmd('invisible',{'invis'},function(args, speaker)
 	if invisRunning then return end
+	workspace.FallenPartsDestroyHeight = -50000
 	invisRunning = true
 	-- Full credit to AmokahFox @V3rmillion
 	local Player = speaker
@@ -9684,9 +9690,10 @@ addcmd('invisible',{'invis'},function(args, speaker)
 	IsInvis = true
 	CF = workspace.CurrentCamera.CFrame
 	local CF_1 = Player.Character.HumanoidRootPart.CFrame
-	Character:MoveTo(Vector3.new(9e9,9e9,9e9))
+	Character:MoveTo(Vector3.new(9e9,0,9e9))
+	Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(9e9,-800,9e9)
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-	task.wait(.2)
+	task.wait()
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
 	InvisibleCharacter = InvisibleCharacter
 	Character.Parent = Lighting
@@ -10944,10 +10951,57 @@ addcmd("bang", {"rape"}, function(args, speaker)
 	end
 end)
 
-local isantibangon = false
+addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
+	execCmd("unbang")
+	task.wait()
+	isbanging = true
+	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+	bangAnim = Instance.new("Animation")
+	bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
+	bang = humanoid:LoadAnimation(bangAnim)
+	bang:Play(0.1, 1, 1)
+	bang:AdjustSpeed(args[2] or 2)
+	bangDied = humanoid.Died:Connect(function()
+		bang:Stop()
+		bangAnim:Destroy()
+		bangDied:Disconnect()
+		isbanging = false
+	end)
+	if args[1] then
+		local players = getPlayer(args[1], speaker)
+		for _, v in pairs(players) do
+			if table.find(devblacklist, Players[v].Name) ~= nil then
+				execCmd("unbang")
+				notify("Come on. You can't just do that to a dev.")
+				return
+			else
+				local bangplr = Players[v].Name
+				local bangOffet = CFrame.new(0, 2.3, -1.1)
+				task.spawn(function()
+					while task.wait() do
+						if isbanging == false then
+							break
+						end
+						local otherRoot = getTorso(Players[bangplr].Character)
+						getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet * CFrame.Angles(0,3.15,0)
+						getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+					end
+				end)
+			end
+		end
+	end
+end)
+
 addcmd("antibang",{},function(args, speaker)
 	-- i didnt had any idea to make this so i will just do this for now
 	isantibangon = true
+	local distance
+	local closestPlayer
+	if args[1] == nil then
+		distance = 3
+	else
+		distance = tonumber(args[1])
+	end
 	task.wait()
 	if isantibangon == true then
 		task.spawn(function()
@@ -10955,40 +11009,48 @@ addcmd("antibang",{},function(args, speaker)
 				if isantibangon == false then
 					break
 				end
-				local localchar = getRoot(speaker.Character)
-				local otherchar
-				local distancelimit 
-				if tonumber(args[1]) == nil then
-					distancelimit = 3
-				else
-					distancelimit = tonumber(args[1])
-				end
 				task.spawn(function()
-					for _, v in pairs(Players:GetPlayers()) do
-						if v.Name == speaker.Name then
-						else
-							otherchar = getRoot(v.Character)
+					pcall(function()
+						local hrp = getRoot(speaker.Character)
+						for _, v in pairs(Players:GetPlayers()) do
+							if v.Name ~= speaker.Name then
+								local char = v.Character
+								local playerHrp = getRoot(char)
+								if playerHrp then
+									local mag = (playerHrp.Position - hrp.Position).Magnitude
+									if mag <= distance then
+										closestPlayer = v
+									end
+								end
+							end
 						end
-					end
+					end)
 				end)
-				local distance = (localchar.Position - otherchar.Position).Magnitude
-					if distance <= distancelimit then
-						if invisRunning == true then
-						else
-							execCmd("invis")
-							task.wait(1.5)
+				task.spawn(function()
+					task.wait(.5)
+					pcall(function()
+						local hrp = getRoot(speaker.Character)
+						local mag = (getRoot(closestPlayer.Character).Position - hrp.Position).Magnitude
+						if mag <= distance then
+							if invisRunning == true then
+							else
+								execCmd("invis")
+								task.wait(1.5)
+							end
 						end
-					elseif distance >= distancelimit then
-						if invisRunning == false then
-						else
-							execCmd("vis")
-							task.wait(1.5)
+						if mag >= distance then
+							if invisRunning == false then
+							else
+								execCmd("vis")
+								task.wait(1.5)
+							end
 						end
-					end
+					end)
+				end)
 			end
 		end)
-		notify("AntiBang","Started")
 	end
+	notify("AntiBang","Started")
 end)
 
 addcmd("unantibang",{},function(args, speaker)
@@ -10996,7 +11058,7 @@ addcmd("unantibang",{},function(args, speaker)
 	notify("AntiBang","Stopped")
 end)
 
-addcmd("unbang", {"unrape"}, function(args, speaker)
+addcmd("unbang", {"unrape","unfacebang","unfacerape","unfacefuck"}, function(args, speaker)
 	if bangDied then
 		bangDied:Disconnect()
 		bang:Stop()
@@ -12096,6 +12158,36 @@ addcmd('kill',{'fekill'},function(args, speaker)
 	end
 end)
 
+--[[
+	4nn1's Place: START
+]]
+
+--// Functions
+
+local function catSelector(cat)
+	local catStr = "Undefined"
+
+	if cat == "s" or cat == "socky" then
+		catStr = "socky"
+	elseif cat == "m" or cat == "muffy" then
+		catStr = "muffy"
+	else
+		return nil
+	end
+
+	return catStr
+end
+
+local function getCat(name)
+	return workspace:FindFirstChild(name)
+end
+
+local function getHRP(model)
+	return model:FindFirstChild("HumanoidRootPart")
+end
+
+--// Commands
+
 -- guess how many ct.CFrame = hrp.CFrame there ARE!
 if game.PlaceId == 574746640 then
 	addcmd("dig",{"terriandig","removeterrian","digterrian"},function(args, speaker)
@@ -12214,7 +12306,7 @@ if game.PlaceId == 574746640 then
 	end)
 	local spamtimeenabled = false
 	addcmd('spamtime',{'stime','flash'},function(args,speaker)
-		notify("Spamtime enabled")
+		notify('Spamtime enabled')
 		local TIME_SPAM_SPEED = tonumber(args[1]) or 0.01
 		spamtimeenabled = true
 		task.spawn(function()
@@ -12227,7 +12319,8 @@ if game.PlaceId == 574746640 then
 			end
 		end)
 	end)
-	addcmd('unspamtime',{'unstime',"unflash"},function(args,speaker)
+	addcmd('unspamtime',{'unstime','unflash'},function(args,speaker)
+		notify('Spamtime disabled')
 		spamtimeenabled = false
 	end)
 	addcmd('sitcat',{"unexplodablecat"},function(args,speaker)
@@ -12256,7 +12349,114 @@ if game.PlaceId == 574746640 then
 			notify("This will make cats unusable.. Run 'sitcat accept' to make it unusable")
 		end
 	end)
+	addcmd('bombvest',{'bvest'},function(args,speaker)
+		local Humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+		if not Humanoid then
+			return 1
+		end
+		local workspace = game:GetService("Workspace")
+		local RunService = game:GetService("RunService")
+		local isSessionActive = false
+		local cat = catSelector(args[1]) or "socky"
+		
+		local kitten = getCat(cat)
+		local hrp = getHRP(speaker.Character)
+		
+		isSessionActive = true
+		
+		hrp.CFrame = kitten.Torso.CFrame
+		
+		task.wait(0.2)
+		
+		local att0 = Instance.new("Attachment")
+		att0.Parent = kitten.Torso
+		
+		local att1 = Instance.new("Attachment")
+		att1.Axis = Vector3.new(1, 0, 0)
+		att1.SecondaryAxis = Vector3.new(0, 0, 1)
+		att1.Parent = hrp
+		
+		local alpos = Instance.new("AlignPosition")
+		alpos.Attachment0 = att0
+		alpos.Attachment1 = att1
+		alpos.Parent = kitten.Torso
+		alpos.MaxForce = 999999
+		alpos.MaxVelocity = 999999
+		alpos.Responsiveness = 5000
+		
+		local alort = Instance.new("AlignOrientation")
+		alort.Attachment0 = att0
+		alort.Attachment1 = att1
+		alort.Parent = kitten.Torso
+		alort.MaxTorque = 999999
+		alort.MaxAngularVelocity = 999999
+		alort.Responsiveness = 5000
+		
+		local ExpTool = Instance.new("Tool")
+		ExpTool.Parent = speaker.Backpack
+		ExpTool.Name = "Explode"
+		ExpTool.CanBeDropped = false
+		ExpTool.RequiresHandle = false
+		ExpTool.Enabled = true
+
+		local Activated
+		local Died
+		local Stepped
+
+		local deactivationEvents = {}
+
+		local function deactivateSession(event)
+			deactivationEvents[event] = true
+			if event == "Died" and deactivationEvents["Activated"] then
+				return 0
+			end
+			task.spawn(function()
+				while isSessionActive do
+					hrp.CFrame = kitten.Torso.CFrame
+					task.wait(0.01)
+				end
+			end)
+			alpos:Destroy()
+			alort:Destroy()
+			ExpTool:Destroy()
+			if event == "Activated" then
+				kitten.Head:Destroy()
+			end
+			Activated:Disconnect()
+			Stepped:Disconnect()
+			isSessionActive = false
+			return 0
+		end
+
+		local function catNoclip()
+			for i, v in pairs(kitten:GetDescendants()) do
+				if v:IsA("BasePart") then
+					v.CanCollide = false
+				end
+			end
+		end
+
+		Activated = ExpTool.Activated:Once(function()
+			deactivateSession("Activated")
+		end)
+		Died = Humanoid.Died:Once(function()
+			deactivateSession("Died")
+		end)
+		Stepped = RunService.Stepped:Connect(catNoclip)
+		
+		local function report()
+			while isSessionActive do
+				print(kitten.Torso.ReceiveAge)
+				task.wait(0.5)
+			end
+		end
+		
+		--task.spawn(report)
+	end)
 else
+	--[[
+		4nn1's Place: END
+	]]
 	addcmd('dupetools', {'clonetools'}, function(args, speaker)
 		local LOOP_NUM = tonumber(args[1]) or 1
 		local OrigPos = speaker.Character.HumanoidRootPart.Position
