@@ -2,16 +2,18 @@
 	Hello! You might wonder why it's not executing.
 	or wondered if the script is obfuscated or not
 
-	If your executor warns/errors with > '=' expected near '+' < or > unexpected symbol near 'number' < then read this.
+	This can possibly mean that your executor does not support Luau syntax
+	To check if it supports Luau syntax, run this:
 
-	Your executor doesnt support Luau.
-	Try executing this:
+	-- If you see the message "Supported" in console (F9 or /console in chat) then the issue is probably different.
+	print(true and "Supported" or "This shouldn't be printed")
 
+	or
+
+	-- If it prints then then the issue is probably different.
 	local test = 1
 	test += 1
 	print(test)
-
-	If it executes then you're good if not then thats why.
 ]]--
 
 if IY_LOADED and not _G.IY_DEBUG == true then
@@ -9983,7 +9985,15 @@ addcmd("sit", {}, function(args, speaker)
 end)
 
 addcmd("lay", {"laydown"}, function(args, speaker)
+	if not speaker.Character then
+		speaker.CharacterAdded:Wait()
+	end
 	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+	if not humanoid then
+		speaker.CharacterAdded:Wait()
+		humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+	end
+	execCmd("unnosit")
 	humanoid.Sit = true
 	task.wait(0.1)
 	humanoid.RootPart.CFrame *= CFrame.Angles(math.pi * 0.5, 0, 0)
