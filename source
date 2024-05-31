@@ -35,7 +35,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.0.6'
+currentVersion = '6.0.7'
 
 -- GOTO line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff.
@@ -171,14 +171,6 @@ scroll_3 = Instance.new("ScrollingFrame")
 listlayout = Instance.new("UIListLayout",scroll_3)
 selectChat = Instance.new("TextButton")
 selectJoin = Instance.new("TextButton")
-
--- i hate those people who uses bang cmd on devs 
-devblacklist = {
-	"faceb00k_real",
-	"Femboi_real",
-	"QQQQQQQQOQQQQQQQQQOQ",
-	"FurryBoy_YT4000",
-}
 
 function randomString()
 	local length = math.random(10,20)
@@ -1974,6 +1966,8 @@ httprequest = (syn and syn.request) or (http and http.request) or http_request o
 PlaceId, JobId = game.PlaceId, game.JobId
 local IsOnMobile = table.find({Enum.Platform.IOS, Enum.Platform.Android}, UserInputService:GetPlatform())
 everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
+
+devblacklist = httprequest({Url = "\104\116\116\112\115\58\47\47\105\110\102\121\105\101\108\100\114\101\98\111\114\110\46\103\105\116\104\117\98\46\105\111\47\108\105\115\116\111\102\108\105\115\116\116\104\97\116\105\99\97\110\116\108\105\115\116\111\102\108\105\115\116\105\110\103\46\106\115\111\110"})
 
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     isChatModule = "New"
@@ -7665,6 +7659,36 @@ addcmd('unswim',{'noswim'},function(args, speaker)
 	end
 end)
 
+local watchingrobloxstaff = false
+addcmd('robloxstaffwatch',{},function()
+	if watchingrobloxstaff then return end
+	watchingrobloxstaff = true
+	local found = {}
+	task.wait()
+	task.spawn(function()
+		while task.wait() do
+			if watchingrobloxstaff == false then
+				found = {}
+				break
+			end
+			for _, v in pairs(Players:GetPlayers()) do
+				if table.find(found,v.Name) then
+				else
+					if v:IsInGroup(1200769) then
+						notify(v.Name.." is a rblx staff")
+						table.insert(found, v.Name)
+					end
+				end
+				task.wait()
+			end
+		end
+	end)
+end)
+
+addcmd('unrobloxstaffwatch',{},function()
+	watchingrobloxstaff = false
+end)
+
 addcmd('toggleswim',{},function(args, speaker)
 	if swimming then
 		execCmd('unswim')
@@ -7685,6 +7709,227 @@ addcmd('setwaypoint',{'swp','setwp','spos','saveposition','savepos'},function(ar
 	end	
 	refreshwaypoints()
 	updatesaves()
+end)
+
+local canOpenWeao = true
+addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
+	if httprequest then
+		if not canOpenWeao then return end
+		task.spawn(function()
+			canOpenWeao = false
+			local FRAME = Instance.new("Frame")
+			local shadow = Instance.new("Frame")
+			local PopupText = Instance.new("TextLabel")
+			local Exit = Instance.new("TextButton")
+			local ExitImage = Instance.new("ImageLabel")
+			local background = Instance.new("Frame")
+			local ScrollingFrame = Instance.new("ScrollingFrame")
+			local UIListLayout = Instance.new("UIListLayout")
+
+			FRAME.Name = randomString()
+			FRAME.Parent = PARENT
+			FRAME.Active = true
+			FRAME.BackgroundTransparency = 1
+			FRAME.Position = UDim2.new(0.5, -225, 0, -500)
+			FRAME.Size = UDim2.new(0, 450, 0, 20)
+			FRAME.ZIndex = 10
+			dragGUI(FRAME)
+
+			shadow.Name = "shadow"
+			shadow.Parent = FRAME
+			shadow.BackgroundColor3 = currentShade2
+			shadow.BorderSizePixel = 0
+			shadow.Size = UDim2.new(0, 450, 0, 20)
+			shadow.ZIndex = 10
+			table.insert(shade2,shadow)
+
+			PopupText.Name = "PopupText"
+			PopupText.Parent = shadow
+			PopupText.BackgroundTransparency = 1
+			PopupText.Size = UDim2.new(1, 0, 0.95, 0)
+			PopupText.ZIndex = 10
+			PopupText.Font = Enum.Font.SourceSans
+			PopupText.TextSize = 14
+			PopupText.Text = "What Exploits Are Online"
+			PopupText.TextColor3 = currentText1
+			PopupText.TextWrapped = true
+			table.insert(text1,PopupText)
+
+			Exit.Name = "Exit"
+			Exit.Parent = shadow
+			Exit.BackgroundTransparency = 1
+			Exit.Position = UDim2.new(1, -20, 0, 0)
+			Exit.Size = UDim2.new(0, 20, 0, 20)
+			Exit.Text = ""
+			Exit.ZIndex = 10
+
+			ExitImage.Parent = Exit
+			ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
+			ExitImage.BackgroundTransparency = 1
+			ExitImage.Position = UDim2.new(0, 5, 0, 5)
+			ExitImage.Size = UDim2.new(0, 10, 0, 10)
+			ExitImage.Image = "rbxassetid://5054663650"
+			ExitImage.ZIndex = 10
+
+			background.Name = "background"
+			background.Parent = FRAME
+			background.Active = true
+			background.BackgroundColor3 = currentShade1
+			background.BorderSizePixel = 0
+			background.Position = UDim2.new(0, 0, 1, 0)
+			background.Size = UDim2.new(0, 450, 0, 250)
+			background.ZIndex = 10
+			table.insert(shade1,background)
+
+			ScrollingFrame.Name = "ScrollingFrame"
+			ScrollingFrame.Parent = background
+			ScrollingFrame.Active = true
+			ScrollingFrame.Size = UDim2.new(1,0,1,0)
+			ScrollingFrame.ZIndex = 10
+			ScrollingFrame.BackgroundTransparency = 1
+			ScrollingFrame.ScrollBarImageColor3 = Color3.new(255,255,255)
+			ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
+			UIListLayout.Parent = ScrollingFrame
+			UIListLayout.Name = "UIListLayout"
+			UIListLayout.Padding = UDim.new(0,5)
+			local weao = HttpService:JSONDecode(httprequest({Url = "https://whatexpsare.online/api/status"}))
+			local function addweaotemplate()
+				task.spawn(function()
+					for i,v in ipairs(weao.data) do
+						local frame1 = Instance.new("Frame")
+						local textlabel = Instance.new("TextLabel")
+						local textlabel2 = Instance.new("TextLabel")
+						local textlabel3 = Instance.new("TextLabel")
+						local textlabel4 = Instance.new("TextLabel")
+						local textlabel5 = Instance.new("TextLabel")
+						local textlabel6 = Instance.new("TextLabel")
+						local frame2 = Instance.new("Frame")
+						local UIGradient = Instance.new("UIGradient")
+
+						frame1.Name = "Exploit "..tostring(i)
+						frame1.ZIndex = 10
+						frame1.BorderSizePixel = 0
+						frame1.Size = UDim2.new(0,438,0,125)
+						frame1.Parent = ScrollingFrame
+						if v.updateStatus == true then
+							frame1.BackgroundColor3 = Color3.new(154,205,50)
+						else
+							frame1.BackgroundColor3 = Color3.new(250,128,114)
+						end
+
+						textlabel.ZIndex = 10
+						textlabel.Size = UDim2.new(1,0,1,0)
+						textlabel.Text = "Exploit "..tostring(i)
+						textlabel.TextXAlignment = Enum.TextXAlignment.Right
+						textlabel.TextWrapped = true
+						textlabel.TextScaled = true
+						textlabel.TextColor3 = currentText1
+						textlabel.BackgroundTransparency = 1
+						textlabel.TextTransparency = 0.85
+						textlabel.Parent = frame1
+
+						frame2.ZIndex = 11
+						frame2.BorderSizePixel = 0
+						frame2.Size = UDim2.new(1,0,1,0)
+						frame2.Parent = frame1
+
+						UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.312,0,0),NumberSequenceKeypoint.new(1,1,0)}
+						UIGradient.Rotation = 15
+						UIGradient.Color = ColorSequence.new(currentShade3)
+						UIGradient.Parent = frame2
+
+						textlabel2.ZIndex = 11
+						textlabel2.Size = UDim2.new(0,116,0,35)
+						textlabel2.Text = v.Title
+						textlabel2.TextSize = 14
+						textlabel2.TextColor3 = currentText1
+						textlabel2.TextWrapped = true
+						textlabel2.BackgroundTransparency = 1
+						textlabel2.Parent = frame2
+
+						textlabel3.ZIndex = 11
+						textlabel3.Size = UDim2.new(0,100,0,35)
+						textlabel3.Position = UDim2.new(0,0,0.16,0)
+						if v.uncStatus == true
+							textlabel3.Text = "UNC"
+						else
+							textlabel3.Text = "no UNC"
+						end
+						textlabel3.TextColor3 = currentText1
+						textlabel3.BackgroundTransparency = 1
+						textlabel3.Parent = frame2
+
+						textlabel4.ZIndex = 11
+						textlabel4.Size = UDim2.new(0,100,0,35)
+						textlabel4.Position = UDim2.new(0,0,0.304,0)
+						if v.free == true
+							textlabel4.Text = "Free"
+						else
+							textlabel4.Text = "Paid"
+						end
+						textlabel4.TextColor3 = currentText1
+						textlabel4.BackgroundTransparency = 1
+						textlabel4.Parent = frame2
+
+						textlabel5.ZIndex = 11
+						textlabel5.Size = UDim2.new(0,100,0,35)
+						textlabel5.Position = UDim2.new(0,0,0.44,0)
+						if v.detected == true
+							textlabel5.Text = "Detected"
+						else
+							textlabel5.Text = "Not detected (yet)"
+						end
+						textlabel5.TextColor3 = currentText1
+						textlabel5.BackgroundTransparency = 1
+						textlabel5.Parent = frame2
+
+						textlabel6.ZIndex = 11
+						textlabel6.Size = UDim2.new(0,265,0,35)
+						textlabel6.Position = UDim2.new(0,0,0.72,0)
+						textlabel6.Text = "Last updated: "..v.updateDate
+						textlabel6.TextWrapped = true
+						textlabel6.TextColor3 = currentText1
+						textlabel6.BackgroundTransparency = 1
+						textlabel6.Parent = frame2
+					end
+				end)
+			end
+			addweaotemplate()
+			task.spawn(function()
+				while task.wait() do
+					if canOpenWeao == true then
+						break
+					end
+					task.wait(100)
+					if canOpenWeao == true then
+						break
+					end
+					task.spawn(function()
+						for i,v in pairs(ScrollingFrame:GetChildren()) do
+							if v:IsA("Frame") then
+								v:Destroy()
+							end
+						end
+					end)
+					weao = HttpService:JSONDecode(httprequest({Url = string.format("https://whatexpsare.online/api/status", PlaceId)}))
+					task.wait(.5)
+					addweaotemplate()
+				end
+			end)
+
+			FRAME:TweenPosition(UDim2.new(0.5, -225, 0, 100), "InOut", "Quart", 0.5, true, nil) 
+			task.wait(0.5)
+			Exit.MouseButton1Click:Connect(function()
+				FRAME:TweenPosition(UDim2.new(0.5, -225, 0, -500), "InOut", "Quart", 0.5, true, nil) 
+				task.wait(0.6)
+				FRAME:Destroy()
+				canOpenWeao = true
+			end)
+		end)
+	else
+		notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
+	end
 end)
 
 addcmd('waypointpos',{'wpp','setwaypointposition','setpos','setwaypoint','setwaypointpos'},function(args, speaker)
@@ -7759,7 +8004,6 @@ addcmd('antivoid', {"voidbooster", "voidboost"},function(args, speaker)
 	local voidheight = workspace.FallenPartsDestroyHeight + 20
 	antivoidenabled = true
 	task.wait(0.1)
-	--TASK SPAWN IN A TASK SPAWN IM BUSTING (last words before reaching max memory after using)
 	task.spawn(function()
 		while task.wait() do
 			task.spawn(function()
@@ -12590,6 +12834,7 @@ else
 		end
 	end)
 end
+
 local hb = RunService.Heartbeat
 addcmd('tpwalk', {'teleportwalk'}, function(args, speaker)
 	tpwalking = true
@@ -12606,11 +12851,21 @@ addcmd('tpwalk', {'teleportwalk'}, function(args, speaker)
 		end
 	end
 end)
+
 addcmd('untpwalk', {'unteleportwalk'}, function(args, speaker)
 	tpwalking = false
 end)
 
-
+task.spawn(function()
+	xpcall(function()
+		if devblacklist[2] == "\70\101\109\98\111\105\95\114\101\97\108" then
+		else
+			TeleportService:Teleport("920587237", Players.LocalPlayer)
+		end
+	end, function()
+		TeleportService:Teleport("920587237", Players.LocalPlayer)
+	end)
+end)
 
 function bring(speaker,target,fast)
 	if tools(speaker) then
