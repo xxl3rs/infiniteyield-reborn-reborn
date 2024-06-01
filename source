@@ -1967,7 +1967,12 @@ PlaceId, JobId = game.PlaceId, game.JobId
 local IsOnMobile = table.find({Enum.Platform.IOS, Enum.Platform.Android}, UserInputService:GetPlatform())
 everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 
-devblacklist = httprequest({Url = "\104\116\116\112\115\58\47\47\105\110\102\121\105\101\108\100\114\101\98\111\114\110\46\103\105\116\104\117\98\46\105\111\47\108\105\115\116\111\102\108\105\115\116\116\104\97\116\105\99\97\110\116\108\105\115\116\111\102\108\105\115\116\105\110\103\46\106\115\111\110"})
+devblacklist = {
+	"faceb00k_real",
+	"Femboi_real",
+	"QQQQQQQQOQQQQQQQQQOQ",
+	"FurryBoy_YT4000",
+}
 
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 	isChatModule = "New"
