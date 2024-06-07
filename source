@@ -10870,7 +10870,7 @@ addcmd("addunc",{'addmoreunc','adduncevn'},function(args, speaker)
 end)
 
 addcmd("vulnspatch",{'vpatcher','vulnspatcher'},function(args, speaker)
-	loadstring(game:HttpGet("https://infyieldreborn.github.io/moreunc"))()
+	loadstring(game:HttpGet("https://infyieldreborn.github.io/vulnpatcher"))()
 	notify("Patching some vulns (Thanks to v3rm community)")
 end)
 
