@@ -1,5 +1,5 @@
 # Infinite Yield Reborn
-A forked **IY** but **better**.
+A forked IY but **better**.
 
 Loadstring:
 ```lua
