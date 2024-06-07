@@ -35,7 +35,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.0.8'
+currentVersion = '6.0.9'
 
 -- GOTO line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff, Add more bang type commands.
@@ -4805,6 +4805,7 @@ CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DESC = 'What exploits are online!?'}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
+CMDs[#CMDs + 1] = {NAME = "vulnspatch / vpatcher / vulnspatcher", DESC = 'Attemps to patch some vulns'}
 task.wait()
 
 for i = 1, #CMDs do
@@ -10864,8 +10865,13 @@ addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
 end)
 
 addcmd("addunc",{'addmoreunc','adduncevn'},function(args, speaker)
-	loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MoreUNC-13110"))()
-	notify("Adding UNC (Thanks to scriptblox community)")
+	loadstring(game:HttpGet("https://infyieldreborn.github.io/moreunc"))()
+	notify("Adding some UNC (Thanks to the community) (WARNING THIS MAY REMOVE SOME UNC)")
+end)
+
+addcmd("vulnspatch",{'vpatcher','vulnspatcher'},function(args, speaker)
+	loadstring(game:HttpGet("https://infyieldreborn.github.io/moreunc"))()
+	notify("Patching some vulns (Thanks to v3rm community)")
 end)
 
 addcmd("vulnscheck",{"vulns","vuln"},function()
