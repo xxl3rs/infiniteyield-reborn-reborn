@@ -35,7 +35,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.0.9'
+currentVersion = '6.1.0'
 
 -- GOTO line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff, Add more bang type commands.
@@ -4294,9 +4294,8 @@ IndexContents = function(str,bool,cmdbar,Ianim)
 end
 
 task.spawn(function()
-	if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then return end
 	local chatbox
-	local success, result = pcall(function() chatbox = game.WaitForChild(PlayerGui, "Chat").Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar end)
+	local success, result = pcall(function() chatbox = COREGUI.ExperienceChat.appLayout.chatInputBar.Background.Container.TextContainer.TextBoxContainer.TextBox or game.WaitForChild(PlayerGui, "Chat").Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar end)
 	if success then
 		local function chatboxFocused()
 			canvasPos = CMDsF.CanvasPosition
@@ -4310,7 +4309,7 @@ task.spawn(function()
 					CMDsF.Visible = true
 					Settings:TweenPosition(UDim2.new(0, 0, 0, 220), "InOut", "Quart", 0.2, true, nil)
 				end
-				IndexContents(PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar.Text:lower():sub(2),true)
+				IndexContents(chatbox.Text:lower():sub(2),true)
 			else
 				minimizeHolder()
 				if SettingsOpen == true then
@@ -4326,15 +4325,33 @@ task.spawn(function()
 			if not enterpressed or chatbox.Text:lower():sub(1,1) ~= prefix then
 				IndexContents('',true)
 			end
+			if enterpressed and chatbox.Text:lower():sub(1,1) == prefix then
+				execCmd(chatbox.Text:gsub("^"..prefix,""),Players.LocalPlayer,true)
+			end
 			CMDsF.CanvasPosition = canvasPos
 			minimizeHolder()
 		end
 		local chatboxFocusLostC = chatbox.FocusLost:Connect(chatboxFocusLost)
 
-		PlayerGui:WaitForChild("Chat").Frame.ChatBarParentFrame.ChildAdded:Connect(function(newbar)
+		task.spawn(function()
+			PlayerGui:WaitForChild("Chat").Frame.ChatBarParentFrame.ChildAdded:Connect(function(newbar)
+				task.wait()
+				if newbar:FindFirstChild('BoxFrame') then
+					chatbox = PlayerGui:WaitForChild("Chat").Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+					if chatboxFocusedC then chatboxFocusedC:Disconnect() end
+					chatboxFocusedC = chatbox.Focused:Connect(chatboxFocused)
+					if chatboxFunc then chatboxFunc:Disconnect() end
+					chatboxFunc = chatbox:GetPropertyChangedSignal("Text"):Connect(Index)
+					if chatboxFocusLostC then chatboxFocusLostC:Disconnect() end
+					chatboxFocusLostC = chatbox.FocusLost:Connect(chatboxFocusLost)
+				end
+			end)
+		end)
+		
+		COREGUI.ExperienceChat.appLayout.ChildAdded:Connect(function(newbar)
 			task.wait()
-			if newbar:FindFirstChild('BoxFrame') then
-				chatbox = PlayerGui:WaitForChild("Chat").Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+			if newbar:FindFirstChild('TextBoxContainer') then
+				chatbox = COREGUI.ExperienceChat.appLayout.chatInputBar.Background.Container.TextContainer.TextBoxContainer.TextBox
 				if chatboxFocusedC then chatboxFocusedC:Disconnect() end
 				chatboxFocusedC = chatbox.Focused:Connect(chatboxFocused)
 				if chatboxFunc then chatboxFunc:Disconnect() end
@@ -4343,6 +4360,7 @@ task.spawn(function()
 				chatboxFocusLostC = chatbox.FocusLost:Connect(chatboxFocusLost)
 			end
 		end)
+
 		--else
 		--print('Custom chat detected. Will not provide suggestions for commands typed in the chat.')
 	end
@@ -4798,7 +4816,7 @@ CMDs[#CMDs + 1] = {NAME = 'promptr15', DESC = 'Prompts the game to switch your r
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'antifling', DESC = 'Attempts to prevent you from flinging'}
 CMDs[#CMDs + 1] = {NAME = 'unantifling', DESC = ''}
-CMDs[#CMDs + 1] = {NAME = 'vulnscheck / vulns / vuln', DESC = 'Checks if you\'r executor has vulns'}
+CMDs[#CMDs + 1] = {NAME = 'vulnscheck / vulns / vuln', DESC = 'Checks if your executor has vulns'}
 CMDs[#CMDs + 1] = {NAME = 'antibang', DESC = 'Prevents you from getting raped'}
 CMDs[#CMDs + 1] = {NAME = 'unantibang', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
@@ -4806,6 +4824,7 @@ CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DE
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = "vulnspatch / vpatcher / vulnspatcher", DESC = 'Attemps to patch some vulns'}
+CMDs[#CMDs + 1] = {NAME = 'chatspy', DESC = 'Loads chatspy.'}
 task.wait()
 
 for i = 1, #CMDs do
@@ -13404,6 +13423,11 @@ addcmd('thawunanchored',{'thawua','unfreezeunanchored','unfreezeua'},function(ar
 	else
 		notify('Incompatible Exploit','Your exploit does not support this command (missing sethiddenproperty)')
 	end
+end)
+
+addcmd('chatspy', {}, function(args, speaker)
+	notify('Loading', 'Should be loaded in a second..')
+	loadstring(game:HttpGet("https://github.com/dehoisted/Chat-Spy/raw/main/source/main.lua"))()
 end)
 
 addcmd('tpunanchored',{'tpua'},function(args, speaker)
