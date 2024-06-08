@@ -232,7 +232,7 @@ if os.date("*t", os.time()).month == 4 then
 	Title.Text = "Infinite Yiff UwU~ v"  .. currentVersion
 else
 	if string.find(currentVersion, '6.1') then
-		Title.text = "Rise " .. currentVersion
+		Title.Text = "Rise " .. currentVersion
 	else
 		Title.Text = "Infinite Yield Reborn v"  .. currentVersion
 	end
@@ -4347,7 +4347,7 @@ task.spawn(function()
 				end
 			end)
 		end)
-		
+
 		COREGUI.ExperienceChat.appLayout.ChildAdded:Connect(function(newbar)
 			task.wait()
 			if newbar:FindFirstChild('TextBoxContainer') then
@@ -6885,7 +6885,7 @@ local canOpenServerIist = true
 addcmd('serverlist',{'slist'},function(args, speaker)
 	if httprequest then
 		local listreq = httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)})
-        local listbody = HttpService:JSONDecode(listreq.Body)
+		local listbody = HttpService:JSONDecode(listreq.Body)
 		if listbody and listbody.data then
 			if not canOpenServerIist then return end
 			task.spawn(function()
@@ -6899,7 +6899,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				local refreshbutton = Instance.new("TextButton")
 				local ScrollingFrame = Instance.new("ScrollingFrame")
 				local UIListLayout = Instance.new("UIListLayout")
-	
+
 				FRAME.Name = randomString()
 				FRAME.Parent = PARENT
 				FRAME.Active = true
@@ -6908,7 +6908,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				FRAME.Size = UDim2.new(0, 450, 0, 20)
 				FRAME.ZIndex = 10
 				dragGUI(FRAME)
-	
+
 				shadow.Name = "shadow"
 				shadow.Parent = FRAME
 				shadow.BackgroundColor3 = currentShade2
@@ -6916,7 +6916,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				shadow.Size = UDim2.new(0, 450, 0, 20)
 				shadow.ZIndex = 10
 				table.insert(shade2,shadow)
-	
+
 				PopupText.Name = "PopupText"
 				PopupText.Parent = shadow
 				PopupText.BackgroundTransparency = 1
@@ -6928,7 +6928,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				PopupText.TextColor3 = currentText1
 				PopupText.TextWrapped = true
 				table.insert(text1,PopupText)
-	
+
 				Exit.Name = "Exit"
 				Exit.Parent = shadow
 				Exit.BackgroundTransparency = 1
@@ -6936,7 +6936,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				Exit.Size = UDim2.new(0, 20, 0, 20)
 				Exit.Text = ""
 				Exit.ZIndex = 10
-	
+
 				ExitImage.Parent = Exit
 				ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
 				ExitImage.BackgroundTransparency = 1
@@ -6944,7 +6944,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				ExitImage.Size = UDim2.new(0, 10, 0, 10)
 				ExitImage.Image = "rbxassetid://5054663650"
 				ExitImage.ZIndex = 10
-	
+
 				refreshbutton.Name = "RefreshButton"
 				refreshbutton.Parent = shadow
 				refreshbutton.Text = "Refresh"
@@ -6957,7 +6957,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				refreshbutton.TextColor3 = currentText1
 				refreshbutton.TextWrapped = true
 				refreshbutton.BorderSizePixel = 0
-	
+
 				background.Name = "background"
 				background.Parent = FRAME
 				background.Active = true
@@ -6967,7 +6967,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				background.Size = UDim2.new(0, 450, 0, 250)
 				background.ZIndex = 10
 				table.insert(shade1,background)
-	
+
 				ScrollingFrame.Name = "ScrollingFrame"
 				ScrollingFrame.Parent = background
 				ScrollingFrame.Active = true
@@ -6976,7 +6976,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				ScrollingFrame.BackgroundTransparency = 1
 				ScrollingFrame.ScrollBarImageColor3 = Color3.new(255,255,255)
 				ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-	
+
 				UIListLayout.Parent = ScrollingFrame
 				UIListLayout.Name = "UIListLayout"
 				UIListLayout.Padding = UDim.new(0,5)
@@ -6993,14 +6993,14 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 							local frame2 = Instance.new("Frame")
 							local UIGradient = Instance.new("UIGradient")
 							local joinbutton = Instance.new("TextButton")
-	
+
 							frame1.Name = "Server"..tostring(i)
 							frame1.ZIndex = 10
 							frame1.BackgroundColor3 = currentShade3
 							frame1.BorderSizePixel = 0
 							frame1.Size = UDim2.new(0,438,0,125)
 							frame1.Parent = ScrollingFrame
-	
+
 							textlabel.ZIndex = 10
 							textlabel.Size = UDim2.new(1,0,1,0)
 							textlabel.Text = "Server "..tostring(i)
@@ -7011,17 +7011,17 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 							textlabel.BackgroundTransparency = 1
 							textlabel.TextTransparency = 0.85
 							textlabel.Parent = frame1
-	
+
 							frame2.ZIndex = 11
 							frame2.BorderSizePixel = 0
 							frame2.Size = UDim2.new(1,0,1,0)
 							frame2.Parent = frame1
-	
+
 							UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.312,0,0),NumberSequenceKeypoint.new(1,1,0)}
 							UIGradient.Rotation = 15
 							UIGradient.Color = ColorSequence.new(currentShade3)
 							UIGradient.Parent = frame2
-	
+
 							if v.id ~= game.JobId then
 								joinbutton.Name = "JoinButton"
 								joinbutton.ZIndex = 11
@@ -7036,7 +7036,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 								end)
 								joinbutton.Parent = frame2
 							end
-	
+
 							textlabel2.ZIndex = 11
 							textlabel2.Size = UDim2.new(0,116,0,35)
 							if v.id ~= game.JobId then
@@ -7049,16 +7049,16 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 							textlabel2.TextWrapped = true
 							textlabel2.BackgroundTransparency = 1
 							textlabel2.Parent = frame2
-	
+
 							textlabel3.ZIndex = 11
 							textlabel3.Size = UDim2.new(0,100,0,35)
 							textlabel3.Position = UDim2.new(0,0,0.16,0)
 							textlabel3.Text = "Players: "..v.playing.."/"..v.maxPlayers
-	
+
 							textlabel3.TextColor3 = currentText1
 							textlabel3.BackgroundTransparency = 1
 							textlabel3.Parent = frame2
-	
+
 							textlabel4.ZIndex = 11
 							textlabel4.Size = UDim2.new(0,100,0,35)
 							textlabel4.Position = UDim2.new(0,0,0.304,0)
@@ -7066,7 +7066,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 							textlabel4.TextColor3 = currentText1
 							textlabel4.BackgroundTransparency = 1
 							textlabel4.Parent = frame2
-	
+
 							textlabel5.ZIndex = 11
 							textlabel5.Size = UDim2.new(0,100,0,35)
 							textlabel5.Position = UDim2.new(0,0,0.44,0)
@@ -7074,7 +7074,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 							textlabel5.TextColor3 = currentText1
 							textlabel5.BackgroundTransparency = 1
 							textlabel5.Parent = frame2
-	
+
 							textlabel6.ZIndex = 11
 							textlabel6.Size = UDim2.new(0,265,0,35)
 							textlabel6.Position = UDim2.new(0,0,0.72,0)
@@ -7096,11 +7096,11 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 						end
 					end)
 					listreq = httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)})
-        			listbody = HttpService:JSONDecode(listreq.Body)
+					listbody = HttpService:JSONDecode(listreq.Body)
 					task.wait(.5)
 					addservertemplate()
 				end)
-	
+
 				FRAME:TweenPosition(UDim2.new(0.5, -225, 0, 100), "InOut", "Quart", 0.5, true, nil) 
 				task.wait(0.5)
 				Exit.MouseButton1Click:Connect(function()
@@ -7748,7 +7748,7 @@ local canOpenWeao = true
 addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 	if httprequest then
 		local listreq = httprequest({Url = "https://whatexpsare.online/api/status"})
-        local listbody = HttpService:JSONDecode(listreq.Body)
+		local listbody = HttpService:JSONDecode(listreq.Body)
 		if listbody and listbody.data then
 			if not canOpenWeao then return end
 			task.spawn(function()
@@ -7761,7 +7761,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 				local background = Instance.new("Frame")
 				local ScrollingFrame = Instance.new("ScrollingFrame")
 				local UIListLayout = Instance.new("UIListLayout")
-	
+
 				FRAME.Name = randomString()
 				FRAME.Parent = PARENT
 				FRAME.Active = true
@@ -7770,7 +7770,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 				FRAME.Size = UDim2.new(0, 450, 0, 20)
 				FRAME.ZIndex = 10
 				dragGUI(FRAME)
-	
+
 				shadow.Name = "shadow"
 				shadow.Parent = FRAME
 				shadow.BackgroundColor3 = currentShade2
@@ -7778,7 +7778,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 				shadow.Size = UDim2.new(0, 450, 0, 20)
 				shadow.ZIndex = 10
 				table.insert(shade2,shadow)
-	
+
 				PopupText.Name = "PopupText"
 				PopupText.Parent = shadow
 				PopupText.BackgroundTransparency = 1
@@ -7790,7 +7790,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 				PopupText.TextColor3 = currentText1
 				PopupText.TextWrapped = true
 				table.insert(text1,PopupText)
-	
+
 				Exit.Name = "Exit"
 				Exit.Parent = shadow
 				Exit.BackgroundTransparency = 1
@@ -7798,7 +7798,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 				Exit.Size = UDim2.new(0, 20, 0, 20)
 				Exit.Text = ""
 				Exit.ZIndex = 10
-	
+
 				ExitImage.Parent = Exit
 				ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
 				ExitImage.BackgroundTransparency = 1
@@ -7806,7 +7806,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 				ExitImage.Size = UDim2.new(0, 10, 0, 10)
 				ExitImage.Image = "rbxassetid://5054663650"
 				ExitImage.ZIndex = 10
-	
+
 				background.Name = "background"
 				background.Parent = FRAME
 				background.Active = true
@@ -7816,7 +7816,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 				background.Size = UDim2.new(0, 450, 0, 250)
 				background.ZIndex = 10
 				table.insert(shade1,background)
-	
+
 				ScrollingFrame.Name = "ScrollingFrame"
 				ScrollingFrame.Parent = background
 				ScrollingFrame.Active = true
@@ -7825,7 +7825,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 				ScrollingFrame.BackgroundTransparency = 1
 				ScrollingFrame.ScrollBarImageColor3 = Color3.new(255,255,255)
 				ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-	
+
 				UIListLayout.Parent = ScrollingFrame
 				UIListLayout.Name = "UIListLayout"
 				UIListLayout.Padding = UDim.new(0,5)
@@ -7841,7 +7841,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 							local textlabel6 = Instance.new("TextLabel")
 							local frame2 = Instance.new("Frame")
 							local UIGradient = Instance.new("UIGradient")
-			
+
 							frame1.Name = "Exploit "..tostring(i)
 							frame1.ZIndex = 10
 							frame1.BorderSizePixel = 0
@@ -7853,7 +7853,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 							if v.updateStatus == false then
 								frame1.BackgroundColor3 = Color3.fromRGB(250,128,114)
 							end
-			
+
 							textlabel.ZIndex = 10
 							textlabel.Size = UDim2.new(1,0,1,0)
 							textlabel.Text = "Exploit "..tostring(i)
@@ -7864,17 +7864,17 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 							textlabel.BackgroundTransparency = 1
 							textlabel.TextTransparency = 0.85
 							textlabel.Parent = frame1
-			
+
 							frame2.ZIndex = 11
 							frame2.BorderSizePixel = 0
 							frame2.Size = UDim2.new(1,0,1,0)
 							frame2.Parent = frame1
-			
+
 							UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.312,0,0),NumberSequenceKeypoint.new(1,1,0)}
 							UIGradient.Rotation = 15
 							UIGradient.Color = ColorSequence.new(currentShade3)
 							UIGradient.Parent = frame2
-			
+
 							textlabel2.ZIndex = 11
 							textlabel2.Size = UDim2.new(0,116,0,35)
 							textlabel2.Text = v.title
@@ -7883,7 +7883,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 							textlabel2.TextWrapped = true
 							textlabel2.BackgroundTransparency = 1
 							textlabel2.Parent = frame2
-			
+
 							textlabel3.ZIndex = 11
 							textlabel3.Size = UDim2.new(0,100,0,35)
 							textlabel3.Position = UDim2.new(0,0,0.16,0)
@@ -7895,7 +7895,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 							textlabel3.TextColor3 = currentText1
 							textlabel3.BackgroundTransparency = 1
 							textlabel3.Parent = frame2
-			
+
 							textlabel4.ZIndex = 11
 							textlabel4.Size = UDim2.new(0,100,0,35)
 							textlabel4.Position = UDim2.new(0,0,0.304,0)
@@ -7907,7 +7907,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 							textlabel4.TextColor3 = currentText1
 							textlabel4.BackgroundTransparency = 1
 							textlabel4.Parent = frame2
-			
+
 							textlabel5.ZIndex = 11
 							textlabel5.Size = UDim2.new(0,100,0,35)
 							textlabel5.Position = UDim2.new(0,0,0.44,0)
@@ -7919,7 +7919,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 							textlabel5.TextColor3 = currentText1
 							textlabel5.BackgroundTransparency = 1
 							textlabel5.Parent = frame2
-			
+
 							textlabel6.ZIndex = 11
 							textlabel6.Size = UDim2.new(0,265,0,35)
 							textlabel6.Position = UDim2.new(0,0,0.72,0)
@@ -7949,12 +7949,12 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 							end
 						end)
 						local listreq = httprequest({Url = "https://whatexpsare.online/api/status"})
-        				local listbody = HttpService:JSONDecode(listreq.Body)
+						local listbody = HttpService:JSONDecode(listreq.Body)
 						task.wait(.5)
 						addweaotemplate()
 					end
 				end)
-	
+
 				FRAME:TweenPosition(UDim2.new(0.5, -225, 0, 100), "InOut", "Quart", 0.5, true, nil) 
 				task.wait(0.5)
 				Exit.MouseButton1Click:Connect(function()
