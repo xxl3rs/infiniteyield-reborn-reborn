@@ -35,7 +35,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.1.0'
+currentVersion = '6.1.1'
 
 -- GOTO line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff, Add more bang type commands.
@@ -7827,7 +7827,6 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 			UIListLayout.Name = "UIListLayout"
 			UIListLayout.Padding = UDim.new(0,5)
 			local weaoReq = httprequest({Url = "https://weao.azula.wtf/"})
-			print(weaoReq.Body)
 			local weaoBody = HttpService:JSONDecode(weaoReq.Body)
         	if weaoBody then
 				local function addweaotemplate()
