@@ -6982,7 +6982,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 				UIListLayout.Padding = UDim.new(0,5)
 				local function addservertemplate()
 					task.spawn(function()
-						for i,v in ipairs(serverlist.data) do
+						for i,v in ipairs(listbody.data) do
 							local frame1 = Instance.new("Frame")
 							local textlabel = Instance.new("TextLabel")
 							local textlabel2 = Instance.new("TextLabel")
