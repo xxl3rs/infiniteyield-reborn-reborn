@@ -4393,66 +4393,66 @@ function autoComplete(str,curText)
 	Cmdbar.CursorPosition = #Cmdbar.Text+1--1020
 end
 
-local L_1_ = Players.LocalPlayer
-local L_2_, L_3_, L_4_
+local Player = Players.LocalPlayer
+local Character, Humanoid, RootPart
 
-local L_5_ = workspace.CurrentCamera
+local Camera = workspace.CurrentCamera
 
-local L_6_ = false
+local IsVoiding = false
 
-local L_7_ = function()
-	if L_4_ then
-		for L_8_forvar1, L_9_forvar2 in next, Players:GetPlayers() do
-			if L_9_forvar2 ~= Player then
-				local L_10_ = L_9_forvar2.Character
-				local L_11_ = L_10_ and L_10_:FindFirstChildWhichIsA("Humanoid")
-				local L_12_ = L_11_ and L_11_.RootPart
+local GetNearestPlayers = function()
+    if RootPart then
+        for _, x in next, Players:GetPlayers() do
+            if x ~= Player then
+                local x_Character = x.Character
+                local x_Humanoid = x_Character and x_Character:FindFirstChildWhichIsA("Humanoid")
+                local x_RootPart = x_Humanoid and x_Humanoid.RootPart
 
-				if L_12_ and (L_4_.Position - L_12_.Position).Magnitude < 2 then
-					for L_13_forvar1, L_14_forvar2 in next, L_11_:GetPlayingAnimationTracks() do
-						if L_14_forvar2.Animation and L_14_forvar2.Animation.AnimationId:match("148840371") or L_14_forvar2.Animation.AnimationId:match("5918726674") then
-							return true
-						end
-					end
+                if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude < 2 then
+                    for _, x in next, x_Humanoid:GetPlayingAnimationTracks() do
+                        if x.Animation and x.Animation.AnimationId:match("148840371") or x.Animation.AnimationId:match("5918726674") then
+                            return true
+                        end
+                    end
 
-					return false
-				end
-			end
-		end
-	end
+                    return false
+                end
+            end
+        end
+    end
 
-	return false
+    return false
 end
 
 spawn(function()
 	while true do
-		if X_AZULANTIBANG_ENABLED then
-			L_2_ = L_1_.Character
-			L_3_ = L_2_ and L_2_:FindFirstChildWhichIsA("Humanoid")
-			L_4_ = L_3_ and L_3_.RootPart
+		if (AntiBangEnabled) then
+			Character = Player.Character
+			Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
+			RootPart = Humanoid and Humanoid.RootPart
 
-			if L_7_() and L_3_ and L_4_ and not L_6_ then
-				L_6_ = true
+			if GetNearestPlayers() and Humanoid and RootPart and not IsVoiding then
+				IsVoiding = true
 
-				local L_15_ = L_4_.Velocity.Magnitude < 50 and L_4_.CFrame or L_5_.Focus
-				local L_16_ = tick()
+				local CurrentPosition = RootPart.Velocity.Magnitude < 50 and RootPart.CFrame or Camera.Focus
+				local Timer = tick()
 
 				repeat
-					L_4_.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
-					L_4_.AssemblyLinearVelocity = Vector3.new()
+					RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
+					RootPart.AssemblyLinearVelocity = Vector3.new()
 					task.wait()
-				until tick() > L_16_ + 1
+				until tick() > Timer + 1
 
-				L_4_.AssemblyLinearVelocity = Vector3.new()
-				L_4_.CFrame = L_15_
+				RootPart.AssemblyLinearVelocity = Vector3.new()
+				RootPart.CFrame = CurrentPosition
 
-				L_3_:ChangeState(Enum.HumanoidStateType.GettingUp)
+				Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
 
-				L_6_ = false
+				IsVoiding = false
 			end
-		end
 
-		task.wait()
+			task.wait()
+		end
 	end
 end)
 
@@ -11338,12 +11338,12 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 end)
 
 addcmd("antibang",{},function(args, speaker)
-	X_AZULANTIBANG_ENABLED = true
+	AntiBangEnabled = true
 	notify("Antibang","Anti-bang has been started.")
 end)
 
 addcmd("unantibang",{},function(args, speaker)
-	X_AZULANTIBANG_ENABLED = false
+	AntiBangEnabled = false
 	notify("AntiBang","Anti-bang has been stopped.")
 end)
 
