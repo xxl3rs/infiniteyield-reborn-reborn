@@ -1975,18 +1975,16 @@ devblacklist = {
 	"ck_2"
 }
 
-if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-	isChatModule = "New"
-else
-	isChatModule = "Legacy"
-end
+local IsLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
+local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
+local Channel = not IsLegacy and TextChatService.TextChannels.RBXGeneral
 
-local function chatSend(str)
-	if isChatModule == "New" then
-		game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync(str)
-	elseif isChatModule == "Legacy" then
-		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(str, "All")
-	end
+local function chatSend(message)
+    if IsLegacy then
+        ChatRemote:FireServer(message, "All")
+    else
+        Channel:SendAsync(message)
+    end
 end
 
 function writefileExploit()
