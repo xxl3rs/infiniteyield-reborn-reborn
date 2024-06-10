@@ -4450,9 +4450,9 @@ spawn(function()
 
 				IsVoiding = false
 			end
-
-			task.wait()
 		end
+
+		task.wait()
 	end
 end)
 
