@@ -6861,7 +6861,7 @@ addcmd("serverhop", {"shop"}, function(args, speaker)
 	-- thanks to NoobSploit (also fb_real for adding a reason why isnt working) for fixing
 	if httprequest then
 		local servers = {}
-		local req = httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)})
+		local req = httprequest({Url = string.format("https://api.infiniteyieldreborn.xyz/servers?placeId=%d", PlaceId)})
 		local body = HttpService:JSONDecode(req.Body)
 		if body and body.data then
 			for i, v in next, body.data do
@@ -6884,7 +6884,7 @@ end)
 local canOpenServerIist = true
 addcmd('serverlist',{'slist'},function(args, speaker)
 	if httprequest then
-		local listreq = httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)})
+		local listreq = httprequest({Url = string.format("https://api.infiniteyieldreborn.xyz/servers?placeId=%d", PlaceId)})
 		local listbody = HttpService:JSONDecode(listreq.Body)
 		if listbody and listbody.data then
 			if not canOpenServerIist then return end
@@ -7095,7 +7095,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 							end
 						end
 					end)
-					listreq = httprequest({Url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Desc&limit=100&excludeFullGames=true", PlaceId)})
+					listreq = httprequest({Url = string.format("https://api.infiniteyieldreborn.xyz/servers?placeId=%d", PlaceId)})
 					listbody = HttpService:JSONDecode(listreq.Body)
 					task.wait(.5)
 					addservertemplate()
@@ -7826,7 +7826,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 			UIListLayout.Parent = ScrollingFrame
 			UIListLayout.Name = "UIListLayout"
 			UIListLayout.Padding = UDim.new(0,5)
-			local weaoReq = httprequest({Url = "https://weao.azula.wtf/"})
+			local weaoReq = httprequest({Url = "https://api.infiniteyieldreborn.xyz/weao"})
 			local weaoBody = HttpService:JSONDecode(weaoReq.Body)
         	if weaoBody then
 				local function addweaotemplate()
@@ -7944,7 +7944,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 								v:Destroy()
 							end
 						end
-						weaoReq = httprequest({Url = "https://weao.azula.wtf/"})
+						weaoReq = httprequest({Url = "https://api.infiniteyieldreborn.xyz/weao"})
 						weaoBody = HttpService:JSONDecode(weaoReq.Body)
 						task.wait(.5)
 						addweaotemplate()
