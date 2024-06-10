@@ -7744,6 +7744,7 @@ local canOpenWeao = true
 addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 	if httprequest then
 		if not canOpenWeao then return end
+		task.spawn(function()
 			canOpenWeao = false
 			local FRAME = Instance.new("Frame")
 			local shadow = Instance.new("Frame")
@@ -7925,6 +7926,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 					end
 				end
 				addweaotemplate()
+				task.spawn(function()
 					while task.wait() do
 						if canOpenWeao == true then
 							break
@@ -7943,6 +7945,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 						task.wait(.5)
 						addweaotemplate()
 					end
+				end)
 
 				FRAME:TweenPosition(UDim2.new(0.5, -225, 0, 100), "InOut", "Quart", 0.5, true, nil) 
 				task.wait(0.5)
@@ -7953,6 +7956,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 					canOpenWeao = true
 				end)
 			end
+		end)
 	else
 		notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
 	end
