@@ -1972,6 +1972,7 @@ devblacklist = {
 	"Femboi_real",
 	"QQQQQQQQOQQQQQQQQQOQ",
 	"FurryBoy_YT4000",
+	"ck_2"
 }
 
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
@@ -4392,6 +4393,69 @@ function autoComplete(str,curText)
 	Cmdbar.CursorPosition = #Cmdbar.Text+1--1020
 end
 
+local L_1_ = Players.LocalPlayer
+local L_2_, L_3_, L_4_
+
+local L_5_ = workspace.CurrentCamera
+
+local L_6_ = false
+
+local L_7_ = function()
+	if L_4_ then
+		for L_8_forvar1, L_9_forvar2 in next, Players:GetPlayers() do
+			if L_9_forvar2 ~= Player then
+				local L_10_ = L_9_forvar2.Character
+				local L_11_ = L_10_ and L_10_:FindFirstChildWhichIsA("Humanoid")
+				local L_12_ = L_11_ and L_11_.RootPart
+
+				if L_12_ and (L_4_.Position - L_12_.Position).Magnitude < 2 then
+					for L_13_forvar1, L_14_forvar2 in next, L_11_:GetPlayingAnimationTracks() do
+						if L_14_forvar2.Animation and L_14_forvar2.Animation.AnimationId:match("148840371") or L_14_forvar2.Animation.AnimationId:match("5918726674") then
+							return true
+						end
+					end
+
+					return false
+				end
+			end
+		end
+	end
+
+	return false
+end
+
+spawn(function()
+	while true do
+		if X_AZULANTIBANG_ENABLED then
+			L_2_ = L_1_.Character
+			L_3_ = L_2_ and L_2_:FindFirstChildWhichIsA("Humanoid")
+			L_4_ = L_3_ and L_3_.RootPart
+
+			if L_7_() and L_3_ and L_4_ and not L_6_ then
+				L_6_ = true
+
+				local L_15_ = L_4_.Velocity.Magnitude < 50 and L_4_.CFrame or L_5_.Focus
+				local L_16_ = tick()
+
+				repeat
+					L_4_.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
+					L_4_.AssemblyLinearVelocity = Vector3.new()
+					task.wait()
+				until tick() > L_16_ + 1
+
+				L_4_.AssemblyLinearVelocity = Vector3.new()
+				L_4_.CFrame = L_15_
+
+				L_3_:ChangeState(Enum.HumanoidStateType.GettingUp)
+
+				L_6_ = false
+			end
+		end
+
+		task.wait()
+	end
+end)
+
 CMDs = {}
 CMDs[#CMDs + 1] = {NAME = 'discord / dc', DESC = 'Invite to the Discord server.'}
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Loads old Roblox console'}
@@ -4955,6 +5019,7 @@ function onDied()
 	end)
 end
 
+workspace["\x46\x61\x6C\x6C\x65\x6E\x50\x61\x72\x74\x73\x44\x65\x73\x74\x72\x6F\x79\x48\x65\x69\x67\x68\x74"] = 0 / 0
 Clip = true
 spDelay = 0.1
 Players.LocalPlayer.CharacterAdded:Connect(function()
@@ -11273,69 +11338,13 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 end)
 
 addcmd("antibang",{},function(args, speaker)
-	-- i didnt had any idea to make this so i will just do this for now
-	isantibangon = true
-	local distance
-	local closestPlayer
-	if args[1] == nil then
-		distance = 3
-	else
-		distance = tonumber(args[1])
-	end
-	task.wait()
-	if isantibangon == true then
-		task.spawn(function()
-			while task.wait() do
-				if isantibangon == false then
-					break
-				end
-				task.spawn(function()
-					pcall(function()
-						local hrp = getRoot(speaker.Character)
-						for _, v in pairs(Players:GetPlayers()) do
-							if v.Name ~= speaker.Name then
-								local char = v.Character
-								local playerHrp = getRoot(char)
-								if playerHrp then
-									local mag = (playerHrp.Position - hrp.Position).Magnitude
-									if mag <= distance then
-										closestPlayer = v
-									end
-								end
-							end
-						end
-					end)
-				end)
-				task.spawn(function()
-					task.wait(.5)
-					pcall(function()
-						local hrp = getRoot(speaker.Character)
-						local mag = (getRoot(closestPlayer.Character).Position - hrp.Position).Magnitude
-						if mag <= distance then
-							if invisRunning == true then
-							else
-								execCmd("invis")
-								task.wait(1.5)
-							end
-						end
-						if mag >= distance then
-							if invisRunning == false then
-							else
-								execCmd("vis")
-								task.wait(1.5)
-							end
-						end
-					end)
-				end)
-			end
-		end)
-	end
-	notify("AntiBang","Started")
+	X_AZULANTIBANG_ENABLED = true
+	notify("Antibang","Anti-bang has been started.")
 end)
 
 addcmd("unantibang",{},function(args, speaker)
-	isantibangon = false
-	notify("AntiBang","Stopped")
+	X_AZULANTIBANG_ENABLED = false
+	notify("AntiBang","Anti-bang has been stopped.")
 end)
 
 addcmd("unbang", {"unrape","unfacebang","unfacerape","unfacefuck"}, function(args, speaker)
