@@ -12866,7 +12866,7 @@ if game.PlaceId ~= 574746640 then
 		local Tool = speaker.Character.FindFirstChildWhichIsA(speaker.Character, "Tool")
 		local Handle = Tool and Tool.FindFirstChild(Tool, "Handle")
 		if not Tool or not Handle then
-			return notify("Handle Kill", "You need to hold a \"Tool\" that does damage on touch. For example the default \"Sword\" tool.")
+			return notify("Handle Kill", "You need to hold a \"Tool\" that does damage on touch. For example, the default \"Sword\" tool.")
 		end
 		for _, v in ipairs(getPlayer(args[1], speaker)) do
 			v = Players[v]
