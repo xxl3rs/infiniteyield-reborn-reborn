@@ -1,19 +1,20 @@
 --[[
-	Hello! You might wonder why it's not executing.
-	or wondered if the script is obfuscated or not
+	Hello! You might wonder why Infinite Yield Reborn is not executing.
+        You may have also wondered if the script is obfuscated or not. As you can see, it isn't.
 
-	This can possibly mean that your executor does not support Luau syntax
+	If IY Reborn is not executing, this can possibly mean that your executor does not support Luau syntax.
+
 	To check if it supports Luau syntax, run this:
-
-	-- If you see the message "Supported" in console (F9 or /console in chat) then the issue is probably different.
 	print(true and "Supported" or "This shouldn't be printed")
 
-	or
+	If you see the message "Supported" in console (F9 or /console in chat) then the issue is probably different.
 
-	-- If it prints then then the issue is probably different.
+	You can also run these lines too:
 	local test = 1
-	test += 1
+	test += 1 -- Normal Lua doesn't have this feature. You'd have to use "test = test + 1"
 	print(test)
+
+	If it prints without any errors, then the issue is probably different.
 ]]--
 
 if IY_LOADED and not _G.IY_DEBUG == true then
