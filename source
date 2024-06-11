@@ -4709,7 +4709,7 @@ CMDs[#CMDs + 1] = {NAME = 'rolewatch [group id] [role name]', DESC = 'Notify if 
 CMDs[#CMDs + 1] = {NAME = 'rolewatchstop / unrolewatch', DESC = 'Disable Rolewatch'}
 CMDs[#CMDs + 1] = {NAME = 'rolewatchleave', DESC = 'Toggle if you should leave the game if someone from a watched group joins the server'}
 CMDs[#CMDs + 1] = {NAME = 'attach [player] (TOOL)', DESC = 'Attaches you to a player (YOU NEED A TOOL)'}
-if game.PlaceId ~= 574746640 then
+-- if game.PlaceId ~= 574746640 then
 	CMDs[#CMDs + 1] = {NAME = 'kill [player] (TOOL)', DESC = 'Kills a player (YOU NEED A TOOL)'}
 	CMDs[#CMDs + 1] = {NAME = 'fastkill [player] (TOOL)', DESC = 'Kills a player (less reliable) (YOU NEED A TOOL)'}
 	CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
@@ -4718,7 +4718,7 @@ if game.PlaceId ~= 574746640 then
 	CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
 	CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
 	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set amount of times'}
-else
+--[[ else
 	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 	CMDs[#CMDs + 1] = {NAME = '-- 4nn1\'s Place --', DESC = 'Commands for 4nn1\'s Place'}
 	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
@@ -4731,7 +4731,7 @@ else
 	CMDs[#CMDs + 1] = {NAME = 'sitcat / unexplodablecat', DESC = 'Removes network ownership from cats'}
 	CMDs[#CMDs + 1] = {NAME = 'bombvest [cat]', DESC = 'Puts the selected cat in your torso'}
 	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
-end
+end ]]
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
 CMDs[#CMDs + 1] = {NAME = 'flyfling', DESC = 'Basically the invisfling command but not invisible'}
@@ -12499,11 +12499,9 @@ addcmd('kill',{'fekill'},function(args, speaker)
 	end
 end)
 
---[[
-	4nn1's Place: START
-]]
+--[[ 4nn1's Place: START ]] --
 
---// Functions
+-- // Functions \\ --
 
 local function catSelector(cat)
 	local catStr = "Undefined"
@@ -12527,10 +12525,10 @@ local function getHRP(model)
 	return model:FindFirstChild("HumanoidRootPart")
 end
 
---// Commands
+-- // Commands \\ --
 
--- guess how many ct.CFrame = hrp.CFrame there ARE!
-if game.PlaceId == 574746640 then
+-- guess how many ct.CFrame = hrp.CFrame there ARE! --
+--[[ if game.PlaceId == 574746640 then
 	addcmd("dig",{"terriandig","removeterrian","digterrian"},function(args, speaker)
 		notify("Digging!")
 		local hrp = getRoot(speaker.Character)
@@ -12576,6 +12574,7 @@ if game.PlaceId == 574746640 then
 		task.wait(.4)
 		cat:FindFirstChild("Humanoid"):TakeDamage(180)
 	end)
+
 	addcmd("bringnpcs",{"bringallnpcs","brn","bringall"},function(args,speaker)
 		local hrp = getRoot(speaker.Character)
 		local oldpos = hrp.CFrame
@@ -12597,6 +12596,7 @@ if game.PlaceId == 574746640 then
 		end
 		hrp.CFrame = oldpos
 	end)
+
 	local itemspamenabled = false
 	addcmd('dupetools',{'clonetools','itemdupe','itemspam','is'},function(args,speaker)
 		itemspamenabled = true
@@ -12642,9 +12642,11 @@ if game.PlaceId == 574746640 then
 			end
 		end)
 	end)
+
 	addcmd('undupetools',{'unclonetools','unitemdupe','unitemspam','unis'},function(args,speaker)
 		itemspamenabled = false
 	end)
+
 	local spamtimeenabled = false
 	addcmd('spamtime',{'stime','flash'},function(args,speaker)
 		notify('Spamtime enabled')
@@ -12660,10 +12662,12 @@ if game.PlaceId == 574746640 then
 			end
 		end)
 	end)
+
 	addcmd('unspamtime',{'unstime','unflash'},function(args,speaker)
 		notify('Spamtime disabled')
 		spamtimeenabled = false
 	end)
+
 	addcmd('sitcat',{"unexplodablecat"},function(args,speaker)
 		if args[1] then
 			if args[1] == "accept" then
@@ -12690,6 +12694,7 @@ if game.PlaceId == 574746640 then
 			notify("This will make cats unusable.. Run 'sitcat accept' to make it unusable")
 		end
 	end)
+
 	addcmd('bombvest',{'bvest'},function(args,speaker)
 		local Humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
 		if not Humanoid then
@@ -12794,10 +12799,11 @@ if game.PlaceId == 574746640 then
 
 		--task.spawn(report)
 	end)
-else
-	--[[
-		4nn1's Place: END
-	]]
+end ]]
+
+--[[ 4nn1's Place: END ]] --
+
+if game.PlaceId ~= 574746640 then
 	addcmd('dupetools', {'clonetools'}, function(args, speaker)
 		local LOOP_NUM = tonumber(args[1]) or 1
 		local OrigPos = speaker.Character.HumanoidRootPart.Position
@@ -12851,6 +12857,7 @@ else
 			TempPos = TempPos + Vector3.new(10, math.random(-5, 5), 0)
 		end
 	end)
+
 	addcmd('handlekill', {'hkill'}, function(args, speaker)
 		if not firetouchinterest then
 			return notify('Incompatible Exploit', 'Your exploit does not support this command (missing firetouchinterest)')
@@ -12877,6 +12884,7 @@ else
 			end)
 		end
 	end)
+
 	addcmd('tp',{'teleport'},function(args, speaker)
 		local players1=getPlayer(args[1], speaker)
 		local players2=getPlayer(args[2], speaker)
@@ -12904,6 +12912,7 @@ else
 			end
 		end
 	end)
+
 	addcmd('bring',{'febring'},function(args, speaker)
 		local players = getPlayer(args[1], speaker)
 		for i,v in pairs(players) do
@@ -12917,12 +12926,14 @@ else
 			bring(speaker,Players[v],true)
 		end
 	end)
+
 	addcmd('fastkill',{'fastfekill'},function(args, speaker)
 		local players = getPlayer(args[1], speaker)
 		for i,v in pairs(players) do
 			kill(speaker,Players[v],true)
 		end
 	end)
+
 	addcmd('attach',{},function(args, speaker)
 		local players = getPlayer(args[1], speaker)
 		for i,v in pairs(players) do
