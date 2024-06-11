@@ -35,7 +35,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.1.6'
+currentVersion = '6.1.7'
 
 -- GOTO line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff, Add more bang type commands.
@@ -4886,8 +4886,8 @@ CMDs[#CMDs + 1] = {NAME = 'antifling', DESC = 'Attempts to prevent you from flin
 CMDs[#CMDs + 1] = {NAME = 'unantifling', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'vulnscheck / vulns / vuln', DESC = 'Checks if your executor has vulns'}
 CMDs[#CMDs + 1] = {NAME = 'antibang', DESC = 'Prevents you from getting raped'}
-CMDs[#CMDs + 1] = {NAME = 'unantibang', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'animcheck', DESC = 'Checks for any possible animations used in bang for the antibang command before triggering the prevention'}
+CMDs[#CMDs + 1] = {NAME = 'mantibang', DESC = 'Manually triggers the AntiBang sequence (Not subjectible to animcheck)'}
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DESC = 'What exploits are online!?'}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
@@ -11343,19 +11343,34 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 end)
 
 addcmd("antibang",{},function(args, speaker)
-	AntiBangEnabled = true
-	notify("Antibang","Anti-bang has been started.")
-end)
-
-addcmd("unantibang",{},function(args, speaker)
-	AntiBangEnabled = false
-	notify("AntiBang","Anti-bang has been stopped.")
+	AntiBangEnabled = not AntiBangEnabled
+	if (AntiBangEnabled) then notify("Antibang","Anti-bang has been started.") else notify("Antibang","Anti-bang has been stopped.") end
 end)
 
 addcmd("animcheck", {}, function(args, speaker)
 	AnimCheck = not AnimCheck
 
 	if (AnimCheck) then notify("AntiBang", "Animation checker has been enabled.") else notify("AntiBang", "Animation checker has been disabled.") end
+end)
+
+addcmd("mantibang", {}, function(args, speaker)
+	IsVoiding = true
+
+	local CurrentPosition = RootPart.Velocity.Magnitude < 50 and RootPart.CFrame or Camera.Focus
+	local Timer = tick()
+
+	repeat
+		RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
+		RootPart.AssemblyLinearVelocity = Vector3.new()
+		task.wait()
+	until tick() > Timer + 1
+
+	RootPart.AssemblyLinearVelocity = Vector3.new()
+	RootPart.CFrame = CurrentPosition
+
+	Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+
+	IsVoiding = false
 end)
 
 addcmd("unbang", {"unrape","unfacebang","unfacerape","unfacefuck"}, function(args, speaker)
