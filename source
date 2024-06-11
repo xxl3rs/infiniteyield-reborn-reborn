@@ -12491,11 +12491,11 @@ end
 addcmd('kill',{'fekill'},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
-		if game.PlaceId ~= 574746640 then
+	--	if game.PlaceId ~= 574746640 then
 			kill(speaker,Players[v])
-		else
-			Ann1kill(speaker,Players[v])
-		end
+	--	else
+	--		Ann1kill(speaker,Players[v])
+	--	end
 	end
 end)
 
@@ -13909,14 +13909,14 @@ task.spawn(function()
 	IntroBackground:Destroy()
 	minimizeHolder()
 	if IsOnMobile then
-		notify("Unstable Device", "On mobile, IYR Has a lot of bugs. Its recommended to use an pc executor (AN ACTUAL FULL UNC EXECUTOR NOT FAKED LIKE SOLARA).")
-		if game.PlaceId == 574746640 then
-			task.wait(3)
-			notify("4nn1's Place","Game Detected! Some commands were added/changed/removed")
-		end
+		notify("Unstable Device", "On mobile, Infinite Yield Reborn has a lot of bugs. It's recommended to use a PC executor (AN ACTUAL FULL UNC EXECUTOR NOT FAKED LIKE SOLARA).")
+	--	if game.PlaceId == 574746640 then
+	--		task.wait(3)
+	--		notify("4nn1's Place", "Game Detected! Some commands were added/changed/removed")
+	--	end
 	else
-		if game.PlaceId == 574746640 then
-			notify("4nn1's Place","Game Detected! Some commands were added/changed/removed")
-		end
+	--	if game.PlaceId == 574746640 then
+	--		notify("4nn1's Place", "Game Detected! Some commands were added/changed/removed")
+	--	end
 	end
 end)
