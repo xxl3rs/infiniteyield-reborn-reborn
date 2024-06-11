@@ -4722,12 +4722,12 @@ CMDs[#CMDs + 1] = {NAME = 'attach [player] (TOOL)', DESC = 'Attaches you to a pl
 	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 	CMDs[#CMDs + 1] = {NAME = '-- 4nn1\'s Place --', DESC = 'Commands for 4nn1\'s Place'}
 	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
-	CMDs[#CMDs + 1] = {NAME = 'dig / terriandig / removeterrian / digterrian', DESC = 'Attempts to dig part of terrian'}
+	CMDs[#CMDs + 1] = {NAME = 'dig / terriandig / removeterrian / digterrian', DESC = 'Attempts to dig part of terrain'}
 	CMDs[#CMDs + 1] = {NAME = 'brn / bringnpcs / bringallnpcs / bringall', DESC = 'Attempts to bring npc(s)'}
 	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools / itemdupe / itemspam / is', DESC = 'Drops items'}
 	CMDs[#CMDs + 1] = {NAME = 'undupetools / unclonetools / unitemdupe / unitemspam / unis', DESC = 'Stops dropping items'}
 	CMDs[#CMDs + 1] = {NAME = 'spamtime / stime / flash [num]', DESC = 'Spams the time by given speed'}
-	CMDs[#CMDs + 1] = {NAME = 'unspamtime / unstime / unflash', DESC = 'Stops Spamming the time'}
+	CMDs[#CMDs + 1] = {NAME = 'unspamtime / unstime / unflash', DESC = 'Stops spamming the time'}
 	CMDs[#CMDs + 1] = {NAME = 'sitcat / unexplodablecat', DESC = 'Removes network ownership from cats'}
 	CMDs[#CMDs + 1] = {NAME = 'bombvest [cat]', DESC = 'Puts the selected cat in your torso'}
 	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
@@ -11285,7 +11285,7 @@ addcmd("bang", {"rape"}, function(args, speaker)
 		for _, v in pairs(players) do
 			if table.find(devblacklist, Players[v].Name) ~= nil then
 				execCmd("unbang")
-				notify("Come on. You can't just do that to a dev.")
+				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
 				return
 			else
 				local bangplr = Players[v].Name
@@ -11326,7 +11326,7 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 		for _, v in pairs(players) do
 			if table.find(devblacklist, Players[v].Name) ~= nil then
 				execCmd("unbang")
-				notify("Come on. You can't just do that to a dev.")
+				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
 				return
 			else
 				local bangplr = Players[v].Name
