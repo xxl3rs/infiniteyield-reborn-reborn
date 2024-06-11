@@ -39,8 +39,8 @@ end
 
 currentVersion = '6.1.7'
 
--- GOTO line 11986 for 4nn1's Place stuff
--- For _Real: Add more useless stuff, Add more bang type commands.
+-- Go to line 11986 for 4nn1's Place stuff
+-- For _Real: Add more useless stuff and also add more bang-type commands.
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -1969,6 +1969,7 @@ PlaceId, JobId = game.PlaceId, game.JobId
 local IsOnMobile = table.find({Enum.Platform.IOS, Enum.Platform.Android}, UserInputService:GetPlatform())
 everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 
+-- Developers for IY Reborn
 devblacklist = {
 	"faceb00k_real",
 	"Femboi_real",
