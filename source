@@ -1983,11 +1983,11 @@ local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
 local Channel = not IsLegacy and TextChatService.TextChannels.RBXGeneral
 
 local function chatSend(message)
-    if IsLegacy then
-        ChatRemote:FireServer(message, "All")
-    else
-        Channel:SendAsync(message)
-    end
+	if IsLegacy then
+		ChatRemote:FireServer(message, "All")
+	else
+		Channel:SendAsync(message)
+	end
 end
 
 function writefileExploit()
@@ -4404,14 +4404,14 @@ local IsVoiding = false
 local AnimCheck = true
 
 local GetNearestPlayers = function()
-    if RootPart then
-        for _, x in next, Players:GetPlayers() do
-            if x ~= Player then
-                local x_Character = x.Character
-                local x_Humanoid = x_Character and x_Character:FindFirstChildWhichIsA("Humanoid")
-                local x_RootPart = x_Humanoid and x_Humanoid.RootPart
+	if RootPart then
+		for _, x in next, Players:GetPlayers() do
+			if x ~= Player then
+				local x_Character = x.Character
+				local x_Humanoid = x_Character and x_Character:FindFirstChildWhichIsA("Humanoid")
+				local x_RootPart = x_Humanoid and x_Humanoid.RootPart
 
-                if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude < 2 then
+				if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude < 2 then
 					if (AnimCheck) then
 						for _, x in next, x_Humanoid:GetPlayingAnimationTracks() do
 							if x.Animation and x.Animation.AnimationId:match("148840371") or x.Animation.AnimationId:match("5918726674") then
@@ -4423,12 +4423,12 @@ local GetNearestPlayers = function()
 					else
 						return true
 					end
-                end
-            end
-        end
-    end
+				end
+			end
+		end
+	end
 
-    return false
+	return false
 end
 
 spawn(function()
@@ -4709,16 +4709,16 @@ CMDs[#CMDs + 1] = {NAME = 'rolewatch [group id] [role name]', DESC = 'Notify if 
 CMDs[#CMDs + 1] = {NAME = 'rolewatchstop / unrolewatch', DESC = 'Disable Rolewatch'}
 CMDs[#CMDs + 1] = {NAME = 'rolewatchleave', DESC = 'Toggle if you should leave the game if someone from a watched group joins the server'}
 CMDs[#CMDs + 1] = {NAME = 'attach [player] (TOOL)', DESC = 'Attaches you to a player (YOU NEED A TOOL)'}
--- if game.PlaceId ~= 574746640 then
-	CMDs[#CMDs + 1] = {NAME = 'kill [player] (TOOL)', DESC = 'Kills a player (YOU NEED A TOOL)'}
-	CMDs[#CMDs + 1] = {NAME = 'fastkill [player] (TOOL)', DESC = 'Kills a player (less reliable) (YOU NEED A TOOL)'}
-	CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
-	CMDs[#CMDs + 1] = {NAME = 'bring [player] (TOOL)', DESC = 'Brings a player (YOU NEED A TOOL)'}
-	CMDs[#CMDs + 1] = {NAME = 'fastbring [player] (TOOL)', DESC = 'Brings a player (less reliable) (YOU NEED A TOOL)'}
-	CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
-	CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
-	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set amount of times'}
---[[ else
+if game.PlaceId ~= 574746640 then
+CMDs[#CMDs + 1] = {NAME = 'kill [player] (TOOL)', DESC = 'Kills a player (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'fastkill [player] (TOOL)', DESC = 'Kills a player (less reliable) (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'bring [player] (TOOL)', DESC = 'Brings a player (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'fastbring [player] (TOOL)', DESC = 'Brings a player (less reliable) (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set amount of times'}
+else
 	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 	CMDs[#CMDs + 1] = {NAME = '-- 4nn1\'s Place --', DESC = 'Commands for 4nn1\'s Place'}
 	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
@@ -4731,7 +4731,7 @@ CMDs[#CMDs + 1] = {NAME = 'attach [player] (TOOL)', DESC = 'Attaches you to a pl
 	CMDs[#CMDs + 1] = {NAME = 'sitcat / unexplodablecat', DESC = 'Removes network ownership from cats'}
 	CMDs[#CMDs + 1] = {NAME = 'bombvest [cat]', DESC = 'Puts the selected cat in your torso'}
 	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
-end ]]
+end
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
 CMDs[#CMDs + 1] = {NAME = 'flyfling', DESC = 'Basically the invisfling command but not invisible'}
@@ -7898,7 +7898,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 			UIListLayout.Padding = UDim.new(0,5)
 			local weaoReq = httprequest({Url = "https://api.infiniteyieldreborn.xyz/weao"})
 			local weaoBody = HttpService:JSONDecode(weaoReq.Body)
-        	if weaoBody then
+			if weaoBody then
 				local function addweaotemplate()
 					for i,v in ipairs(weaoBody[1]) do
 						local frame1 = Instance.new("Frame")
@@ -7910,7 +7910,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 						local textlabel6 = Instance.new("TextLabel")
 						local frame2 = Instance.new("Frame")
 						local UIGradient = Instance.new("UIGradient")
-		
+
 						frame1.Name = "Exploit "..tostring(i)
 						frame1.ZIndex = 10
 						frame1.BorderSizePixel = 0
@@ -7922,7 +7922,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 						if v.updateStatus == false then
 							frame1.BackgroundColor3 = Color3.fromRGB(250,128,114)
 						end
-		
+
 						textlabel.ZIndex = 10
 						textlabel.Size = UDim2.new(1,0,1,0)
 						textlabel.Text = "Exploit "..tostring(i)
@@ -7933,17 +7933,17 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 						textlabel.BackgroundTransparency = 1
 						textlabel.TextTransparency = 0.85
 						textlabel.Parent = frame1
-		
+
 						frame2.ZIndex = 11
 						frame2.BorderSizePixel = 0
 						frame2.Size = UDim2.new(1,0,1,0)
 						frame2.Parent = frame1
-		
+
 						UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.312,0,0),NumberSequenceKeypoint.new(1,1,0)}
 						UIGradient.Rotation = 15
 						UIGradient.Color = ColorSequence.new(currentShade3)
 						UIGradient.Parent = frame2
-		
+
 						textlabel2.ZIndex = 11
 						textlabel2.Size = UDim2.new(0,116,0,35)
 						textlabel2.Text = v.title
@@ -7952,7 +7952,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 						textlabel2.TextWrapped = true
 						textlabel2.BackgroundTransparency = 1
 						textlabel2.Parent = frame2
-		
+
 						textlabel3.ZIndex = 11
 						textlabel3.Size = UDim2.new(0,100,0,35)
 						textlabel3.Position = UDim2.new(0,0,0.16,0)
@@ -7964,7 +7964,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 						textlabel3.TextColor3 = currentText1
 						textlabel3.BackgroundTransparency = 1
 						textlabel3.Parent = frame2
-		
+
 						textlabel4.ZIndex = 11
 						textlabel4.Size = UDim2.new(0,100,0,35)
 						textlabel4.Position = UDim2.new(0,0,0.304,0)
@@ -7976,7 +7976,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 						textlabel4.TextColor3 = currentText1
 						textlabel4.BackgroundTransparency = 1
 						textlabel4.Parent = frame2
-		
+
 						textlabel5.ZIndex = 11
 						textlabel5.Size = UDim2.new(0,100,0,35)
 						textlabel5.Position = UDim2.new(0,0,0.44,0)
@@ -7988,7 +7988,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 						textlabel5.TextColor3 = currentText1
 						textlabel5.BackgroundTransparency = 1
 						textlabel5.Parent = frame2
-		
+
 						textlabel6.ZIndex = 11
 						textlabel6.Size = UDim2.new(0,265,0,35)
 						textlabel6.Position = UDim2.new(0,0,0.72,0)
@@ -11375,28 +11375,28 @@ addcmd("abanimcheck", {}, function(args, speaker)
 end)
 
 addcmd("mantibang", {"mantirape"}, function(args, speaker)
-    if not IsVoiding then
-        Character = Player.Character
-        Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
-        RootPart = Humanoid and Humanoid.RootPart
-        IsVoiding = true
+	if not IsVoiding then
+		Character = Player.Character
+		Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
+		RootPart = Humanoid and Humanoid.RootPart
+		IsVoiding = true
 
-        local CurrentPosition = RootPart.Velocity.Magnitude < 50 and RootPart.CFrame or Camera.Focus
-        local Timer = tick()
+		local CurrentPosition = RootPart.Velocity.Magnitude < 50 and RootPart.CFrame or Camera.Focus
+		local Timer = tick()
 
-        repeat
-            RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
-            RootPart.AssemblyLinearVelocity = Vector3.new()
-            task.wait()
-        until tick() > Timer + 1
+		repeat
+			RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
+			RootPart.AssemblyLinearVelocity = Vector3.new()
+			task.wait()
+		until tick() > Timer + 1
 
-        RootPart.AssemblyLinearVelocity = Vector3.new()
-        RootPart.CFrame = CurrentPosition
+		RootPart.AssemblyLinearVelocity = Vector3.new()
+		RootPart.CFrame = CurrentPosition
 
-        Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+		Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
 
-        IsVoiding = false
-    end
+		IsVoiding = false
+	end
 end)
 
 addcmd("unbang", {"unrape","unfacebang","unfacerape","unfacefuck"}, function(args, speaker)
@@ -12491,11 +12491,11 @@ end
 addcmd('kill',{'fekill'},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
-	--	if game.PlaceId ~= 574746640 then
-			kill(speaker,Players[v])
-	--	else
-	--		Ann1kill(speaker,Players[v])
-	--	end
+		if game.PlaceId ~= 574746640 then
+		kill(speaker,Players[v])
+		else
+			Ann1kill(speaker,Players[v])
+		end
 	end
 end)
 
@@ -12528,7 +12528,7 @@ end
 -- // Commands \\ --
 
 -- guess how many ct.CFrame = hrp.CFrame there ARE! --
---[[ if game.PlaceId == 574746640 then
+if game.PlaceId == 574746640 then
 	addcmd("dig",{"terriandig","removeterrian","digterrian"},function(args, speaker)
 		notify("Digging!")
 		local hrp = getRoot(speaker.Character)
@@ -12799,7 +12799,7 @@ end
 
 		--task.spawn(report)
 	end)
-end ]]
+end
 
 --[[ 4nn1's Place: END ]] --
 
@@ -13910,13 +13910,13 @@ task.spawn(function()
 	minimizeHolder()
 	if IsOnMobile then
 		notify("Unstable Device", "On mobile, Infinite Yield Reborn has a lot of bugs. It's recommended to use a PC executor (AN ACTUAL FULL UNC EXECUTOR NOT FAKED LIKE SOLARA).")
-	--	if game.PlaceId == 574746640 then
-	--		task.wait(3)
-	--		notify("4nn1's Place", "Game Detected! Some commands were added/changed/removed")
-	--	end
+		if game.PlaceId == 574746640 then
+			task.wait(3)
+			notify("4nn1's Place", "Game Detected! Some commands were added/changed/removed")
+		end
 	else
-	--	if game.PlaceId == 574746640 then
-	--		notify("4nn1's Place", "Game Detected! Some commands were added/changed/removed")
-	--	end
+		if game.PlaceId == 574746640 then
+			notify("4nn1's Place", "Game Detected! Some commands were added/changed/removed")
+		end
 	end
 end)
