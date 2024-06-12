@@ -4463,6 +4463,39 @@ spawn(function()
 	end
 end)
 
+AntiFlingEnabled = true
+
+for i, v in pairs(Players:GetPlayers()) do
+	if v ~= Players.LocalPlayer then
+		RunService.Stepped:Connect(function()
+			if not AntiFlingEnabled then
+				return
+			end
+			setCanCollideOfModelDescendants(v.Character, false)
+		end)
+	end
+end
+
+local function setCanCollideOfModelDescendants(model, bval)
+	if not model then
+		return
+	end
+	for i, v in pairs(model:GetDescendants()) do
+		if v:IsA("BasePart") then
+			v.CanCollide = bval
+		end
+	end
+end
+
+Players.PlayerAdded:Connect(function(plr)
+	RunService.Stepped:Connect(function()
+		if not AntiFlingEnabled then
+			return
+		end
+		setCanCollideOfModelDescendants(plr.Character, false)
+	end)
+end)
+
 CMDs = {}
 CMDs[#CMDs + 1] = {NAME = 'discord / dc', DESC = 'Invite to the Discord server.'}
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Loads old Roblox console'}
@@ -7246,64 +7279,19 @@ addcmd("exit", {}, function(args, speaker)
 	game:Shutdown()
 end)
 
-local antiflinging = false
 addcmd("antifling",{},function(args,speaker)
-	-- This needs to be changed since it's currently trash...
-	antiflinging = true
-	execCmd("noclip")
-	local name = "ANTIFLING "..randomString()
-	local part = Instance.new("Part")
-	part.Anchored = true
-	part.CanCollide = false
-	part.Name = name
-	part.Transparency = 1
-	part.Parent = speaker.Character
-	task.spawn(function()
-		while task.wait() do
-			if antiflinging == false then
-				part:Destroy()
-				break
-			end
-			task.spawn(function()
-				local hrp = getRoot(speaker.Character)
-				if speaker.Character:FindFirstChild(name) then
-					if hrp.Velocity.X >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Z >= speaker.Character:FindFirstChild("Humanoid").WalkSpeed * 1.2 or hrp.Velocity.Y >= speaker.Character:FindFirstChild("Humanoid").JumpPower * 1.2 then
-						hrp.Anchored = true
-						hrp.CFrame = part.CFrame
-						hrp.Velocity = Vector3.new(0,0,0)
-						hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
-						speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
-						hrp.CFrame = part.CFrame
-						task.wait(.05)
-						hrp.CFrame = part.CFrame
-						speaker.Character:FindFirstChild("Humanoid").PlatformStand = false
-						hrp.Anchored = false
-						hrp.CFrame = part.CFrame
-						hrp.CFrame = CFrame.new(hrp.Position.X,hrp.Position.Y,hrp.Position.Z,0,5,0,0)
-					end
-				else
-					part = Instance.new("Part")
-					part.Anchored = true
-					part.CanCollide = false
-					part.Name = name
-					part.Transparency = 1
-					part.Parent = speaker.Character
-				end
-			end)
-		end
-	end)
-	while task.wait() do
-		if antiflinging == false then
-			break
-		end
-		local hrp = getRoot(speaker.Character)
-		part.CFrame = hrp.CFrame
-		task.wait(2)
-	end
+	AntiFlingEnabled = true
+	notify("Anti-fling", "Anti-fling has been enabled.")
 end)
 
 addcmd("unantifling",{},function(args, speaker)
-	antiflinging = false
+	AntiFlingEnabled = false
+	notify("Anti-fling", "Anti-fling has been disabled.")
+end)
+
+addcmd("toggleantifling", {}, function(args, speaker)
+	AntiFlingEnabled = not AntiFlingEnabled
+	if (AntiFlingEnabled) then notify("Anti-fling", "Anti-fling has been enabled.") else notify("Anti-fling", "Anti-fling has been disabled.") end
 end)
 
 local Noclipping = nil
