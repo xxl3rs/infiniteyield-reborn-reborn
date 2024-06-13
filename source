@@ -4465,17 +4465,6 @@ end)
 
 AntiFlingEnabled = true
 
-for i, v in pairs(Players:GetPlayers()) do
-	if v ~= Players.LocalPlayer then
-		RunService.Stepped:Connect(function()
-			if not AntiFlingEnabled then
-				return
-			end
-			setCanCollideOfModelDescendants(v.Character, false)
-		end)
-	end
-end
-
 local function setCanCollideOfModelDescendants(model, bval)
 	if not model then
 		return
@@ -4484,6 +4473,17 @@ local function setCanCollideOfModelDescendants(model, bval)
 		if v:IsA("BasePart") then
 			v.CanCollide = bval
 		end
+	end
+end
+
+for i, v in pairs(Players:GetPlayers()) do
+	if v ~= Players.LocalPlayer then
+		RunService.Stepped:Connect(function()
+			if not AntiFlingEnabled then
+				return
+			end
+			setCanCollideOfModelDescendants(v.Character, false)
+		end)
 	end
 end
 
