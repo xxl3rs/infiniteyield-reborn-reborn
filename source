@@ -233,11 +233,7 @@ Title.TextSize = 18
 if os.date("*t", os.time()).month == 4 then
 	Title.Text = "Infinite Yiff UwU~ v"  .. currentVersion
 else
-	if string.find(currentVersion, '6.1') then
-		Title.Text = "Rise " .. currentVersion
-	else
-		Title.Text = "Infinite Yield Reborn v"  .. currentVersion
-	end
+	Title.Text = "Infinite Yield Reborn v"  .. currentVersion
 end
 do
 	local emoji = ({
