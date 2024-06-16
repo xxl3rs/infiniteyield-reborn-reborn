@@ -4928,11 +4928,11 @@ CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = 'Notify if a roblox staff m
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = 'Disable roblox staff watch'}
 CMDs[#CMDs + 1] = {NAME = "vulnspatch / vpatcher / vulnspatcher", DESC = 'Attempts to patch some vulns'}
 CMDs[#CMDs + 1] = {NAME = 'chatspy', DESC = 'Loads chatspy'}
-CMDs[#CMDs + 1] = {NAME = 'fakekick/fkick [reason]', DESC = 'Kicks you from the game'}
-CMDs[#CMDs + 1] = {NAME = 'fakeban/fban [reason]', DESC = 'Bans you from the game (not real)'}
+CMDs[#CMDs + 1] = {NAME = 'fakekick / fkick [reason]', DESC = 'Kicks you from the game'}
+CMDs[#CMDs + 1] = {NAME = 'fakeban / fban [reason]', DESC = 'Bans you from the game (not real)'}
 CMDs[#CMDs + 1] = {NAME = 'joinjobid / jjobid / jjid [job id]', DESC = 'Joins the given job id'}
 CMDs[#CMDs + 1] = {NAME = 'toolview / tview [player]', DESC = 'Views the tools a player has'}
-CMDs[#CMDs + 1] = {NAME = 'blackesp', DESC = 'Shows all blacks'}
+CMDs[#CMDs + 1] = {NAME = 'blackesp', DESC = 'View all black players'}
 task.wait()
 
 for i = 1, #CMDs do
