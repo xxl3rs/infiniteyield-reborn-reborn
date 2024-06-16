@@ -4928,6 +4928,8 @@ CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = 'Notify if a roblox staff m
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = 'Disable roblox staff watch'}
 CMDs[#CMDs + 1] = {NAME = "vulnspatch / vpatcher / vulnspatcher", DESC = 'Attempts to patch some vulns'}
 CMDs[#CMDs + 1] = {NAME = 'chatspy', DESC = 'Loads chatspy'}
+CMDs[#CMDs + 1] = {NAME = 'joinjobid / jjobid / jjid [job id]', DESC = 'Joins the given job id'}
+CMDs[#CMDs + 1] = {NAME = 'toolview / tview [player]', DESC = 'Views the tools a player has'}
 task.wait()
 
 for i = 1, #CMDs do
@@ -13634,6 +13636,33 @@ addcmd('removecmd',{'deletecmd'},function(args, speaker)
 	removecmd(args[1])
 end)
 
+addcmd('joinjobid',{'jjobid', 'jjid'},function(args, speaker)
+	if args[1] then 
+        	TeleportService:TeleportToPlaceInstance(game.PlaceId,args[1])
+    	else
+        	notify('Argument error', 'Missing arg 1 - JobId expected')
+    	end
+end)
+
+addcmd('toolview',{'tview'},function(args, speaker)
+	local s, e = pcall(function()
+        local pl = Players:FindFirstChild(getPlayer(args[1], speaker)[1])
+        if not pl then return notify('Argument error', 'Invalid argument passed') end
+        local t, chartool = {}, pl.Character:FindFirstChildOfClass("Tool")
+    
+        for _, v in pl.Backpack:GetChildren() do
+            if not v:IsA("Tool") then continue end
+            table.insert(t, tostring(v))
+        end
+        
+        if chartool then 
+            notify(("%s's tools"):format(tostring(pl)), tostring(chartool).. ", " ..table.concat(t, ", "))
+        else
+            notify(("%s's tools"):format(tostring(pl)), table.concat(t, ", "))
+        end
+        end)
+        print(e)
+end)
 
 if IsOnMobile then
 	local QuickCapture = Instance.new("TextButton")
