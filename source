@@ -4586,6 +4586,8 @@ CMDs[#CMDs + 1] = {NAME = 'tweenspeed / tspeed [num]', DESC = 'Sets how fast all
 CMDs[#CMDs + 1] = {NAME = 'vehiclegoto / vgoto [player]', DESC = 'Go to a player while in a vehicle'}
 CMDs[#CMDs + 1] = {NAME = 'loopgoto [player] [distance] [delay]', DESC = 'Loop teleport to a player'}
 CMDs[#CMDs + 1] = {NAME = 'unloopgoto', DESC = 'Stops teleporting you to a player'}
+CMDs[#CMDs + 1] = {NAME = 'orbit [player] [distance] [speed]', DESC = 'Orbits a player'}
+CMDs[#CMDs + 1] = {NAME = 'unorbit', DESC = 'Stops orbiting a player'}
 CMDs[#CMDs + 1] = {NAME = 'pulsetp / ptp [player] [seconds]', DESC = 'Teleports you to a player for a specified ammount of time'}
 CMDs[#CMDs + 1] = {NAME = 'clientbring / cbring [player] (CLIENT)', DESC = 'Bring a player'}
 CMDs[#CMDs + 1] = {NAME = 'loopbring [player] [distance] [delay] (CLIENT)', DESC = 'Loop brings a player to you (useful for killing)'}
@@ -11098,6 +11100,64 @@ end)
 
 addcmd('unloopgoto',{'noloopgoto'},function(args, speaker)
 	loopgoto = nil
+end)
+
+local orbit = nil
+addcmd('orbit',{},function(args, speaker)
+	local frame = 0
+	local players = getPlayer(args[1], speaker)
+	if #players==0 then
+		local msg_args
+		for i,arg in ipairs(args) do
+			msg_args = (msg_args and (msg_args..' \n') or '')..'Arg['..tostring(i)..']: '..arg
+		end
+		notify('Orbit','No Player Match! \n'..msg_args)
+	end
+	for i,v in pairs(players)do
+		orbit = nil
+		if speaker.Character:FindFirstChildOfClass('Humanoid') and speaker.Character:FindFirstChildOfClass('Humanoid').SeatPart then
+			speaker.Character:FindFirstChildOfClass('Humanoid').Sit = false
+			task.wait(.1)
+		end
+		orbit = Players[v]
+		local p = orbit
+		local distance = 0
+		if args[2] and isNumber(args[2]) then
+			distance = args[2]
+		end
+		local speed = 0
+		if args[3] and isNumber(args[3]) then
+			speed = args[3]
+		end
+		notify('Orbit','Started For... \nPlayer: '..v..' \nDistance: '..tostring(distance)..' \nSpeed: '..tostring(speed))
+		repeat
+			p = Players:FindFirstChild(v)
+			if p then
+				local target_root = p.Character and getRoot(p.Character)
+				local speaker_root = getRoot(speaker.Character)
+				if not speaker_root then
+					orbit = nil
+				end
+    			frame += 1
+    			speaker_root.Velocity = Vector3.zero
+    			speaker_root.RotVelocity = Vector3.zero
+    			local x,y,z
+    			x,y,z = math.sin((frame/25)*speed)*distance,0,math.cos((frame/25)*speed)*distance
+				if target_root then
+					local target_cf = target_root.CFrame
+					speaker_root.CFrame = target_cf+Vector3.new(x,y,z)
+				end
+ 			   	task.wait(speed)
+			else
+				orbit = nil
+			end
+		until not orbit or orbit ~= p
+		notify('Orbit','Finished For... \nPlayer: '..v..' \nDistance: '..tostring(distance)..' \nSpeed: '..tostring(speed))
+	end
+end)
+
+addcmd('unorbit',{'noorbit'},function(args, speaker)
+	orbit = nil
 end)
 
 addcmd('headsit',{},function(args, speaker)
