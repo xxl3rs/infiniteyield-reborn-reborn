@@ -11147,7 +11147,7 @@ addcmd('orbit',{},function(args, speaker)
 					local target_cf = target_root.CFrame
 					speaker_root.CFrame = target_cf+Vector3.new(x,y,z)
 				end
- 			   	task.wait(speed)
+ 			   	task.wait(0.01)
 			else
 				orbit = nil
 			end
