@@ -37,7 +37,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.1.7'
+currentVersion = '6.2.1'
 
 -- Go to line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff and also add more bang-type commands.
@@ -4905,8 +4905,8 @@ CMDs[#CMDs + 1] = {NAME = 'reloadplugin [name]', DESC = 'Reloads a plugin'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'breakloops / break (cmd loops)', DESC = 'Stops any cmd loops (;100^1^cmd)'}
 CMDs[#CMDs + 1] = {NAME = 'removecmd / deletecmd', DESC = 'Removes a command until the admin is reloaded'}
-CMDs[#CMDs + 1] = {NAME = 'tpwalk / teleportwalk [num]', DESC = 'Teleports you to your move direction'}
-CMDs[#CMDs + 1] = {NAME = 'untpwalk / unteleportwalk', DESC = 'Undoes tpwalk / teleportwalk'}
+CMDs[#CMDs + 1] = {NAME = 'tpwalk / teleportwalk / cspeed / cframespeed /cws / cwalkspeed / cframews / cframewalkspeed [num]', DESC = 'Teleports you to your move direction (aka cframe speed which is used in scripts)'}
+CMDs[#CMDs + 1] = {NAME = 'untpwalk / unteleportwalk / uncspeed /uncframespeed / uncs / uncwalkspeed / uncframews / cframewalkspeed', DESC = 'Undoes tpwalk / teleportwalk'}
 CMDs[#CMDs + 1] = {NAME = 'notifyping / ping', DESC = 'Notify yourself your ping'}
 CMDs[#CMDs + 1] = {NAME = 'trip', DESC = 'Makes your character fall over'}
 CMDs[#CMDs + 1] = {NAME = 'norender', DESC = 'Disable 3d Rendering to decrease the amount of CPU the client uses'}
@@ -12989,7 +12989,7 @@ if game.PlaceId ~= 574746640 then
 end
 
 local hb = RunService.Heartbeat
-addcmd('tpwalk', {'teleportwalk'}, function(args, speaker)
+addcmd('tpwalk', {'teleportwalk', 'cframespeed', 'cspeed', 'cws', 'cwalkspeed', 'cframews', 'cframewalkspeed'}, function(args, speaker)
 	tpwalking = true
 	local chr = speaker.Character
 	local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
@@ -13005,7 +13005,7 @@ addcmd('tpwalk', {'teleportwalk'}, function(args, speaker)
 	end
 end)
 
-addcmd('untpwalk', {'unteleportwalk'}, function(args, speaker)
+addcmd('untpwalk', {'unteleportwalk', 'uncframespeed', 'uncspeed', 'uncws', 'uncwalkspeed', 'uncframews', 'uncframewalkspeed'}, function(args, speaker)
 	tpwalking = false
 end)
 
