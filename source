@@ -1976,7 +1976,7 @@ devblacklist = {
 
 local isChatLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
 local chatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-local chatChannel = not IsLegacy and TextChatService.TextChannels.RBXGeneral
+local chatChannel = not isChatLegacy and TextChatService.TextChannels.RBXGeneral
 
 function chatsend(str)
 	if isChatLegacy then
