@@ -37,7 +37,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.2.2'
+currentVersion = '6.2.3'
 
 -- Go to line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff and also add more bang-type commands.
@@ -4932,6 +4932,8 @@ CMDs[#CMDs + 1] = {NAME = "vulnspatch / vpatcher / vulnspatcher", DESC = 'Attemp
 CMDs[#CMDs + 1] = {NAME = 'chatspy', DESC = 'Loads chatspy'}
 CMDs[#CMDs + 1] = {NAME = 'joinjobid / jjobid / jjid [job id]', DESC = 'Joins the given job id'}
 CMDs[#CMDs + 1] = {NAME = 'toolview / tview [player]', DESC = 'Views the tools a player has'}
+CMDs[#CMDs + 1] = {NAME = 'windowfocus', DESC = 'Detects if Roblox is focused or not'}
+CMDs[#CMDs + 1] = {NAME = 'unwindowfocus', DESC = 'Stops detecting if Roblox is focused or not'}
 task.wait()
 
 for i = 1, #CMDs do
@@ -5677,6 +5679,19 @@ Cmdbar.PlaceholderText = "Command Bar ("..prefix..")"
 Cmdbar:GetPropertyChangedSignal("Text"):Connect(function()
 	if Cmdbar:IsFocused() then
 		IndexContents(Cmdbar.Text,true,true)
+	end
+end)
+
+local wfenabled = false
+UserInputService.WindowFocused:Connect(function()
+	if wfenabled == true then
+		game:GetService("RunService"):Set3dRenderingEnabled(true)
+	end
+end)
+
+UserInputService.WindowFocusReleased:Connect(function()
+	if wfenabled == true then
+		game:GetService("RunService"):Set3dRenderingEnabled(false)
 	end
 end)
 
@@ -8588,6 +8603,14 @@ addcmd('lastcommand',{'lastcmd'},function(args, speaker)
 	if cmdHistory[1]:sub(1,11) ~= 'lastcommand' and cmdHistory[1]:sub(1,7) ~= 'lastcmd' then
 		execCmd(cmdHistory[1])
 	end
+end)
+
+addcmd('windowfocus', {}, function(args, speaker)
+	wfenabled = true
+end)
+
+addcmd('unwindowfocus', {}, function(args, speaker)
+	wfenabled = false
 end)
 
 addcmd('esp',{},function(args, speaker)
