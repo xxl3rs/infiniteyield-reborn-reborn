@@ -1974,15 +1974,15 @@ devblacklist = {
 	"ck_2"
 }
 
-local IsLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
-local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-local Channel = not IsLegacy and TextChatService.TextChannels.RBXGeneral
+local isChatLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
+local chatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
+local chatChannel = not isChatLegacy and TextChatService.TextChannels.RBXGeneral
 
-local function chatSend(message)
-	if IsLegacy then
-		ChatRemote:FireServer(message, "All")
+function chatsend(str)
+	if isChatLegacy then
+		chatRemote:FireServer(str, "All")
 	else
-		Channel:SendAsync(message)
+		chatChannel:SendAsync(str)
 	end
 end
 
@@ -4741,14 +4741,14 @@ CMDs[#CMDs + 1] = {NAME = 'rolewatchstop / unrolewatch', DESC = 'Disable Rolewat
 CMDs[#CMDs + 1] = {NAME = 'rolewatchleave', DESC = 'Toggle if you should leave the game if someone from a watched group joins the server'}
 CMDs[#CMDs + 1] = {NAME = 'attach [player] (TOOL)', DESC = 'Attaches you to a player (YOU NEED A TOOL)'}
 if game.PlaceId ~= 574746640 then
-CMDs[#CMDs + 1] = {NAME = 'kill [player] (TOOL)', DESC = 'Kills a player (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'fastkill [player] (TOOL)', DESC = 'Kills a player (less reliable) (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'bring [player] (TOOL)', DESC = 'Brings a player (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'fastbring [player] (TOOL)', DESC = 'Brings a player (less reliable) (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
-CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set amount of times'}
+	CMDs[#CMDs + 1] = {NAME = 'kill [player] (TOOL)', DESC = 'Kills a player (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'fastkill [player] (TOOL)', DESC = 'Kills a player (less reliable) (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'bring [player] (TOOL)', DESC = 'Brings a player (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'fastbring [player] (TOOL)', DESC = 'Brings a player (less reliable) (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'teleport / tp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'fastteleport / fasttp [player] [player] (TOOL)', DESC = 'Teleports a player to another player (less reliable) (YOU NEED A TOOL)'}
+	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set amount of times'}
 else
 	CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 	CMDs[#CMDs + 1] = {NAME = '-- 4nn1\'s Place --', DESC = 'Commands for 4nn1\'s Place'}
@@ -9398,7 +9398,7 @@ addcmd('chatage',{},function(args, speaker)
 		table.insert(ages, p.Name.."'s age is: "..p.AccountAge)
 	end
 	local chatString = table.concat(ages, ', ')
-	chatSend(chatString)
+	chatsend(chatString)
 end)
 
 addcmd('joindate',{'jd'},function(args, speaker)
@@ -11179,7 +11179,7 @@ end)
 
 addcmd('chat',{'say'},function(args, speaker)
 	local cString = getstring(1)
-	chatSend(cString)
+	chatsend(cString)
 end)
 
 spamming = false
@@ -11188,7 +11188,7 @@ addcmd('spam',{},function(args, speaker)
 	spamming = true
 	local spamstring = getstring(1)
 	repeat task.wait(spamspeed)
-		chatSend(spamstring)
+		chatsend(spamstring)
 	until spamming == false
 end)
 
@@ -11202,7 +11202,7 @@ addcmd('whisper',{'pm'},function(args, speaker)
 		task.spawn(function()
 			local plrName = Players[v].Name
 			local pmstring = getstring(2)
-			chatSend("/w "..plrName.." "..pmstring)
+			chatsend("/w "..plrName.." "..pmstring)
 		end)
 	end
 end)
@@ -11219,7 +11219,7 @@ addcmd('pmspam',{},function(args, speaker)
 			repeat
 				if Players:FindFirstChild(v) then
 					task.wait(spamspeed)
-					chatSend("/w "..plrName.." "..pmspamstring)
+					chatsend("/w "..plrName.." "..pmspamstring)
 				else
 					for a,b in pairs(pmspamming) do if b == plrName then table.remove(pmspamming, a) end end
 				end
