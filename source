@@ -7888,7 +7888,7 @@ addcmd('whatexploitsareonline',{'whatexpsareonline','weao'},function()
 			local weaoBody = HttpService:JSONDecode(weaoReq.Body)
 			if weaoBody then
 				local function addweaotemplate()
-					for i,v in ipairs(weaoBody[1]) do
+					for i,v in ipairs(weaoBody) do
 						local frame1 = Instance.new("Frame")
 						local textlabel = Instance.new("TextLabel")
 						local textlabel2 = Instance.new("TextLabel")
