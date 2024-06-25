@@ -4459,7 +4459,7 @@ spawn(function()
 	end
 end)
 
-AntiFlingEnabled = true
+AntiFlingEnabled = false
 
 local function setCanCollideOfModelDescendants(model, bval)
 	if not model then
