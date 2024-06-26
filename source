@@ -12602,17 +12602,19 @@ if game.PlaceId == 574746640 then
 		notify("Digging!")
 		local hrp = getRoot(speaker.Character)
 		local cat = nil
-		cat = getCat("socky") or getCat("muffy")
+		cat = getCat("socky") or getCat("muffy") or (function()
+			return notify("No cats were found!")
+		end)()
 		local ct = cat:FindFirstChild("Torso")
 		local oldCFrame = hrp.CFrame
 		hrp.CFrame = ct.CFrame
-		task.wait(.1)
+		task.wait(.5)
 		ct.CFrame = oldCFrame
 		hrp.CFrame = oldCFrame
-		task.wait(.3)
+		task.wait(.5)
 		task.spawn(function()
 			while cat do
-				ct.CFrame = oldCFrame + Vector3.new(0,-4.5,0)
+				ct.CFrame = oldCFrame + Vector3.new(0,-7,0)
 				if speaker.Character:FindFirstChild("Humanoid").Health <= 0 then
 					break
 				end
