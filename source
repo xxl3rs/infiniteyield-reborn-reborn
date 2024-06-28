@@ -37,7 +37,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = 'v6.2.4'
+currentVersion = '6.2.4'
 
 -- Go to line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff and also add more bang-type commands.
