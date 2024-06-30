@@ -10972,12 +10972,12 @@ addcmd("addunc",{'addmoreunc','adduncevn'},function(args, speaker)
 end)
 
 addcmd("vulnspatch",{'vpatcher','vulnspatcher'},function(args, speaker)
-	loadstring(game:HttpGet("https://infyieldreborn.github.io/vulnpatcher"))()
+	loadstring(game:HttpGet("https://infiniteyieldreborn.xyz/vulnpatcher"))()
 	notify("Patching some vulns (Thanks to v3rm community)")
 end)
 
 addcmd("vulnscheck",{"vulns","vuln"},function()
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/fuckusfm/infiniteyield-reborn/master/vulntestsource"))()
+	loadstring(game:HttpGet("https://infiniteyieldreborn.xyz/vulntestsource"))()
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
 
