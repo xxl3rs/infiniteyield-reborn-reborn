@@ -10977,7 +10977,7 @@ addcmd("vulnspatch",{'vpatcher','vulnspatcher'},function(args, speaker)
 end)
 
 addcmd("vulnscheck",{"vulns","vuln"},function()
-	loadstring(game:HttpGet("ddddddddddddddddddddddddddddddddddddddddddddd"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/fuckusfm/infiniteyield-reborn/master/vulntestsource"))()
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
 
