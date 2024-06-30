@@ -10977,7 +10977,7 @@ addcmd("vulnspatch",{'vpatcher','vulnspatcher'},function(args, speaker)
 end)
 
 addcmd("vulnscheck",{"vulns","vuln"},function()
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/fissurectomy/test/main/executor_vuln_test.lua"))()
+	loadstring(game:HttpGet("ddddddddddddddddddddddddddddddddddddddddddddd"))()
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
 
