@@ -12,7 +12,7 @@ loadstring(game:HttpGet("https://github.com/fuckusfm/infiniteyield-reborn/raw/ma
 
 ### Developer: Moon
 ### Developer: Zwolf
-### Developer: Toon (Skid)
+### Developer: Toon
 
 # Reborn developers
 ### Reborn: _Real
