@@ -2,9 +2,9 @@
 	Hello! You might wonder why Infinite Yield Reborn is not executing.
         You may have also wondered if the script is obfuscated or not. As you can see, it isn't.
 
-	If IY Reborn is not executing, this can possibly mean that your executor does not support Luau syntax.
+	If IY Reborn is not executing, this can possibly mean that your executor does not support LuaU syntax.
 
-	To check if it supports Luau syntax, run this:
+	To check if it supports LuaU syntax, run this:
 	print(true and "Supported" or "This shouldn't be printed")
 
 	If you see the message "Supported" in console (F9 or /console in chat) then the issue is probably different.
@@ -39,7 +39,7 @@ end
 
 currentVersion = '6.2.5'
 
--- Go to line 11986 for 4nn1's Place stuff
+-- Go to line 12602 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff and also add more bang-type commands.
 
 Holder = Instance.new("Frame")
@@ -4534,6 +4534,7 @@ CMDs[#CMDs + 1] = {NAME = 'keepiy', DESC = 'Auto execute IY when you teleport th
 CMDs[#CMDs + 1] = {NAME = 'unkeepiy', DESC = 'Disable keepiy'}
 CMDs[#CMDs + 1] = {NAME = 'togglekeepiy', DESC = 'Toggle keepiy'}
 CMDs[#CMDs + 1] = {NAME = 'savegame / saveplace', DESC = 'Uses saveinstance to save the game'}
+CMDs[#CMDs + 1] = {NAME = 'savelogs', DESC = 'Saves Roblox logs as a file'}
 CMDs[#CMDs + 1] = {NAME = 'clearerror', DESC = 'Clears the annoying box and blur when a game kicks you'}
 CMDs[#CMDs + 1] = {NAME = 'clientantikick / antikick (CLIENT)', DESC = 'Prevents localscripts from kicking you'}
 CMDs[#CMDs + 1] = {NAME = 'clientantiteleport / antiteleport (CLIENT)', DESC = 'Prevents localscripts from teleporting you'}
@@ -8428,6 +8429,29 @@ addcmd("savegame", {"saveplace"}, function(args, speaker)
 		notify("Game Saved", "Saved place to the workspace folder within your exploit folder.")
 	else
 		notify("Incompatible Exploit", "Your exploit does not support this command (missing saveinstance)")
+	end
+end)
+
+addcmd("savelogs", {}, function(args, speaker)
+	local LogService = cloneref(game:GetService('LogService'))
+	local _messages = LogService:GetLogHistory()
+	local fileTime = os.date('%H-%M-%S')
+	local file_Name = 'LogHistory_'..fileTime..'.txt'
+	
+	if appendfile then
+		notify("Saving", "Saving logs, This may freeze for a bit.")
+		for i, v in ipairs(_messages) do
+			msg = v.message
+			msgName = v.messageType.Name
+			msgType = msgName:gsub("Message", "")
+			logTime = os.date('%H:%M:%S', v.timestamp)
+	
+			formattedString = (string.format("%s [Log::%s] %s", logTime, msgType, msg).."\n")
+			appendfile(file_Name, formattedString)
+		end
+		notify("Saved", "Saved Roblox logs as "..file_Name)
+	else
+		notify("Incompatible Exploit", "Your exploit does not support this command (missing appendfile)")
 	end
 end)
 
