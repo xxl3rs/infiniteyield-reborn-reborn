@@ -3027,7 +3027,7 @@ function saves()
 			Directions.Size = UDim2.new(0, 340, 0, 185)
 			Directions.Font = Enum.Font.SourceSans
 			Directions.TextSize = 14
-			Directions.Text = "Sorry, but we have attempted to parse your data, but it is unreadable!\n\nInfinite Yield is now using factory settings until your executor fixes its file system.\n\nYour data has not been deleted."
+			Directions.Text = "Sorry, but we have attempted to parse your data, but it is unreadable!\n\nInfinite Yield Reborn is now using factory settings until your executor fixes its file system.\n\nYour data has not been deleted."
 			Directions.TextColor3 = Color3.new(1, 1, 1)
 			Directions.TextWrapped = true
 			Directions.TextXAlignment = Enum.TextXAlignment.Left
@@ -3932,7 +3932,7 @@ SaveChatlogs.MouseButton1Down:Connect(function()
 		if #scroll_2:GetChildren() > 0 then
 			notify("Loading",'Hold on a sec')
 			local placeName = CleanFileName(MarketplaceService:GetProductInfo(PlaceId).Name)
-			local writelogs = '-- Infinite Yield Chat logs for "'..placeName..'"\n'
+			local writelogs = '-- Infinite Yield Reborn Chat logs for "'..placeName..'"\n'
 			for _, child in pairs(scroll_2:GetChildren()) do
 				writelogs = writelogs..'\n'..child.Text
 			end
@@ -8449,9 +8449,9 @@ addcmd("savelogs", {}, function(args, speaker)
 			formattedString = (string.format("%s [%s] %s", logTime, msgType, msg).."\n")
 			appendfile(file_Name, formattedString)
 		end
-		notify("Saved", "Saved Roblox logs as "..file_Name)
+		notify('Roblox Logs','Saved Roblox logs to the workspace folder within your exploit folder.')
 	else
-		notify("Incompatible Exploit", "Your exploit does not support this command (missing appendfile)")
+		notify('Roblox Logs','Your exploit does not support append file. You cannot save Roblox logs.')
 	end
 end)
 
