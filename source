@@ -8446,7 +8446,7 @@ addcmd("savelogs", {}, function(args, speaker)
 			msgName = v.messageType.Name
 			msgType = msgName:gsub("Message", '')
 			logTime = os.date('%H:%M:%S', v.timestamp)
-			formattedString = (string.format('"%s [%s] %s', logTime, msgType, msg).."\n")
+			formattedString = (string.format('%s [%s] %s', logTime, msgType, msg).."\n")
 			array[i] = formattedString
 			writelogsFile = (writelogs..'\n'..table.concat(array))
 		end
