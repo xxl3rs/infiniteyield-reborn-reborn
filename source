@@ -10009,7 +10009,6 @@ end)
 invisRunning = false
 addcmd('invisible',{'invis'},function(args, speaker)
 	if invisRunning then return end
-	workspace.FallenPartsDestroyHeight = -50000
 	invisRunning = true
 	-- Full credit to AmokahFox @V3rmillion
 	local Player = speaker
@@ -10093,9 +10092,7 @@ addcmd('invisible',{'invis'},function(args, speaker)
 	IsInvis = true
 	CF = workspace.CurrentCamera.CFrame
 	local CF_1 = Player.Character.HumanoidRootPart.CFrame
-	Character:MoveTo(Vector3.new(9e9,10,9e9))
-	task.wait()
-	Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(9e9,-800,9e9)
+	Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(9e9,9e9,9e9)
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
 	task.wait()
 	workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
