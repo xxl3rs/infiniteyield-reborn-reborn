@@ -8434,21 +8434,34 @@ end)
 
 addcmd("savelogs", {}, function(args, speaker)
 	local LogService = cloneref(game:GetService('LogService'))
+	placeName = CleanFileName(MarketplaceService:GetProductInfo(PlaceId).Name)
+	writelogs = '-- Infinite Yield Reborn Roblox logs for "'..placeName..'"\n'
 	_messages = LogService:GetLogHistory()
-	fileTime = os.date('%H-%M-%S')
-	file_Name = 'LogHistory_'..fileTime..'.txt'
-	
+	array = {}
+
 	if appendfile then
-		notify("Saving", "Saving logs, This may freeze for a bit.")
+		notify('Roblox Logs', 'Saving logs, This may freeze for a bit.')
 		for i, v in ipairs(_messages) do
 			msg = v.message
 			msgName = v.messageType.Name
-			msgType = msgName:gsub("Message", "")
+			msgType = msgName:gsub("Message", '')
 			logTime = os.date('%H:%M:%S', v.timestamp)
-	
-			formattedString = (string.format("%s [%s] %s", logTime, msgType, msg).."\n")
-			appendfile(file_Name, formattedString)
+			formattedString = (string.format('"%s [%s] %s', logTime, msgType, msg).."\n")
+			array[i] = formattedString
+			writelogsFile = (writelogs..'\n'..table.concat(array))
 		end
+		local fileext = 0
+		local function nameFile()
+			local file
+			pcall(function() file = readfile(placeName..' Roblox Logs ('..fileext..').txt') end)
+			if file then
+				fileext += 1
+				nameFile()
+			else
+				writefileCooldown(placeName..' Roblox Logs ('..fileext..').txt', writelogsFile)
+			end
+		end
+		nameFile()
 		notify('Roblox Logs','Saved Roblox logs to the workspace folder within your exploit folder.')
 	else
 		notify('Roblox Logs','Your exploit does not support append file. You cannot save Roblox logs.')
