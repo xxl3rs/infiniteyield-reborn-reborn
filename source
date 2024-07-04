@@ -8434,9 +8434,9 @@ end)
 
 addcmd("savelogs", {}, function(args, speaker)
 	local LogService = cloneref(game:GetService('LogService'))
-	local _messages = LogService:GetLogHistory()
-	local fileTime = os.date('%H-%M-%S')
-	local file_Name = 'LogHistory_'..fileTime..'.txt'
+	_messages = LogService:GetLogHistory()
+	fileTime = os.date('%H-%M-%S')
+	file_Name = 'LogHistory_'..fileTime..'.txt'
 	
 	if appendfile then
 		notify("Saving", "Saving logs, This may freeze for a bit.")
@@ -8446,7 +8446,7 @@ addcmd("savelogs", {}, function(args, speaker)
 			msgType = msgName:gsub("Message", "")
 			logTime = os.date('%H:%M:%S', v.timestamp)
 	
-			formattedString = (string.format("%s [Log::%s] %s", logTime, msgType, msg).."\n")
+			formattedString = (string.format("%s [%s] %s", logTime, msgType, msg).."\n")
 			appendfile(file_Name, formattedString)
 		end
 		notify("Saved", "Saved Roblox logs as "..file_Name)
