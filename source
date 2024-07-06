@@ -7341,6 +7341,7 @@ addcmd('clip',{'unnoclip'},function(args, speaker)
 		for _, child in ipairs(nclipparts) do
 			child.CanCollide = true
 		end
+		nclipparts = {}
 	end
 	Clip = true
 end)
