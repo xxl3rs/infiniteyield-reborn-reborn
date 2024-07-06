@@ -11232,7 +11232,7 @@ addcmd('unorbit',{'noorbit'},function(args, speaker)
 	orbit = nil
 end)
 
-addcmd('headsit',{},function(args, speaker)
+addcmd('headsit',{},function(args, speaker) --update
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
 		if table.find(devblacklist, Players[v].Name) ~= nil then
