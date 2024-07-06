@@ -7318,6 +7318,7 @@ addcmd("toggleantifling", {}, function(args, speaker)
 end)
 
 local Noclipping = nil
+local nclipparts = {}
 addcmd('noclip',{},function(args, speaker)
 	Clip = false
 	task.wait(0.1)
@@ -7326,6 +7327,7 @@ addcmd('noclip',{},function(args, speaker)
 			for _, child in pairs(speaker.Character:GetDescendants()) do
 				if child:IsA("BasePart") and child.CanCollide == true and child.Name ~= floatName then
 					child.CanCollide = false
+					table.insert(nclipparts, child)
 				end
 			end
 		end
@@ -7336,6 +7338,9 @@ end)
 addcmd('clip',{'unnoclip'},function(args, speaker)
 	if Noclipping then
 		Noclipping:Disconnect()
+		for _, child in ipairs(nclipparts) do
+			child.CanCollide = true
+		end
 	end
 	Clip = true
 end)
