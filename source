@@ -11005,12 +11005,12 @@ addcmd('console',{},function(args, speaker)
 end)
 
 addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
-	loadstring(game:HttpGet("https://github.com/FurryBoyYT/moreunc/raw/main/source"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/unified-naming-convention/NamingStandard/main/UNCCheckEnv.lua"))()
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
 
 addcmd("addunc",{'addmoreunc','adduncevn'},function(args, speaker)
-	loadstring(game:HttpGet("https://github.com/FurryBoyYT/.../raw/main/MoreUnc"))()
+	loadstring(game:HttpGet("https://github.com/FurryBoyYT/moreunc/raw/main/source"))()
 	notify("Adding some UNC (Thanks to the community) (WARNING THIS MAY REMOVE SOME UNC)")
 end)
 
