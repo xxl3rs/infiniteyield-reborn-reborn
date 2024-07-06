@@ -8434,21 +8434,22 @@ end)
 
 addcmd("savelogs", {}, function(args, speaker)
 	local LogService = cloneref(game:GetService('LogService'))
-	placeName = CleanFileName(MarketplaceService:GetProductInfo(PlaceId).Name)
-	writelogs = '-- Infinite Yield Reborn Roblox logs for "'..placeName..'"\n'
-	_messages = LogService:GetLogHistory()
-	array = {}
+	local placeName = CleanFileName(MarketplaceService:GetProductInfo(PlaceId).Name)
+	local writelogs = '-- Infinite Yield Reborn Roblox logs for "'..placeName..'"\n'
+	local getLogMessages = LogService:GetLogHistory()
+	local array = {}
+    local writelogsFile
 
 	if appendfile then
-		notify('Roblox Logs', 'Saving logs, This may freeze for a bit.')
-		for i, v in ipairs(_messages) do
-			msg = v.message
-			msgName = v.messageType.Name
-			msgType = msgName:gsub("Message", '')
-			logTime = os.date('%H:%M:%S', v.timestamp)
-			formattedString = (string.format('%s [%s] %s', logTime, msgType, msg).."\n")
+		notify("Loading",'Hold on a sec')
+		for i, v in ipairs(getLogMessages) do
+			local logMessage = v.message
+			local logMessageName = v.messageType.Name
+			local logMessageType = logMessageName:gsub('Message', '')
+			local logMessageTimestamp = os.date('%H:%M:%S', v.timestamp)
+			local formattedString = string.format('%s [%s] %s', logMessageTimestamp, logMessageType, logMessage).."\n"
 			array[i] = formattedString
-			writelogsFile = (writelogs..'\n'..table.concat(array))
+			writelogsFile = writelogs..'\n'..table.concat(array)
 		end
 		local fileext = 0
 		local function nameFile()
@@ -8464,7 +8465,7 @@ addcmd("savelogs", {}, function(args, speaker)
 		nameFile()
 		notify('Roblox Logs','Saved Roblox logs to the workspace folder within your exploit folder.')
 	else
-		notify('Roblox Logs','Your exploit does not support append file. You cannot save Roblox logs.')
+		notify('Roblox Logs','Your exploit does not support write file. You cannot save Roblox logs.')
 	end
 end)
 
