@@ -11010,7 +11010,7 @@ addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
 end)
 
 addcmd("addunc",{'addmoreunc','adduncevn'},function(args, speaker)
-	loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-MoreUNC-13110"))()
+	loadstring(game:HttpGet("https://github.com/FurryBoyYT/.../raw/main/MoreUnc"))()
 	notify("Adding some UNC (Thanks to the community) (WARNING THIS MAY REMOVE SOME UNC)")
 end)
 
