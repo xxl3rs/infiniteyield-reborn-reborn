@@ -11005,7 +11005,7 @@ addcmd('console',{},function(args, speaker)
 end)
 
 addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/unified-naming-convention/NamingStandard/main/UNCCheckEnv.lua"))()
+	loadstring(game:HttpGet("https://github.com/FurryBoyYT/moreunc/raw/main/source"))()
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
 
