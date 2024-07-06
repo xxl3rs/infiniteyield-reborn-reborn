@@ -11234,7 +11234,12 @@ end)
 
 addcmd('headsit',{},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
-	for i,v in pairs(players)do
+	for i,v in pairs(players) do
+		if table.find(devblacklist, Players[v].Name) ~= nil then
+			execCmd("unbang")
+			notify("Error","HEY! You cannot head sit a developer of Infinite Yield Reborn!")
+			return
+		else
 		speaker.Character:FindFirstChildOfClass('Humanoid').Sit = true
 		task.spawn(function()
 			while task.wait() do
