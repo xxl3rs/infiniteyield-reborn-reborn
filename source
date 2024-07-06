@@ -11232,7 +11232,7 @@ addcmd('unorbit',{'noorbit'},function(args, speaker)
 	orbit = nil
 end)
 
-addcmd('headsit',{},function(args, speaker) --update
+addcmd('headsit',{},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
 		if table.find(devblacklist, Players[v].Name) ~= nil then
@@ -11240,17 +11240,18 @@ addcmd('headsit',{},function(args, speaker) --update
 			notify("Error","HEY! You cannot head sit a developer of Infinite Yield Reborn!")
 			return
 		else
-		speaker.Character:FindFirstChildOfClass('Humanoid').Sit = true
-		task.spawn(function()
-			while task.wait() do
-				if Players:FindFirstChild(Players[v].Name) and Players[v].Character ~= nil and getRoot(Players[v].Character) and getRoot(speaker.Character) and speaker.Character:FindFirstChildOfClass('Humanoid').Sit == true then
-					getRoot(speaker.Character).CFrame = getRoot(Players[v].Character).CFrame * CFrame.Angles(0,math.rad(0),0)* CFrame.new(0,1.6,0.4)
-					getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
-				else
-					break
+			speaker.Character:FindFirstChildOfClass('Humanoid').Sit = true
+			task.spawn(function()
+				while task.wait() do
+					if Players:FindFirstChild(Players[v].Name) and Players[v].Character ~= nil and getRoot(Players[v].Character) and getRoot(speaker.Character) and speaker.Character:FindFirstChildOfClass('Humanoid').Sit == true then
+						getRoot(speaker.Character).CFrame = getRoot(Players[v].Character).CFrame * CFrame.Angles(0,math.rad(0),0)* CFrame.new(0,1.6,0.4)
+						getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+					else
+						break
+					end
 				end
-			end
-		end)
+			end)
+		end
 	end
 end)
 
