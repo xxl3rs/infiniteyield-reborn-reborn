@@ -4400,7 +4400,44 @@ local IsVoiding = false
 
 local AnimCheck = true
 
-local GetNearestPlayers = function()
+local GetPlayersCharacters = function() : {any}
+	local Characters = {}
+	
+	for _,player : Player in Players:GetPlayers() do
+		if player.Character and player ~= Player then
+			table.insert(Characters, player.Character)
+		end
+	end
+
+	return Characters
+end
+
+local GetCharactersInBox = function(pos : CFrame, size : Vector3, visible : boolean) : {any}
+	local visible = visible or false
+	-- :: Visual
+	do
+		if visible then
+			local TEMP_PART : BasePart = Instance.new("Part", workspace)
+			TEMP_PART.CFrame = pos
+			TEMP_PART.Size = size
+			TEMP_PART.Anchored = true
+			TEMP_PART.CanCollide = false
+			TEMP_PART.Transparency = 0.75
+			TEMP_PART.Color = Color3.new(0,1,0)
+			TEMP_PART.Material = Enum.Material.Neon
+			task.spawn(function() task.wait(.1)
+				TEMP_PART:Destroy()
+			end)
+		end
+	end
+	local params = OverlapParams.new()
+	params.FilterDescendantsInstances = {GetPlayersCharacters}
+	params.FilterType = Enum.RaycastFilter.Include
+
+	return workspace:GetPartBoundsInBox(pos, size, params)
+end
+
+local GetNearestPlayers = function() : boolean
 	if RootPart then
 		for _, x in next, Players:GetPlayers() do
 			if x ~= Player then
@@ -4408,7 +4445,7 @@ local GetNearestPlayers = function()
 				local x_Humanoid = x_Character and x_Character:FindFirstChildWhichIsA("Humanoid")
 				local x_RootPart = x_Humanoid and x_Humanoid.RootPart
 
-				if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude < 2 then
+				if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude <= 2 then
 					if (AnimCheck) then
 						for _, x in next, x_Humanoid:GetPlayingAnimationTracks() do
 							if x.Animation and x.Animation.AnimationId:match("148840371") or x.Animation.AnimationId:match("5918726674") then
@@ -4428,26 +4465,55 @@ local GetNearestPlayers = function()
 	return false
 end
 
-spawn(function()
+local GetNearbyPlayersInRadius = function(radius : number) : boolean
+	if RootPart then
+		local chars = GetCharactersInBox(RootPart.CFrame,Vector3.new(radius,radius,radius))
+		if #chars < 1 then return false end
+
+		for _, character in chars do
+			Character
+			local Humanoid : Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
+			local HRPart = Humanoid and Humanoid.RootPart
+
+			if HRPart then
+				if (AnimCheck) then
+					for _, AnimTrack in next, Humanoid:GetPlayingAnimationTracks() do
+						if AnimTrack.Animation and AnimTrack.Animation.AnimationId:match("148840371") or AnimTrack.Animation.AnimationId:match("5918726674") then
+							return true
+						end
+					end
+
+					return false
+				else
+					return true
+				end
+			end
+		end
+	end
+
+	return false
+end
+
+task.spawn(function()
 	while true do
 		if (AntiBangEnabled) then
 			Character = Player.Character
 			Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
 			RootPart = Humanoid and Humanoid.RootPart
-
-			if GetNearestPlayers() and Humanoid and RootPart and not IsVoiding then
+			-- :: not sure if my funcs work, but there it is
+			if GetNearbyPlayersInRadius(2) --[[GetNearestPlayers()]] and Humanoid and RootPart and not IsVoiding then
 				IsVoiding = true
 
 				local CurrentPosition = RootPart.Velocity.Magnitude < 50 and RootPart.CFrame or Camera.Focus
 				local Timer = tick()
 
 				repeat
-					RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
-					RootPart.AssemblyLinearVelocity = Vector3.new()
+					RootPart.CFrame = CFrame.new(0, workspace.FallenPartsDestroyHeight + 1, 0) * CFrame.Angles(math.rad(90), 0, 0)
+					RootPart.AssemblyLinearVelocity = Vector3.zero
 					task.wait()
 				until tick() > Timer + 1
 
-				RootPart.AssemblyLinearVelocity = Vector3.new()
+				RootPart.AssemblyLinearVelocity = Vector3.zero
 				RootPart.CFrame = CurrentPosition
 
 				Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
@@ -4922,7 +4988,7 @@ CMDs[#CMDs + 1] = {NAME = 'unuse2022materials / un2022materials', DESC = 'Disabl
 CMDs[#CMDs + 1] = {NAME = 'promptr6', DESC = 'Prompts the game to switch your rig type to R6'}
 CMDs[#CMDs + 1] = {NAME = 'promptr15', DESC = 'Prompts the game to switch your rig type to R15'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
-CMDs[#CMDs + 1] = {NAME = 'antifling', DESC = 'Attempts to prevent you from flinging'}
+CMDs[#CMDs + 1] = {NAME = 'antifling', DESC = 'Prevents you from flinging'}
 CMDs[#CMDs + 1] = {NAME = 'unantifling', DESC = 'Turns off antifling'}
 CMDs[#CMDs + 1] = {NAME = 'vulnscheck / vulns / vuln', DESC = 'Checks if your executor has vulns'}
 CMDs[#CMDs + 1] = {NAME = 'antibang / antirape', DESC = 'Prevents you from getting banged'}
@@ -7303,17 +7369,17 @@ addcmd("exit", {}, function(args, speaker)
 	game:Shutdown()
 end)
 
-addcmd("antifling",{},function(args,speaker)
+addcmd("antifling",{"anfl"},function(args,speaker)
 	AntiFlingEnabled = true
 	notify("Anti-fling", "Anti-fling has been enabled.")
 end)
 
-addcmd("unantifling",{},function(args, speaker)
+addcmd("unantifling",{"unanfl"},function(args, speaker)
 	AntiFlingEnabled = false
 	notify("Anti-fling", "Anti-fling has been disabled.")
 end)
 
-addcmd("toggleantifling", {}, function(args, speaker)
+addcmd("toggleantifling", {"tganfl"}, function(args, speaker)
 	AntiFlingEnabled = not AntiFlingEnabled
 	if (AntiFlingEnabled) then notify("Anti-fling", "Anti-fling has been enabled.") else notify("Anti-fling", "Anti-fling has been disabled.") end
 end)
@@ -11597,10 +11663,26 @@ addcmd('bringpart',{},function(args, speaker)
 	end
 end)
 
+addcmd('tweenbringpart',{},function(args, speaker)
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v.Name:lower() == getstring(1):lower() and v:IsA("BasePart") then
+			TweenService:Create(v,TweenInfo.new(tweenSpeed, Enum.EasingStyle.Linear), {CFrame = getRoot(speaker.Character).CFrame}):Play()
+		end
+	end
+end)
+
 addcmd('bringpartclass',{'bpc'},function(args, speaker)
 	for i,v in pairs(workspace:GetDescendants()) do
 		if v.ClassName:lower() == getstring(1):lower() and v:IsA("BasePart") then
 			v.CFrame = getRoot(speaker.Character).CFrame
+		end
+	end
+end)
+
+addcmd('tweenbringpartclass',{"tbpc"},function(args, speaker)
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v.ClassName:lower() == getstring(1):lower() and v:IsA("BasePart") then
+			TweenService:Create(v,TweenInfo.new(tweenSpeed, Enum.EasingStyle.Linear), {CFrame = getRoot(speaker.Character).CFrame}):Play()
 		end
 	end
 end)
@@ -11857,6 +11939,7 @@ addcmd('unlight',{'nolight'},function(args, speaker)
 end)
 
 addcmd('copytools',{},function(args, speaker)
+	notify("copytools","Keep in mind that this command is client-side.")
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players)do
 		task.spawn(function()
@@ -11994,11 +12077,14 @@ addcmd('vr',{},function(args, speaker)
 end)
 
 addcmd('split',{},function(args, speaker)
+	notify("Notification", "Sadly, but Roblox patched this, so we just removed that command.")
+	--[[
 	if r15(speaker) then
 		speaker.Character.UpperTorso.Waist:Destroy()
 	else
 		notify('R15 Required','This command requires the r15 rig type')
 	end
+	]]
 end)
 
 addcmd('nilchar',{},function(args, speaker)
@@ -12087,8 +12173,8 @@ addcmd('givetool', {'givetools'}, function(args, speaker)
 	local vHRP = getRoot(v)
 	while Char and Char.Parent and vHRP and vHRP.Parent do
 		local Tools = false
-		for _, v in ipairs(Char:GetChildren()) do
-			if v:IsA('BackpackItem') and v:FindFirstChild('Handle') then
+		for _, v : BackpackItem in ipairs(Char:GetChildren()) do
+			if v:IsA('BackpackItem') or v:IsA('Tool') and v:FindFirstChild('Handle') then
 				Tools = true
 				firetouchinterest(v.Handle, vHRP, 0)
 				firetouchinterest(v.Handle, vHRP, 1)
@@ -12249,14 +12335,21 @@ addcmd('disablestate',{},function(args, speaker)
 end)
 
 addcmd('drophats',{'drophat'},function(args, speaker)
+	notify("Notification", "Sadly, but Roblox patched this, so we just removed that command.")
+	
+	--[[
 	if speaker.Character then
 		for _,v in pairs(speaker.Character:FindFirstChildOfClass('Humanoid'):GetAccessories()) do
 			v.Parent = workspace
 		end
 	end
+	]]
 end)
 
 addcmd('deletehats',{'nohats','rhats'},function(args, speaker)
+	notify("Notification", "Sadly, but Roblox patched this, so we just removed that command.")
+
+	--[[
 	for i,v in next, speaker.Character:GetDescendants() do
 		if v:IsA("Accessory") then
 			for i,p in next, v:GetDescendants() do
@@ -12266,6 +12359,7 @@ addcmd('deletehats',{'nohats','rhats'},function(args, speaker)
 			end
 		end
 	end
+	]]
 end)
 
 addcmd('droptools',{'droptool'},function(args, speaker)
