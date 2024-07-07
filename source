@@ -4400,44 +4400,7 @@ local IsVoiding = false
 
 local AnimCheck = true
 
-local GetPlayersCharacters = function() : {any}
-	local Characters = {}
-	
-	for _,player : Player in Players:GetPlayers() do
-		if player.Character and player ~= Player then
-			table.insert(Characters, player.Character)
-		end
-	end
-
-	return Characters
-end
-
-local GetCharactersInBox = function(pos : CFrame, size : Vector3, visible : boolean) : {any}
-	local visible = visible or false
-	-- :: Visual
-	do
-		if visible then
-			local TEMP_PART : BasePart = Instance.new("Part", workspace)
-			TEMP_PART.CFrame = pos
-			TEMP_PART.Size = size
-			TEMP_PART.Anchored = true
-			TEMP_PART.CanCollide = false
-			TEMP_PART.Transparency = 0.75
-			TEMP_PART.Color = Color3.new(0,1,0)
-			TEMP_PART.Material = Enum.Material.Neon
-			task.spawn(function() task.wait(.1)
-				TEMP_PART:Destroy()
-			end)
-		end
-	end
-	local params = OverlapParams.new()
-	params.FilterDescendantsInstances = {GetPlayersCharacters}
-	params.FilterType = Enum.RaycastFilter.Include
-
-	return workspace:GetPartBoundsInBox(pos, size, params)
-end
-
-local GetNearestPlayers = function() : boolean
+local GetNearestPlayers = function()
 	if RootPart then
 		for _, x in next, Players:GetPlayers() do
 			if x ~= Player then
@@ -4445,7 +4408,7 @@ local GetNearestPlayers = function() : boolean
 				local x_Humanoid = x_Character and x_Character:FindFirstChildWhichIsA("Humanoid")
 				local x_RootPart = x_Humanoid and x_Humanoid.RootPart
 
-				if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude <= 2 then
+				if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude < 2 then
 					if (AnimCheck) then
 						for _, x in next, x_Humanoid:GetPlayingAnimationTracks() do
 							if x.Animation and x.Animation.AnimationId:match("148840371") or x.Animation.AnimationId:match("5918726674") then
@@ -4465,6 +4428,7 @@ local GetNearestPlayers = function() : boolean
 	return false
 end
 
+<<<<<<< HEAD
 local GetNearbyPlayersInRadius = function(radius : number) : boolean
 	if RootPart then
 		local chars = GetCharactersInBox(RootPart.CFrame,Vector3.new(radius,radius,radius))
@@ -4494,25 +4458,28 @@ local GetNearbyPlayersInRadius = function(radius : number) : boolean
 end
 
 task.spawn(function()
+=======
+spawn(function()
+>>>>>>> parent of 9c9390a (Optimized antibang command)
 	while true do
 		if (AntiBangEnabled) then
 			Character = Player.Character
 			Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
 			RootPart = Humanoid and Humanoid.RootPart
-			-- :: not sure if my funcs work, but there it is
-			if GetNearbyPlayersInRadius(2) --[[GetNearestPlayers()]] and Humanoid and RootPart and not IsVoiding then
+
+			if GetNearestPlayers() and Humanoid and RootPart and not IsVoiding then
 				IsVoiding = true
 
 				local CurrentPosition = RootPart.Velocity.Magnitude < 50 and RootPart.CFrame or Camera.Focus
 				local Timer = tick()
 
 				repeat
-					RootPart.CFrame = CFrame.new(0, workspace.FallenPartsDestroyHeight + 1, 0) * CFrame.Angles(math.rad(90), 0, 0)
-					RootPart.AssemblyLinearVelocity = Vector3.zero
+					RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
+					RootPart.AssemblyLinearVelocity = Vector3.new()
 					task.wait()
 				until tick() > Timer + 1
 
-				RootPart.AssemblyLinearVelocity = Vector3.zero
+				RootPart.AssemblyLinearVelocity = Vector3.new()
 				RootPart.CFrame = CurrentPosition
 
 				Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
