@@ -4471,7 +4471,6 @@ local GetNearbyPlayersInRadius = function(radius : number) : boolean
 		if #chars < 1 then return false end
 
 		for _, character in chars do
-			Character
 			local Humanoid : Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
 			local HRPart = Humanoid and Humanoid.RootPart
 
