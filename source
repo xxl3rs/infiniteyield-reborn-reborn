@@ -9501,7 +9501,7 @@ addcmd('chatjoindate',{'cjd'},function(args, speaker)
 		table.insert(dates,Players[v].Name.." joined: "..splitDates[2].."/"..splitDates[3].."/"..splitDates[1])
 	end
 	local chatString = table.concat(dates, ', ')
-	chatString(chatString)
+	chatsend(chatString)
 end)
 
 addcmd('copyname',{'copyuser'},function(args, speaker)
@@ -11256,8 +11256,8 @@ addcmd('headsit',{},function(args, speaker)
 end)
 
 addcmd('chat',{'say'},function(args, speaker)
-	local cString = getstring(1)
-	chatsend(cString)
+	local chatString = getstring(1)
+	chatsend(chatString)
 end)
 
 spamming = false
