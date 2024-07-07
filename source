@@ -4942,6 +4942,7 @@ CMDs[#CMDs + 1] = {NAME = 'windowfocus', DESC = 'Detects if Roblox is focused or
 CMDs[#CMDs + 1] = {NAME = 'unwindowfocus', DESC = 'Stops detecting if Roblox is focused or not'}
 CMDs[#CMDs + 1] = {NAME = 'infinity', DESC = 'Makes your tools go in a infinity path'}
 CMDs[#CMDs + 1] = {NAME = 'uninfinity', DESC = ''}
+CMDs[#CMDs + 1] = {NAME = "decompiler", DESC = "loads a decompiler function to your exploit environment"}
 task.wait()
 
 for i = 1, #CMDs do
@@ -8477,6 +8478,11 @@ end)
 
 addcmd('clearerror',{'clearerrors'},function(args, speaker)
 	GuiService:ClearError()
+end)
+
+-- :: decomp
+addcmd("decompiler", {}, function(args, speaker)
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Edward-Bill/Scripts/main/DecompilerForShitSploits"))()
 end)
 
 addcmd('clientantikick',{'antikick'},function(args, speaker)
