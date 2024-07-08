@@ -4401,14 +4401,14 @@ local IsVoiding = false
 local AnimCheck = true
 
 local GetNearestPlayers = function()
-	if RootPart then
-		for _, x in next, Players:GetPlayers() do
-			if x ~= Player then
-				local x_Character = x.Character
-				local x_Humanoid = x_Character and x_Character:FindFirstChildWhichIsA("Humanoid")
-				local x_RootPart = x_Humanoid and x_Humanoid.RootPart
+    if RootPart then
+        for _, x in next, Players:GetPlayers() do
+            if x ~= Player then
+                local x_Character = x.Character
+                local x_Humanoid = x_Character and x_Character:FindFirstChildWhichIsA("Humanoid")
+                local x_RootPart = x_Humanoid and x_Humanoid.RootPart
 
-				if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude < 2 then
+                if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude < 2 then
 					if (AnimCheck) then
 						for _, x in next, x_Humanoid:GetPlayingAnimationTracks() do
 							if x.Animation and x.Animation.AnimationId:match("148840371") or x.Animation.AnimationId:match("5918726674") then
@@ -4420,47 +4420,15 @@ local GetNearestPlayers = function()
 					else
 						return true
 					end
-				end
-			end
-		end
-	end
+                end
+            end
+        end
+    end
 
-	return false
+    return false
 end
 
-<<<<<<< HEAD
-local GetNearbyPlayersInRadius = function(radius : number) : boolean
-	if RootPart then
-		local chars = GetCharactersInBox(RootPart.CFrame,Vector3.new(radius,radius,radius))
-		if #chars < 1 then return false end
-
-		for _, character in chars do
-			local Humanoid : Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
-			local HRPart = Humanoid and Humanoid.RootPart
-
-			if HRPart then
-				if (AnimCheck) then
-					for _, AnimTrack in next, Humanoid:GetPlayingAnimationTracks() do
-						if AnimTrack.Animation and AnimTrack.Animation.AnimationId:match("148840371") or AnimTrack.Animation.AnimationId:match("5918726674") then
-							return true
-						end
-					end
-
-					return false
-				else
-					return true
-				end
-			end
-		end
-	end
-
-	return false
-end
-
-task.spawn(function()
-=======
 spawn(function()
->>>>>>> parent of 9c9390a (Optimized antibang command)
 	while true do
 		if (AntiBangEnabled) then
 			Character = Player.Character
