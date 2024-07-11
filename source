@@ -12661,6 +12661,32 @@ end)
 
 -- // Functions \\ --
 
+local random = Random.new()
+local nextInteger = random.NextInteger
+
+local function randomizeStringCase(originalString)
+	local randomizedCaseString = ""
+	local methods = {
+		[0] = string.lower,
+		[1] = string.upper
+	}
+
+	for x = 1, #originalString, 1 do
+		local randomInteger = nextInteger(random, 0, 1)
+		local currentChararacter = string.sub(originalString, x, x)
+		
+		if methods[randomInteger] then
+			currentChararacter = methods[randomInteger](currentChararacter)
+		else
+			currentChararacter = currentChararacter
+		end
+		
+		randomizedCaseString = randomizedCaseString .. currentChararacter
+	end
+
+	return randomizedCaseString
+end
+
 local function catSelector(cat)
 	local catStr = "Undefined"
 
@@ -12687,6 +12713,16 @@ end
 
 -- guess how many ct.CFrame = hrp.CFrame there ARE! --
 if game.PlaceId == 574746640 then
+	local gameTools = workspace.Tools
+	local chests = {
+		Chest_Invisibility_Cloak = gameTools.Chest_Invisibility_Cloak,
+		Chest_Acceleration_Coil = gameTools.Chest_Acceleration_Coil,
+		Chest_Gravity_Coil = gameTools.Chest_Gravity_Coil,
+		Chest_Cyclotron = gameTools.Chest_Cyclotron,
+		Chest_Teleport = gameTools.Chest_Teleport,
+		Chest_Lantern = workspace.Cabins.StarterCabin.Chest_Lantern
+	}
+
 	addcmd("dig",{"terraindig","removeterrain","digterrain"},function(args, speaker)
 		notify("Digging!")
 		local hrp = getRoot(speaker.Character)
@@ -12755,12 +12791,9 @@ if game.PlaceId == 574746640 then
 		end
 		task.spawn(function()
 			while task.wait() do
-				workspace.Tools.Chest_Acceleration_Coil.LidToggle:FireServer()
-				workspace.Tools.Chest_Cyclotron.LidToggle:FireServer()
-				workspace.Tools.Chest_Gravity_Coil.LidToggle:FireServer()
-				workspace.Cabins.StarterCabin.Chest_Lantern.LidToggle:FireServer()
-				workspace.Tools.Chest_Invisibility_Cloak.LidToggle:FireServer()
-				workspace.Tools.Chest_Teleport.LidToggle:FireServer()
+				for i, v in pairs(gameTools) do
+					v.LidToggle:FireServer()
+				end
 				if itemspamenabled == false then
 					break
 				end
@@ -12797,9 +12830,9 @@ if game.PlaceId == 574746640 then
 		spamtimeenabled = true
 		task.spawn(function()
 			while spamtimeenabled do
-				Players:Chat("day")
+				Players:Chat(randomizeStringCase("day"))
 				task.wait(TIME_SPAM_SPEED)
-				Players:Chat("night")
+				Players:Chat(randomizeStringCase("night"))
 				task.wait(TIME_SPAM_SPEED)
 			end
 		end)
@@ -12818,7 +12851,7 @@ if game.PlaceId == 574746640 then
 		task.spawn(function()
 			while fdayenabled do
 				if Lighting.ClockTime ~= 14 then
-					Players:Chat("day")
+					Players:Chat(randomizeStringCase("day"))
 				end
 				task.wait()
 			end
@@ -12836,7 +12869,7 @@ if game.PlaceId == 574746640 then
 		task.spawn(function()
 			while fnightenabled do
 				if Lighting.ClockTime ~= 1 then
-					Players:Chat("night")
+					Players:Chat(randomizeStringCase("night"))
 				end
 				task.wait()
 			end
@@ -12844,20 +12877,17 @@ if game.PlaceId == 574746640 then
 	end)
 
 	addcmd('gettools',{'gt'}, function(args, speaker)
-		workspace.Tools.Chest_Acceleration_Coil.LidToggle:FireServer()
-		workspace.Tools.Chest_Cyclotron.LidToggle:FireServer()
-		workspace.Tools.Chest_Gravity_Coil.LidToggle:FireServer()
-		workspace.Cabins.StarterCabin.Chest_Lantern.LidToggle:FireServer()
-		workspace.Tools.Chest_Invisibility_Cloak.LidToggle:FireServer()
-		workspace.Tools.Chest_Teleport.LidToggle:FireServer()
+		for i, v in pairs(gameTools) do
+			v.LidToggle:FireServer()
+		end
 	end)
 
 	addcmd('sitcat',{"unexplodablecat"},function(args,speaker)
 		if args[1] then
 			if args[1] == "accept" then
 				notify("Trying!")
-				local seat1 = CFrame.new(348.899994, 16.1130314, 177.499969, 0, 0, 1, 0, 1, 0, -1, 0, 0) * CFrame.Angles(math.pi * 0.5, 0, 0)
-				local seat2 = CFrame.new(324.5, 16.1130486, 183.099976, -1, 0, 0, 0, 1, 0, 0, 0, -1) * CFrame.Angles(math.pi * 0.5, 0, 0)
+				local seat1 = CFrame.new(348.9, 16.1, 177.5, 0, 0, 1, 0, 1, 0, -1, 0, 0) * CFrame.Angles(math.pi * 0.5, 0, 0)
+				local seat2 = CFrame.new(324.5, 16.1, 183.1, -1, 0, 0, 0, 1, 0, 0, 0, -1) * CFrame.Angles(math.pi * 0.5, 0, 0)
 				local cat1 = workspace:FindFirstChild("socky")
 				local cat2 = workspace:FindFirstChild("muffy")
 				local hrp = getRoot(speaker.Character)
