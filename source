@@ -12791,7 +12791,7 @@ if game.PlaceId == 574746640 then
 		end
 		task.spawn(function()
 			while task.wait() do
-				for i, v in pairs(gameTools) do
+				for i, v in pairs(chests) do
 					v.LidToggle:FireServer()
 				end
 				if itemspamenabled == false then
@@ -12877,7 +12877,7 @@ if game.PlaceId == 574746640 then
 	end)
 
 	addcmd('gettools',{'gt'}, function(args, speaker)
-		for i, v in pairs(gameTools) do
+		for i, v in pairs(chests) do
 			v.LidToggle:FireServer()
 		end
 	end)
