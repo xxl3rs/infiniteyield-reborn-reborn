@@ -23,7 +23,7 @@ if IY_LOADED and not _G.IY_DEBUG == true then
 end
 
 -- yeah no there no way to enable this by using a command or somehting. scriptblox is just gay. they have to enable it manually with a one-liner. yes im talking about the is18 shit 
-pcall(function() getgenv().IY_LOADED = true xpcall(function() if game.Players.LocalPlayer:IsVerified() then getgenv().IS18TOUSENSFWFEATURES = true else getgenv().IS18TOUSENSFWFEATURES = false end end, function() getgenv().IS18TOUSENSFWFEATURES = false end) end)
+pcall(function() getgenv().IY_LOADED = true; getgenv().IS18TOUSENSFWFEATURES = false end)
 
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
@@ -11369,7 +11369,7 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			--if IS18TOUSENSFWFEATURES then
+			if IS18TOUSENSFWFEATURES then
 			--	if table.find(nsfwWhitelist, speaker.Name) ~= nil then
 					if table.find(devblacklist, Players[v].Name) ~= nil then
 						execCmd("unbang")
@@ -11409,11 +11409,11 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 			--		notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
 			--		return
 			--	end
-			--else
-			--	execCmd("unbang")
-			--	notify("No. (missing required permissions)")
-			--	return
-			--end		
+			else
+				execCmd("unbang")
+				notify("Error","A global has not been set to true (IS18TOUSENSFWFEATURES)")
+				return
+			end		
 		end
 	end
 end)
@@ -11422,7 +11422,7 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			--if IS18TOUSENSFWFEATURES then
+			if IS18TOUSENSFWFEATURES then
 			--	if table.find(nsfwWhitelist, speaker.Name) ~= nil then
 					if table.find(devblacklist, Players[v].Name) ~= nil then
 						execCmd("unbang")
@@ -11462,11 +11462,11 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 			--		notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
 			--		return
 			--	end
-			--else
-			--	execCmd("unbang")
-			--	notify("No. (missing required permissions)")
-			--	return
-			--end	
+			else
+				execCmd("unbang")
+				notify("Error","A global has not been set to true (IS18TOUSENSFWFEATURES)")
+				return
+			end	
 		end
 	end
 end)
