@@ -11369,8 +11369,8 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if IS18TOUSENSFWFEATURES then
-				if table.find(nsfwWhitelist, speaker.Name) ~= nil then
+			--if IS18TOUSENSFWFEATURES then
+			--	if table.find(nsfwWhitelist, speaker.Name) ~= nil then
 					if table.find(devblacklist, Players[v].Name) ~= nil then
 						execCmd("unbang")
 						notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
@@ -11404,16 +11404,16 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 							end
 						end)
 					end
-				else
-					execCmd("unbang")
-					notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
-					return
-				end
-			else
-				execCmd("unbang")
-				notify("No. (missing required permissions)")
-				return
-			end		
+			--	else
+			--		execCmd("unbang")
+			--		notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
+			--		return
+			--	end
+			--else
+			--	execCmd("unbang")
+			--	notify("No. (missing required permissions)")
+			--	return
+			--end		
 		end
 	end
 end)
@@ -11457,16 +11457,16 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 							end
 						end)
 					end
-				else
-					execCmd("unbang")
-					notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
-					return
-				end
-			else
-				execCmd("unbang")
-				notify("No. (missing required permissions)")
-				return
-			end	
+			--	else
+			--		execCmd("unbang")
+			--		notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
+			--		return
+			--	end
+			--else
+			--	execCmd("unbang")
+			--	notify("No. (missing required permissions)")
+			--	return
+			--end	
 		end
 	end
 end)
