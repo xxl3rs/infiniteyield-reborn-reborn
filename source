@@ -11399,7 +11399,7 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 									break
 								end
 								local otherRoot = getTorso(Players[bangplr].Character)
-								getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet * CFrame.Angles(0,3.15,0)
+								getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
 								getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
 							end
 						end)
