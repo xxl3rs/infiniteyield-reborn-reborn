@@ -22,7 +22,8 @@ if IY_LOADED and not _G.IY_DEBUG == true then
 	return
 end
 
-pcall(function() getgenv().IY_LOADED = true end)
+-- yeah no there no way to enable this by using a command or somehting. scriptblox is just gay. they have to enable it manually with a one-liner. yes im talking about the is18 shit 
+pcall(function() getgenv().IY_LOADED = true xpcall(function() if game.Players.LocalPlayer:IsVerified() then getgenv().IS18TOUSENSFWFEATURES = true else getgenv().IS18TOUSENSFWFEATURES = false end end, function() getgenv().IS18TOUSENSFWFEATURES = false end) end)
 
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
@@ -37,10 +38,10 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '6.2.9'
+currentVersion = '6.3.0'
 
 -- Go to line 12602 for 4nn1's Place stuff
--- For _Real: Add more useless stuff and also add more bang-type commands.
+-- For _Real: Add more useless stuff and also add more bang-type commands. (NON-NSFW)
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -231,7 +232,8 @@ Title.Size = UDim2.new(0, 250, 0, 20)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 18
 if os.date("*t", os.time()).month == 4 then
-	Title.Text = "Infinite Yiff UwU~ v"  .. currentVersion
+	-- This is a reminder how EdgeIY edgy was
+	Title.Text = "Infinite Yiff v"  .. currentVersion
 else
 	Title.Text = "Infinite Yield Reborn v"  .. currentVersion
 end
@@ -1965,7 +1967,7 @@ PlaceId, JobId = game.PlaceId, game.JobId
 local IsOnMobile = table.find({Enum.Platform.IOS, Enum.Platform.Android}, UserInputService:GetPlatform())
 everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 
--- Developers for IY Reborn
+-- Developers for IY Reborn (EDIT we need to move this to the storage)
 devblacklist = {
 	"faceb00k_real",
 	"Femboi_real",
@@ -1973,6 +1975,9 @@ devblacklist = {
 	"FurryBoy_YT4000",
 	"BeatBanger_User",
 	"ck_2"
+}
+nsfwWhitelist = {
+
 }
 
 local isChatLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
@@ -3960,13 +3965,11 @@ for _, plr in pairs(Players:GetPlayers()) do
 	ChatLog(plr)
 end
 
+ESPenabled = false
+
 Players.PlayerRemoving:Connect(function(player)
-	if ESPenabled or CHMSenabled or COREGUI:FindFirstChild(player.Name..'_LC') then
-		for i,v in pairs(COREGUI:GetChildren()) do
-			if v.Name == player.Name..'_ESP' or v.Name == player.Name..'_LC' or v.Name == player.Name..'_CHMS' then
-				v:Destroy()
-			end
-		end
+	if ESPenabled then
+		removeESP(player.Name)
 	end
 	if viewing ~= nil and player == viewing then
 		workspace.CurrentCamera.CameraSubject = Players.LocalPlayer.Character
@@ -4401,14 +4404,14 @@ local IsVoiding = false
 local AnimCheck = true
 
 local GetNearestPlayers = function()
-    if RootPart then
-        for _, x in next, Players:GetPlayers() do
-            if x ~= Player then
-                local x_Character = x.Character
-                local x_Humanoid = x_Character and x_Character:FindFirstChildWhichIsA("Humanoid")
-                local x_RootPart = x_Humanoid and x_Humanoid.RootPart
+	if RootPart then
+		for _, x in next, Players:GetPlayers() do
+			if x ~= Player then
+				local x_Character = x.Character
+				local x_Humanoid = x_Character and x_Character:FindFirstChildWhichIsA("Humanoid")
+				local x_RootPart = x_Humanoid and x_Humanoid.RootPart
 
-                if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude < 2 then
+				if x_RootPart and (RootPart.Position - x_RootPart.Position).Magnitude < 2 then
 					if (AnimCheck) then
 						for _, x in next, x_Humanoid:GetPlayingAnimationTracks() do
 							if x.Animation and x.Animation.AnimationId:match("148840371") or x.Animation.AnimationId:match("5918726674") then
@@ -4420,12 +4423,12 @@ local GetNearestPlayers = function()
 					else
 						return true
 					end
-                end
-            end
-        end
-    end
+				end
+			end
+		end
+	end
 
-    return false
+	return false
 end
 
 spawn(function()
@@ -4492,6 +4495,11 @@ Players.PlayerAdded:Connect(function(plr)
 		setCanCollideOfModelDescendants(plr.Character, false)
 	end)
 end)
+
+local wtvp = function(...) 
+	local a, b = workspace.CurrentCamera.WorldToViewportPoint(workspace.CurrentCamera, ...)
+	return Vector2.new(a.X, a.Y), b, a.Z 
+end
 
 CMDs = {}
 CMDs[#CMDs + 1] = {NAME = 'discord / dc', DESC = 'Invite to the Discord server.'}
@@ -4632,7 +4640,6 @@ CMDs[#CMDs + 1] = {NAME = 'noesp / unesp', DESC = 'Removes esp'}
 CMDs[#CMDs + 1] = {NAME = 'esptransparency [number]', DESC = 'Changes the transparency of esp related commands'}
 CMDs[#CMDs + 1] = {NAME = 'partesp [part name]', DESC = 'Highlights a part'}
 CMDs[#CMDs + 1] = {NAME = 'unpartesp / nopartesp [part name]', DESC = 'removes partesp'}
-CMDs[#CMDs + 1] = {NAME = 'chams', DESC = 'ESP but without text in the way'}
 CMDs[#CMDs + 1] = {NAME = 'nochams / unchams', DESC = 'Removes chams'}
 CMDs[#CMDs + 1] = {NAME = 'locate [player]', DESC = 'View a single player and their status'}
 CMDs[#CMDs + 1] = {NAME = 'unlocate / nolocate [player]', DESC = 'Removes locate'}
@@ -4724,9 +4731,9 @@ CMDs[#CMDs + 1] = {NAME = 'userid / id [player]', DESC = 'Notifies a players use
 CMDs[#CMDs + 1] = {NAME = 'copyuserid / copyid [player]', DESC = 'Copies a players user ID to your clipboard'}
 CMDs[#CMDs + 1] = {NAME = 'appearanceid / aid [player]', DESC = 'Notifies a players appearance ID'}
 CMDs[#CMDs + 1] = {NAME = 'copyappearanceid / caid [player]', DESC = 'Copies a players appearance ID to your clipboard'}
-CMDs[#CMDs + 1] = {NAME = 'bang / rape [player] [speed]', DESC = 'owo'}
-CMDs[#CMDs + 1] = {NAME = 'facebang / facefuck / facerape [player] [speed]', DESC = '>w<'}
-CMDs[#CMDs + 1] = {NAME = 'unbang / unrape / unfacefuck / unfacebang / unfacerape', DESC = 'uwu'}
+CMDs[#CMDs + 1] = {NAME = 'bang / rape [player] [speed]', DESC = 'Fucks someone (NSFW)'}
+CMDs[#CMDs + 1] = {NAME = 'facebang / facefuck / facerape [player] [speed]', DESC = 'Fucks someone in the face (NSFW)'}
+CMDs[#CMDs + 1] = {NAME = 'unbang / unrape / unfacefuck / unfacebang / unfacerape', DESC = 'Stops the rape.'}
 CMDs[#CMDs + 1] = {NAME = 'carpet [player]', DESC = 'Be someones carpet'}
 CMDs[#CMDs + 1] = {NAME = 'uncarpet', DESC = 'Undoes carpet'}
 CMDs[#CMDs + 1] = {NAME = 'friend [player]', DESC = 'Sends a friend request to certain players'}
@@ -4943,6 +4950,10 @@ CMDs[#CMDs + 1] = {NAME = 'unwindowfocus', DESC = 'Stops detecting if Roblox is 
 CMDs[#CMDs + 1] = {NAME = 'infinity', DESC = 'Makes your tools go in a infinity path'}
 CMDs[#CMDs + 1] = {NAME = 'uninfinity', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = "decompiler", DESC = "loads a decompiler function to your exploit environment"}
+CMDs[#CMDs + 1] = {NAME = 'hidechar [player] [CLIENT]', DESC = 'Hides the character from your client!'}
+CMDs[#CMDs + 1] = {NAME = 'unhidechar [player] [CLIENT]', DESC = 'Stops hiding the character from your client.'}
+CMDs[#CMDs + 1] = {NAME = 'unhideallchars [CLIENT]', DESC = 'Unhides all the characters.'}
+CMDs[#CMDs + 1] = {NAME = 'emotewheelreplacement', DESC = 'Replaces the emotes wheel with a custom one'}
 task.wait()
 
 for i = 1, #CMDs do
@@ -5744,166 +5755,19 @@ Cmdbar.Focused:Connect(function()
 	end)
 end)
 
-ESPenabled = false
-CHMSenabled = false
-
 function round(num, numDecimalPlaces)
 	local mult = 10^(numDecimalPlaces or 0)
 	return math.floor(num * mult + 0.5) / mult
 end
 
-function ESP(plr)
-	task.spawn(function()
-		for i,v in pairs(COREGUI:GetChildren()) do
-			if v.Name == plr.Name..'_ESP' then
-				v:Destroy()
-			end
-		end
-		task.wait()
-		if plr.Character and plr.Name ~= Players.LocalPlayer.Name and not COREGUI:FindFirstChild(plr.Name..'_ESP') then
-			local ESPholder = Instance.new("Folder")
-			ESPholder.Name = plr.Name..'_ESP'
-			ESPholder.Parent = COREGUI
-			repeat task.wait(1) until plr.Character and getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
-			for b,n in pairs (plr.Character:GetChildren()) do
-				if (n:IsA("BasePart")) then
-					local a = Instance.new("BoxHandleAdornment")
-					a.Name = plr.Name
-					a.Parent = ESPholder
-					a.Adornee = n
-					a.AlwaysOnTop = true
-					a.ZIndex = 10
-					a.Size = n.Size
-					a.Transparency = espTransparency
-					a.Color = plr.TeamColor
-				end
-			end
-			if plr.Character and plr.Character:FindFirstChild('Head') then
-				local BillboardGui = Instance.new("BillboardGui")
-				local TextLabel = Instance.new("TextLabel")
-				BillboardGui.Adornee = plr.Character.Head
-				BillboardGui.Name = plr.Name
-				BillboardGui.Parent = ESPholder
-				BillboardGui.Size = UDim2.new(0, 100, 0, 150)
-				BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
-				BillboardGui.AlwaysOnTop = true
-				TextLabel.Parent = BillboardGui
-				TextLabel.BackgroundTransparency = 1
-				TextLabel.Position = UDim2.new(0, 0, 0, -50)
-				TextLabel.Size = UDim2.new(0, 100, 0, 100)
-				TextLabel.Font = Enum.Font.SourceSansSemibold
-				TextLabel.TextSize = 20
-				TextLabel.TextColor3 = Color3.new(1, 1, 1)
-				TextLabel.TextStrokeTransparency = 0
-				TextLabel.TextYAlignment = Enum.TextYAlignment.Bottom
-				TextLabel.Text = 'Name: '..plr.Name
-				TextLabel.ZIndex = 10
-				local espLoopFunc
-				local teamChange
-				local addedFunc
-				addedFunc = plr.CharacterAdded:Connect(function()
-					if ESPenabled then
-						espLoopFunc:Disconnect()
-						teamChange:Disconnect()
-						ESPholder:Destroy()
-						repeat task.wait(1) until getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
-						ESP(plr)
-						addedFunc:Disconnect()
-					else
-						teamChange:Disconnect()
-						addedFunc:Disconnect()
-					end
-				end)
-				teamChange = plr:GetPropertyChangedSignal("TeamColor"):Connect(function()
-					if ESPenabled then
-						espLoopFunc:Disconnect()
-						addedFunc:Disconnect()
-						ESPholder:Destroy()
-						repeat task.wait(1) until getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
-						ESP(plr)
-						teamChange:Disconnect()
-					else
-						teamChange:Disconnect()
-					end
-				end)
-				local function espLoop()
-					if COREGUI:FindFirstChild(plr.Name..'_ESP') then
-						if plr.Character and getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid") and Players.LocalPlayer.Character and getRoot(Players.LocalPlayer.Character) and Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-							local pos = math.floor((getRoot(Players.LocalPlayer.Character).Position - getRoot(plr.Character).Position).magnitude)
-							TextLabel.Text = 'Name: '..plr.Name..' | Health: '..round(plr.Character:FindFirstChildOfClass('Humanoid').Health, 1)..' | Studs: '..pos
-						end
-					else
-						teamChange:Disconnect()
-						addedFunc:Disconnect()
-						espLoopFunc:Disconnect()
-					end
-				end
-				espLoopFunc = RunService.RenderStepped:Connect(espLoop)
-			end
-		end
-	end)
+function round2(...)
+	local a = {}
+	for i,v in pairs(table.pack(...)) do
+		a[i] = math.round(v)
+	end 
+	return unpack(a)
 end
 
-function CHMS(plr)
-	task.spawn(function()
-		for i,v in pairs(COREGUI:GetChildren()) do
-			if v.Name == plr.Name..'_CHMS' then
-				v:Destroy()
-			end
-		end
-		task.wait()
-		if plr.Character and plr.Name ~= Players.LocalPlayer.Name and not COREGUI:FindFirstChild(plr.Name..'_CHMS') then
-			local ESPholder = Instance.new("Folder")
-			ESPholder.Name = plr.Name..'_CHMS'
-			ESPholder.Parent = COREGUI
-			repeat task.wait(1) until plr.Character and getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
-			for b,n in pairs (plr.Character:GetChildren()) do
-				if (n:IsA("BasePart")) then
-					local a = Instance.new("BoxHandleAdornment")
-					a.Name = plr.Name
-					a.Parent = ESPholder
-					a.Adornee = n
-					a.AlwaysOnTop = true
-					a.ZIndex = 10
-					a.Size = n.Size
-					a.Transparency = espTransparency
-					a.Color = plr.TeamColor
-				end
-			end
-			local addedFunc
-			local teamChange
-			local CHMSremoved
-			addedFunc = plr.CharacterAdded:Connect(function()
-				if CHMSenabled then
-					ESPholder:Destroy()
-					teamChange:Disconnect()
-					repeat task.wait(1) until getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
-					CHMS(plr)
-					addedFunc:Disconnect()
-				else
-					teamChange:Disconnect()
-					addedFunc:Disconnect()
-				end
-			end)
-			teamChange = plr:GetPropertyChangedSignal("TeamColor"):Connect(function()
-				if CHMSenabled then
-					ESPholder:Destroy()
-					addedFunc:Disconnect()
-					repeat task.wait(1) until getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
-					CHMS(plr)
-					teamChange:Disconnect()
-				else
-					teamChange:Disconnect()
-				end
-			end)
-			CHMSremoved = ESPholder.AncestryChanged:Connect(function()
-				teamChange:Disconnect()
-				addedFunc:Disconnect()
-				CHMSremoved:Disconnect()
-			end)
-		end
-	end)
-end
 
 function Locate(plr)
 	task.spawn(function()
@@ -8445,7 +8309,7 @@ addcmd("savelogs", {}, function(args, speaker)
 	local writelogs = '-- Infinite Yield Reborn Roblox logs for "'..placeName..'"\n'
 	local getLogMessages = LogService:GetLogHistory()
 	local array = {}
-    local writelogsFile
+	local writelogsFile
 
 	if appendfile then
 		notify("Loading",'Hold on a sec')
@@ -8670,24 +8534,132 @@ addcmd('unwindowfocus', {}, function(args, speaker)
 	wfenabled = false
 end)
 
-addcmd('esp',{},function(args, speaker)
-	if not CHMSenabled then
-		ESPenabled = true
-		for i,v in pairs(Players:GetPlayers()) do
-			if v.Name ~= speaker.Name then
-				ESP(v)
+local cachedESP = {}
+function createESP(player)
+	print(player.." | create esp")
+	local espitems = {}
+	if Drawing then
+		espitems.box = Drawing.new("Square")
+		espitems.box.Thickness = 1
+		espitems.box.Filled = false
+		espitems.box.Color = Color3.new(255,0,0)
+		espitems.box.Visible = false
+		espitems.box.ZIndex = 2
+		espitems.boxl = Drawing.new("Square")
+		espitems.boxl.Thickness = 2
+		espitems.boxl.Filled = false
+		espitems.boxl.Color = Color3.new(0,0,0)
+		espitems.boxl.Visible = false
+		espitems.boxl.ZIndex = 1
+		espitems.healthbar = Drawing.new("Square")
+		espitems.healthbar.Thickness = 1
+		espitems.healthbar.Filled = true
+		espitems.healthbar.Color = Color3.new(0,255,0)
+		espitems.healthbar.Visible = false
+		espitems.healthbar.ZIndex = 2
+		espitems.healthbarl = Drawing.new("Square")
+		espitems.healthbarl.Thickness = 2
+		espitems.healthbarl.Filled = true
+		espitems.healthbarl.Color = Color3.new(0,0,0)
+		espitems.healthbarl.Visible = false
+		espitems.healthbarl.ZIndex = 1
+		espitems.name = Drawing.new("Text")
+		espitems.name.Size = 14
+		espitems.name.Center = true
+		espitems.name.Outline = true
+		espitems.name.Color = Color3.fromRGB(255, 255, 255)
+		espitems.name.Visible = false
+		espitems.name.ZIndex = 2
+		espitems.distance = Drawing.new("Text")
+		espitems.distance.Size = 14
+		espitems.distance.Center = true
+		espitems.distance.Outline = true
+		espitems.distance.Color = Color3.fromRGB(255, 255, 255)
+		espitems.distance.Visible = false
+		espitems.distance.ZIndex = 2
+	end
+	cachedESP[player] = espitems
+end
+
+function removeESP(player)
+	if rawget(cachedESP, player) then
+		for _, drawing in next, cachedESP[player] do
+			drawing:Remove();
+		end
+		cachedESP[player] = nil;
+	end
+end
+
+function updateESP(player, esp)
+	local char = Players:FindFirstChild(player) and Players:FindFirstChild(player).Character
+	if char then
+		local cframe = char:GetModelCFrame() --rarely used wtf
+		local position, visible, depth = wtvp(cframe.Position)
+		esp.box.Visible = visible
+		esp.boxl.Visible = visible
+		esp.healthbar.Visible = visible
+		esp.healthbarl.Visible = visible
+		esp.name.Visible = visible
+		esp.distance.Visible = visible
+		if cframe and visible then
+			local sf = 1 / (depth * math.tan(math.rad(Camera.FieldOfView / 2)) * 2) * 1000
+			local w, h = round2(4 * sf, 5 * sf)
+			local x, y = round2(position.X, position.Y)
+			esp.box.Size = Vector2.new(w,h)
+			esp.box.Position = Vector2.new(round2(x - w / 2, y - h / 2))
+			esp.box.Color = Players:FindFirstChild(player).TeamColor.Color or Color3.fromRGB(255,0,0)
+			esp.boxl.Size = esp.box.Size
+			esp.boxl.Position = esp.box.Position
+			local hum = char:FindFirstChildOfClass("Humanoid")
+			if hum then
+				local hp = hum.Health / hum.MaxHealth
+				esp.healthbar.Size = Vector2.new(2, h * hp)
+				esp.healthbar.Position = Vector2.new(round2(x - w / 2 - 8, y - h / 2 + h  * (1 - hp)))
+				esp.healthbarl.Size = Vector2.new(4, h)
+				esp.healthbarl.Position = Vector2.new(round2(x - w / 2 - 8, y - h / 2))
 			end
+			esp.name.Text = Players:FindFirstChild(player).DisplayName..` (@{Players:FindFirstChild(player).Name})`
+			esp.name.Position = Vector2.new(x, y - h / 2 - 24)
+			esp.distance.Text = tostring(round2(depth)).." studs"
+			esp.distance.Position = Vector2.new(x, y + h / 2 + 16)
 		end
 	else
-		notify('ESP','Disable chams (nochams) before using esp')
+		esp.box.Visible = false
+		esp.boxl.Visible = false
+		esp.healthbar.Visible = false
+		esp.healthbarl.Visible = false
+		esp.name.Visible = false
+		esp.distance.Visible = false
 	end
+end
+
+addcmd('esp',{},function(args, speaker)
+	if ESPenabled then return end
+	ESPenabled = true
+	for _, plr in next, Players:GetPlayers() do
+		if plr ~= speaker then
+			task.spawn(function()
+				createESP(plr.Name)
+			end)
+		end
+	end
+	print("next")
+	RunService:BindToRenderStep("iyresp", Enum.RenderPriority.Camera.Value, function()
+		for plr, drawing in pairs(cachedESP) do
+			if plr ~= speaker and drawing ~= nil then
+				print(`trying to update {plr}`)
+				updateESP(plr, drawing)
+			end
+		end
+	end)
 end)
 
 addcmd('noesp',{'unesp'},function(args, speaker)
 	ESPenabled = false
-	for i,c in pairs(COREGUI:GetChildren()) do
-		if string.sub(c.Name, -4) == '_ESP' then
-			c:Destroy()
+	RunService:UnbindFromRenderStep("iyresp")
+	for _, plr in pairs(Players:GetPlayers()) do
+		if plr ~= speaker then
+			removeESP(plr.Name)
 		end
 	end
 end)
@@ -8764,30 +8736,7 @@ addcmd('unpartesp',{'nopartesp'},function(args, speaker)
 	end
 end)
 
-addcmd('chams',{},function(args, speaker)
-	if not ESPenabled then
-		CHMSenabled = true
-		for i,v in pairs(Players:GetPlayers()) do
-			if v.Name ~= speaker.Name then
-				CHMS(v)
-			end
-		end
-	else
-		notify('Chams','Disable ESP (noesp) before using chams')
-	end
-end)
 
-addcmd('nochams',{'unchams'},function(args, speaker)
-	CHMSenabled = false
-	for i,v in pairs(Players:GetPlayers()) do
-		local chmsplr = v
-		for i,c in pairs(COREGUI:GetChildren()) do
-			if c.Name == chmsplr.Name..'_CHMS' then
-				c:Destroy()
-			end
-		end
-	end
-end)
 
 addcmd('locate',{},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
@@ -11216,16 +11165,16 @@ addcmd('orbit',{},function(args, speaker)
 				if not speaker_root then
 					orbit = nil
 				end
-    			frame += 1
-    			speaker_root.Velocity = Vector3.zero
-    			speaker_root.RotVelocity = Vector3.zero
-    			local x,y,z
-    			x,y,z = math.sin((frame/25)*speed)*distance,0,math.cos((frame/25)*speed)*distance
+				frame += 1
+				speaker_root.Velocity = Vector3.zero
+				speaker_root.RotVelocity = Vector3.zero
+				local x,y,z
+				x,y,z = math.sin((frame/25)*speed)*distance,0,math.cos((frame/25)*speed)*distance
 				if target_root then
 					local target_cf = target_root.CFrame
 					speaker_root.CFrame = target_cf+Vector3.new(x,y,z)
 				end
- 			   	task.wait(0.01)
+				task.wait(0.01)
 			else
 				orbit = nil
 			end
@@ -11242,7 +11191,6 @@ addcmd('headsit',{},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
 		if table.find(devblacklist, Players[v].Name) ~= nil then
-			execCmd("unbang")
 			notify("Error","HEY! You cannot head sit a developer of Infinite Yield Reborn!")
 			return
 		else
@@ -11393,88 +11341,137 @@ function getTorso(x)
 	return x:FindFirstChild("Torso") or x:FindFirstChild("UpperTorso") or x:FindFirstChild("LowerTorso") or x:FindFirstChild("HumanoidRootPart")
 end
 
+--------------------------------------------------------------------------------------------------------
+
+-- I dont know what to say. this video says it all.
+-- https://www.youtube.com/watch?v=jjxD4goI6jg
+
+-- Also why people care about this if they gonna just use another script
+-- with the same features but for everyone
+-- It's like saying "YOU ADDED SO MANY NSFW COMMANDS!" even tho i added only one.
+-- the other one ;bang is already added in the Original IY but modified
+-- What am i gonna do next? add ;blowjob??????
+-- No. how come SOME nsfw scripts be allowed on ScriptBlox but mine gets deleted
+-- and GET banned for having 2 COMMANDS that are nsfw
+-- "more" yeah totally more huh
+-- i will add more nsfw commands when the earth and mars explodes. (which it will never happen)
+-- also HUGE W for rscripts.net for allowing my script to be on the site (someone uploaded it for me)
+-- well yeah they dont have anything against perverted shit
+
+-- also scriptblox riddle me this.
+-- how COME 300 kids not get banned on your website for uploading IY?
+-- ;bang / ;rape command exists in the original IY
+-- and I. FB_REAL GET FUCKING BANNED BECAUSE OF 2 NSFW SCRIPTS ITS NOT EVEN "MORE" ITS JUST 1 EXTRA COMMAND
+-- the community is sped :broken_heart:
+
 local isbanging = false
-addcmd("bang", {"rape"}, function(args, speaker)
-	execCmd("unbang")
-	task.wait()
-	isbanging = true
-	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
-	bangAnim = Instance.new("Animation")
-	bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
-	bang = humanoid:LoadAnimation(bangAnim)
-	bang:Play(0.1, 1, 1)
-	bang:AdjustSpeed(args[2] or 2)
-	bangDied = humanoid.Died:Connect(function()
-		bang:Stop()
-		bangAnim:Destroy()
-		bangDied:Disconnect()
-		isbanging = false
-	end)
+addcmd("Bang",{"rape"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if table.find(devblacklist, Players[v].Name) ~= nil then
-				execCmd("unbang")
-				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
-				return
-			else
-				local bangplr = Players[v].Name
-				local bangOffet = CFrame.new(0, 0, 1.1)
-				task.spawn(function()
-					while task.wait() do
-						if isbanging == false then
-							break
-						end
-						local otherRoot = getTorso(Players[bangplr].Character)
-						getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
-						getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+			if IS18TOUSENSFWFEATURES then
+				if table.find(nsfwWhitelist, speaker.Name) ~= nil then
+					if table.find(devblacklist, Players[v].Name) ~= nil then
+						execCmd("unbang")
+						notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
+						return
+					else
+						execCmd("unbang")
+						task.wait()
+						isbanging = true
+						local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+						bangAnim = Instance.new("Animation")
+						bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
+						bang = humanoid:LoadAnimation(bangAnim)
+						bang:Play(0.1, 1, 1)
+						bang:AdjustSpeed(args[2] or 2)
+						bangDied = humanoid.Died:Connect(function()
+							bang:Stop()
+							bangAnim:Destroy()
+							bangDied:Disconnect()
+							isbanging = false
+						end)
+						local bangplr = Players[v].Name
+						local bangOffet = CFrame.new(0,0,1.1)
+						task.spawn(function()
+							while task.wait() do
+								if isbanging == false then
+									break
+								end
+								local otherRoot = getTorso(Players[bangplr].Character)
+								getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet * CFrame.Angles(0,3.15,0)
+								getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+							end
+						end)
 					end
-				end)
-			end
+				else
+					execCmd("unbang")
+					notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
+					return
+				end
+			else
+				execCmd("unbang")
+				notify("No. (missing required permissions)")
+				return
+			end		
 		end
 	end
 end)
 
 addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
-	execCmd("unbang")
-	task.wait()
-	isbanging = true
-	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
-	bangAnim = Instance.new("Animation")
-	bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
-	bang = humanoid:LoadAnimation(bangAnim)
-	bang:Play(0.1, 1, 1)
-	bang:AdjustSpeed(args[2] or 2)
-	bangDied = humanoid.Died:Connect(function()
-		bang:Stop()
-		bangAnim:Destroy()
-		bangDied:Disconnect()
-		isbanging = false
-	end)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if table.find(devblacklist, Players[v].Name) ~= nil then
-				execCmd("unbang")
-				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
-				return
-			else
-				local bangplr = Players[v].Name
-				local bangOffet = CFrame.new(0, 2.3, -1.1)
-				task.spawn(function()
-					while task.wait() do
-						if isbanging == false then
-							break
-						end
-						local otherRoot = getTorso(Players[bangplr].Character)
-						getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet * CFrame.Angles(0,3.15,0)
-						getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+			if IS18TOUSENSFWFEATURES then
+				if table.find(nsfwWhitelist, speaker.Name) ~= nil then
+					if table.find(devblacklist, Players[v].Name) ~= nil then
+						execCmd("unbang")
+						notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
+						return
+					else
+						execCmd("unbang")
+						task.wait()
+						isbanging = true
+						local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+						bangAnim = Instance.new("Animation")
+						bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
+						bang = humanoid:LoadAnimation(bangAnim)
+						bang:Play(0.1, 1, 1)
+						bang:AdjustSpeed(args[2] or 2)
+						bangDied = humanoid.Died:Connect(function()
+							bang:Stop()
+							bangAnim:Destroy()
+							bangDied:Disconnect()
+							isbanging = false
+						end)
+						local bangplr = Players[v].Name
+						local bangOffet = CFrame.new(0, 2.3, -1.1)
+						task.spawn(function()
+							while task.wait() do
+								if isbanging == false then
+									break
+								end
+								local otherRoot = getTorso(Players[bangplr].Character)
+								getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet * CFrame.Angles(0,3.15,0)
+								getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+							end
+						end)
 					end
-				end)
-			end
+				else
+					execCmd("unbang")
+					notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
+					return
+				end
+			else
+				execCmd("unbang")
+				notify("No. (missing required permissions)")
+				return
+			end	
 		end
 	end
 end)
+
+--------------------------------------------------------------------------------------------------------
 
 addcmd("antibang",{'antirape'},function(args, speaker)
 	AntiBangEnabled = true
@@ -11894,6 +11891,53 @@ addcmd('naked',{},function(args, speaker)
 	end
 end)
 
+addcmd('emotewheelreplacement',{},function(args, speaker)
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/fuckusfm/useless-scritps/main/Emotes/main"))()
+end)
+
+local hiddenplayers = {}
+addcmd('hidechar',{},function(args, speaker)
+	local plr = getPlayer(args[1], speaker)[1]
+	if table.find(hiddenplayers, plr) then return end
+	table.insert(hiddenplayers,plr)
+	hiddenplayers[plr] = {}
+	for _,v in pairs(Players:FindFirstChild(plr).Character:GetDescendants()) do
+		if v:IsA("BasePart") or v:IsA("Decal") then
+			if v.Name ~= "HumanoidRootPart" then
+				task.spawn(function()
+					table.insert(hiddenplayers[plr], v) -- :brain:
+					v.Transparency = 1
+				end)
+			end
+		end
+	end
+end)
+
+addcmd('unhidechar',{},function(args, speaker)
+	local plr = getPlayer(args[1], speaker)[1]
+	if table.find(hiddenplayers, plr) then
+		for _,v in pairs(hiddenplayers[plr]) do
+			if v:IsA("BasePart") or v:IsA("Decal") then
+				task.spawn(function()
+					v.Transparency = 0
+				end)
+			end
+		end
+		hiddenplayers[plr] = nil
+	end
+end)
+
+addcmd('unhideallchars',{},function(args, speaker)
+	for _,v in pairs(hiddenplayers) do
+		for _,instancee in pairs(hiddenplayers[v]) do
+			task.spawn(function()
+				instancee.Transparency = 0
+			end)
+		end
+		hiddenplayers[v] = nil
+	end
+end)
+
 addcmd('noface',{'removeface'},function(args, speaker)
 	for i,v in pairs(speaker.Character:GetDescendants()) do
 		if v:IsA("Decal") and v.Name == 'face' then
@@ -12270,7 +12314,7 @@ end)
 
 addcmd('drophats',{'drophat'},function(args, speaker)
 	notify("Notification", "Sadly, but Roblox patched this, so we just removed that command.")
-	
+
 	--[[
 	if speaker.Character then
 		for _,v in pairs(speaker.Character:FindFirstChildOfClass('Humanoid'):GetAccessories()) do
@@ -12650,7 +12694,7 @@ addcmd('kill',{'fekill'},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
 		if game.PlaceId ~= 574746640 then
-		kill(speaker,Players[v])
+			kill(speaker,Players[v])
 		else
 			Ann1kill(speaker,Players[v])
 		end
@@ -12660,32 +12704,6 @@ end)
 --[[ 4nn1's Place: START ]] --
 
 -- // Functions \\ --
-
-local random = Random.new()
-local nextInteger = random.NextInteger
-
-local function randomizeStringCase(originalString)
-	local randomizedCaseString = ""
-	local methods = {
-		[0] = string.lower,
-		[1] = string.upper
-	}
-
-	for x = 1, #originalString, 1 do
-		local randomInteger = nextInteger(random, 0, 1)
-		local currentChararacter = string.sub(originalString, x, x)
-		
-		if methods[randomInteger] then
-			currentChararacter = methods[randomInteger](currentChararacter)
-		else
-			currentChararacter = currentChararacter
-		end
-		
-		randomizedCaseString = randomizedCaseString .. currentChararacter
-	end
-
-	return randomizedCaseString
-end
 
 local function catSelector(cat)
 	local catStr = "Undefined"
@@ -12713,16 +12731,6 @@ end
 
 -- guess how many ct.CFrame = hrp.CFrame there ARE! --
 if game.PlaceId == 574746640 then
-	local gameTools = workspace.Tools
-	local chests = {
-		Chest_Invisibility_Cloak = gameTools.Chest_Invisibility_Cloak,
-		Chest_Acceleration_Coil = gameTools.Chest_Acceleration_Coil,
-		Chest_Gravity_Coil = gameTools.Chest_Gravity_Coil,
-		Chest_Cyclotron = gameTools.Chest_Cyclotron,
-		Chest_Teleport = gameTools.Chest_Teleport,
-		Chest_Lantern = workspace.Cabins.StarterCabin.Chest_Lantern
-	}
-
 	addcmd("dig",{"terraindig","removeterrain","digterrain"},function(args, speaker)
 		notify("Digging!")
 		local hrp = getRoot(speaker.Character)
@@ -12791,9 +12799,12 @@ if game.PlaceId == 574746640 then
 		end
 		task.spawn(function()
 			while task.wait() do
-				for i, v in pairs(chests) do
-					v.LidToggle:FireServer()
-				end
+				workspace.Tools.Chest_Acceleration_Coil.LidToggle:FireServer()
+				workspace.Tools.Chest_Cyclotron.LidToggle:FireServer()
+				workspace.Tools.Chest_Gravity_Coil.LidToggle:FireServer()
+				workspace.Cabins.StarterCabin.Chest_Lantern.LidToggle:FireServer()
+				workspace.Tools.Chest_Invisibility_Cloak.LidToggle:FireServer()
+				workspace.Tools.Chest_Teleport.LidToggle:FireServer()
 				if itemspamenabled == false then
 					break
 				end
@@ -12830,9 +12841,9 @@ if game.PlaceId == 574746640 then
 		spamtimeenabled = true
 		task.spawn(function()
 			while spamtimeenabled do
-				Players:Chat(randomizeStringCase("day"))
+				Players:Chat("day")
 				task.wait(TIME_SPAM_SPEED)
-				Players:Chat(randomizeStringCase("night"))
+				Players:Chat("night")
 				task.wait(TIME_SPAM_SPEED)
 			end
 		end)
@@ -12851,7 +12862,7 @@ if game.PlaceId == 574746640 then
 		task.spawn(function()
 			while fdayenabled do
 				if Lighting.ClockTime ~= 14 then
-					Players:Chat(randomizeStringCase("day"))
+					Players:Chat("day")
 				end
 				task.wait()
 			end
@@ -12869,7 +12880,7 @@ if game.PlaceId == 574746640 then
 		task.spawn(function()
 			while fnightenabled do
 				if Lighting.ClockTime ~= 1 then
-					Players:Chat(randomizeStringCase("night"))
+					Players:Chat("night")
 				end
 				task.wait()
 			end
@@ -12877,17 +12888,20 @@ if game.PlaceId == 574746640 then
 	end)
 
 	addcmd('gettools',{'gt'}, function(args, speaker)
-		for i, v in pairs(chests) do
-			v.LidToggle:FireServer()
-		end
+		workspace.Tools.Chest_Acceleration_Coil.LidToggle:FireServer()
+		workspace.Tools.Chest_Cyclotron.LidToggle:FireServer()
+		workspace.Tools.Chest_Gravity_Coil.LidToggle:FireServer()
+		workspace.Cabins.StarterCabin.Chest_Lantern.LidToggle:FireServer()
+		workspace.Tools.Chest_Invisibility_Cloak.LidToggle:FireServer()
+		workspace.Tools.Chest_Teleport.LidToggle:FireServer()
 	end)
 
 	addcmd('sitcat',{"unexplodablecat"},function(args,speaker)
 		if args[1] then
 			if args[1] == "accept" then
 				notify("Trying!")
-				local seat1 = CFrame.new(348.9, 16.1, 177.5, 0, 0, 1, 0, 1, 0, -1, 0, 0) * CFrame.Angles(math.pi * 0.5, 0, 0)
-				local seat2 = CFrame.new(324.5, 16.1, 183.1, -1, 0, 0, 0, 1, 0, 0, 0, -1) * CFrame.Angles(math.pi * 0.5, 0, 0)
+				local seat1 = CFrame.new(348.899994, 16.1130314, 177.499969, 0, 0, 1, 0, 1, 0, -1, 0, 0) * CFrame.Angles(math.pi * 0.5, 0, 0)
+				local seat2 = CFrame.new(324.5, 16.1130486, 183.099976, -1, 0, 0, 0, 1, 0, 0, 0, -1) * CFrame.Angles(math.pi * 0.5, 0, 0)
 				local cat1 = workspace:FindFirstChild("socky")
 				local cat2 = workspace:FindFirstChild("muffy")
 				local hrp = getRoot(speaker.Character)
@@ -13180,33 +13194,37 @@ end)
 
 local infinitypathtoolenabled = false
 addcmd('infinity',{},function(args,speaker)
-	if infinitypathtoolenabled then
-		infinitypathtool:Disconnect()
-		infinitypathtoolenabled = false
-	end
-	
-	infinitypathtoolenabled = true
-	local theta = 0
-
-	local function calculateLemniscate(theta)
-		local x = math.cos(theta) / (.5 + math.sin(theta)^2)
-		local z = math.cos(theta) * math.sin(theta) / (.5 + math.sin(theta)^2)
-		return x, z
-	end
-
-	infinitypathtool = RunService.Heartbeat:Connect(function()
-		for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-			if v:IsA("Tool") then
-				theta = theta + 0.02
-				
-				local X,Z = calculateLemniscate(theta)
-			
-				v.Grip = CFrame.new(X, Z, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
-				v.Parent = game.Players.LocalPlayer.Backpack
-				v.Parent = game.Players.LocalPlayer.Character
-			end
+	if tools(speaker) then
+		if infinitypathtoolenabled then
+			infinitypathtool:Disconnect()
+			infinitypathtoolenabled = false
 		end
-	end)
+
+		infinitypathtoolenabled = true
+		local theta = 0
+
+		local function calculateLemniscate(theta)
+			local x = math.cos(theta) / (.5 + math.sin(theta)^2)
+			local z = math.cos(theta) * math.sin(theta) / (.5 + math.sin(theta)^2)
+			return x, z
+		end
+
+		infinitypathtool = RunService.Heartbeat:Connect(function()
+			for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+				if v:IsA("Tool") then
+					theta = theta + 0.02
+
+					local X,Z = calculateLemniscate(theta)
+
+					v.Grip = CFrame.new(X, Z, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+					v.Parent = game.Players.LocalPlayer.Backpack
+					v.Parent = game.Players.LocalPlayer.Character
+				end
+			end
+		end)
+	else
+		notify('Tool Required','You need to have an item in your inventory to use this command')
+	end
 end)
 
 addcmd('uninfinity',{},function(args,speaker)
@@ -13903,30 +13921,30 @@ end)
 
 addcmd('joinjobid',{'jjobid', 'jjid'},function(args, speaker)
 	if args[1] then 
-        	TeleportService:TeleportToPlaceInstance(game.PlaceId,args[1])
-    	else
-        	notify('Argument error', 'Missing arg 1 - JobId expected')
-    	end
+		TeleportService:TeleportToPlaceInstance(game.PlaceId,args[1])
+	else
+		notify('Argument error', 'Missing arg 1 - JobId expected')
+	end
 end)
 
 addcmd('toolview',{'tview'},function(args, speaker)
 	local s, e = pcall(function()
-        local pl = Players:FindFirstChild(getPlayer(args[1], speaker)[1])
-        if not pl then return notify('Argument error', 'Invalid argument passed') end
-        local t, chartool = {}, pl.Character:FindFirstChildOfClass("Tool")
-    
-        for _, v in pl.Backpack:GetChildren() do
-            if not v:IsA("Tool") then continue end
-            table.insert(t, tostring(v))
-        end
-        
-        if chartool then 
-            notify(("%s's tools"):format(tostring(pl)), tostring(chartool).. ", " ..table.concat(t, ", "))
-        else
-            notify(("%s's tools"):format(tostring(pl)), table.concat(t, ", "))
-        end
-        end)
-        print(e)
+		local pl = Players:FindFirstChild(getPlayer(args[1], speaker)[1])
+		if not pl then return notify('Argument error', 'Invalid argument passed') end
+		local t, chartool = {}, pl.Character:FindFirstChildOfClass("Tool")
+
+		for _, v in pl.Backpack:GetChildren() do
+			if not v:IsA("Tool") then continue end
+			table.insert(t, tostring(v))
+		end
+
+		if chartool then 
+			notify(("%s's tools"):format(tostring(pl)), tostring(chartool).. ", " ..table.concat(t, ", "))
+		else
+			notify(("%s's tools"):format(tostring(pl)), table.concat(t, ", "))
+		end
+	end)
+	print(e)
 end)
 
 if IsOnMobile then
@@ -14028,12 +14046,7 @@ Players.PlayerAdded:Connect(function(plr)
 	JoinLog(plr)
 	ChatLog(plr)
 	if ESPenabled then
-		repeat task.wait(1) until plr.Character and getRoot(plr.Character)
-		ESP(plr)
-	end
-	if CHMSenabled then
-		repeat task.wait(1) until plr.Character and getRoot(plr.Character)
-		CHMS(plr)
+		createESP(player.Name)
 	end
 end)
 
