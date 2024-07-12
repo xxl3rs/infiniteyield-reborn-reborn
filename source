@@ -11422,8 +11422,8 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if IS18TOUSENSFWFEATURES then
-				if table.find(nsfwWhitelist, speaker.Name) ~= nil then
+			--if IS18TOUSENSFWFEATURES then
+			--	if table.find(nsfwWhitelist, speaker.Name) ~= nil then
 					if table.find(devblacklist, Players[v].Name) ~= nil then
 						execCmd("unbang")
 						notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
