@@ -23,7 +23,7 @@ if IY_LOADED and not _G.IY_DEBUG == true then
 end
 
 -- yeah no there no way to enable this by using a command or somehting. scriptblox is just gay. they have to enable it manually with a one-liner. yes im talking about the is18 shit 
-pcall(function() getgenv().IY_LOADED = true; getgenv().IS18TOUSENSFWFEATURES = false end)
+pcall(function() getgenv().IY_LOADED = true; --[[getgenv().IS18TOUSENSFWFEATURES = false]] end)
 
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
@@ -11369,7 +11369,7 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if IS18TOUSENSFWFEATURES then
+			--if IS18TOUSENSFWFEATURES then
 			--	if table.find(nsfwWhitelist, speaker.Name) ~= nil then
 					if table.find(devblacklist, Players[v].Name) ~= nil then
 						execCmd("unbang")
@@ -11409,11 +11409,11 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 			--		notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
 			--		return
 			--	end
-			else
-				execCmd("unbang")
-				notify("Error","A global has not been set to true (IS18TOUSENSFWFEATURES)")
-				return
-			end		
+			--else
+			--	execCmd("unbang")
+			--	notify("Error","A global has not been set to true (IS18TOUSENSFWFEATURES)")
+			--	return
+			--end		
 		end
 	end
 end)
@@ -11422,7 +11422,7 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if IS18TOUSENSFWFEATURES then
+			--if IS18TOUSENSFWFEATURES then
 			--	if table.find(nsfwWhitelist, speaker.Name) ~= nil then
 					if table.find(devblacklist, Players[v].Name) ~= nil then
 						execCmd("unbang")
@@ -11462,11 +11462,11 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 			--		notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
 			--		return
 			--	end
-			else
-				execCmd("unbang")
-				notify("Error","A global has not been set to true (IS18TOUSENSFWFEATURES)")
-				return
-			end	
+			--else
+			--	execCmd("unbang")
+			--	notify("Error","A global has not been set to true (IS18TOUSENSFWFEATURES)")
+			--	return
+			--end	
 		end
 	end
 end)
@@ -14090,98 +14090,101 @@ end
 IYMouse.Move:Connect(checkTT)
 
 task.spawn(function()
-	local success, latestVersionInfo = pcall(function() 
-		local versionJson = game:HttpGet('https://raw.githubusercontent.com/fuckusfm/infiniteyield-reborn/master/version')
-		return HttpService:JSONDecode(versionJson)
-	end)
-
-	if success then
-		if currentVersion ~= latestVersionInfo.Version then
-			notify('Outdated','Get the new version by executing it again (or rejoin if keepiy is enabled)')
+	while task.wait() do
+		local success, latestVersionInfo = pcall(function() 
+			local versionJson = game:HttpGet('https://raw.githubusercontent.com/fuckusfm/infiniteyield-reborn/master/version')
+			return HttpService:JSONDecode(versionJson)
+		end)
+	
+		if success then
+			if currentVersion ~= latestVersionInfo.Version then
+				notify('Outdated','Get the new version by executing it again (or rejoin if keepiy is enabled)')
+			end
+	
+			if latestVersionInfo.Announcement and latestVersionInfo.Announcement ~= '' then
+				local AnnGUI = Instance.new("Frame")
+				local background = Instance.new("Frame")
+				local TextBox = Instance.new("TextLabel")
+				local shadow = Instance.new("Frame")
+				local PopupText = Instance.new("TextLabel")
+				local Exit = Instance.new("TextButton")
+				local ExitImage = Instance.new("ImageLabel")
+	
+				AnnGUI.Name = randomString()
+				AnnGUI.Parent = PARENT
+				AnnGUI.Active = true
+				AnnGUI.BackgroundTransparency = 1
+				AnnGUI.Position = UDim2.new(0.5, -180, 0, -500)
+				AnnGUI.Size = UDim2.new(0, 360, 0, 20)
+				AnnGUI.ZIndex = 10
+	
+				background.Name = "background"
+				background.Parent = AnnGUI
+				background.Active = true
+				background.BackgroundColor3 = currentShade1
+				background.BorderSizePixel = 0
+				background.Position = UDim2.new(0, 0, 0, 20)
+				background.Size = UDim2.new(0, 360, 0, 150)
+				background.ZIndex = 10
+	
+				TextBox.Parent = background
+				TextBox.BackgroundTransparency = 1
+				TextBox.Position = UDim2.new(0, 5, 0, 5)
+				TextBox.Size = UDim2.new(0, 350, 0, 140)
+				TextBox.Font = Enum.Font.SourceSans
+				TextBox.TextSize = 18
+				TextBox.TextWrapped = true
+				TextBox.Text = latestVersionInfo.Announcement
+				TextBox.TextColor3 = currentText1
+				TextBox.TextXAlignment = Enum.TextXAlignment.Left
+				TextBox.TextYAlignment = Enum.TextYAlignment.Top
+				TextBox.ZIndex = 10
+	
+				shadow.Name = "shadow"
+				shadow.Parent = AnnGUI
+				shadow.BackgroundColor3 = currentShade2
+				shadow.BorderSizePixel = 0
+				shadow.Size = UDim2.new(0, 360, 0, 20)
+				shadow.ZIndex = 10
+	
+				PopupText.Name = "PopupText"
+				PopupText.Parent = shadow
+				PopupText.BackgroundTransparency = 1
+				PopupText.Size = UDim2.new(1, 0, 0.95, 0)
+				PopupText.ZIndex = 10
+				PopupText.Font = Enum.Font.SourceSans
+				PopupText.TextSize = 14
+				PopupText.Text = "Server Announcement"
+				PopupText.TextColor3 = currentText1
+				PopupText.TextWrapped = true
+	
+				Exit.Name = "Exit"
+				Exit.Parent = shadow
+				Exit.BackgroundTransparency = 1
+				Exit.Position = UDim2.new(1, -20, 0, 0)
+				Exit.Size = UDim2.new(0, 20, 0, 20)
+				Exit.Text = ""
+				Exit.ZIndex = 10
+	
+				ExitImage.Parent = Exit
+				ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
+				ExitImage.BackgroundTransparency = 1
+				ExitImage.Position = UDim2.new(0, 5, 0, 5)
+				ExitImage.Size = UDim2.new(0, 10, 0, 10)
+				ExitImage.Image = "rbxassetid://5054663650"
+				ExitImage.ZIndex = 10
+	
+				task.wait(1)
+				AnnGUI:TweenPosition(UDim2.new(0.5, -180, 0, 150), "InOut", "Quart", 0.5, true, nil)
+	
+				Exit.MouseButton1Click:Connect(function()
+					AnnGUI:TweenPosition(UDim2.new(0.5, -180, 0, -500), "InOut", "Quart", 0.5, true, nil)
+					task.wait(0.6)
+					AnnGUI:Destroy()
+				end)
+			end
 		end
-
-		if latestVersionInfo.Announcement and latestVersionInfo.Announcement ~= '' then
-			local AnnGUI = Instance.new("Frame")
-			local background = Instance.new("Frame")
-			local TextBox = Instance.new("TextLabel")
-			local shadow = Instance.new("Frame")
-			local PopupText = Instance.new("TextLabel")
-			local Exit = Instance.new("TextButton")
-			local ExitImage = Instance.new("ImageLabel")
-
-			AnnGUI.Name = randomString()
-			AnnGUI.Parent = PARENT
-			AnnGUI.Active = true
-			AnnGUI.BackgroundTransparency = 1
-			AnnGUI.Position = UDim2.new(0.5, -180, 0, -500)
-			AnnGUI.Size = UDim2.new(0, 360, 0, 20)
-			AnnGUI.ZIndex = 10
-
-			background.Name = "background"
-			background.Parent = AnnGUI
-			background.Active = true
-			background.BackgroundColor3 = currentShade1
-			background.BorderSizePixel = 0
-			background.Position = UDim2.new(0, 0, 0, 20)
-			background.Size = UDim2.new(0, 360, 0, 150)
-			background.ZIndex = 10
-
-			TextBox.Parent = background
-			TextBox.BackgroundTransparency = 1
-			TextBox.Position = UDim2.new(0, 5, 0, 5)
-			TextBox.Size = UDim2.new(0, 350, 0, 140)
-			TextBox.Font = Enum.Font.SourceSans
-			TextBox.TextSize = 18
-			TextBox.TextWrapped = true
-			TextBox.Text = latestVersionInfo.Announcement
-			TextBox.TextColor3 = currentText1
-			TextBox.TextXAlignment = Enum.TextXAlignment.Left
-			TextBox.TextYAlignment = Enum.TextYAlignment.Top
-			TextBox.ZIndex = 10
-
-			shadow.Name = "shadow"
-			shadow.Parent = AnnGUI
-			shadow.BackgroundColor3 = currentShade2
-			shadow.BorderSizePixel = 0
-			shadow.Size = UDim2.new(0, 360, 0, 20)
-			shadow.ZIndex = 10
-
-			PopupText.Name = "PopupText"
-			PopupText.Parent = shadow
-			PopupText.BackgroundTransparency = 1
-			PopupText.Size = UDim2.new(1, 0, 0.95, 0)
-			PopupText.ZIndex = 10
-			PopupText.Font = Enum.Font.SourceSans
-			PopupText.TextSize = 14
-			PopupText.Text = "Server Announcement"
-			PopupText.TextColor3 = currentText1
-			PopupText.TextWrapped = true
-
-			Exit.Name = "Exit"
-			Exit.Parent = shadow
-			Exit.BackgroundTransparency = 1
-			Exit.Position = UDim2.new(1, -20, 0, 0)
-			Exit.Size = UDim2.new(0, 20, 0, 20)
-			Exit.Text = ""
-			Exit.ZIndex = 10
-
-			ExitImage.Parent = Exit
-			ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
-			ExitImage.BackgroundTransparency = 1
-			ExitImage.Position = UDim2.new(0, 5, 0, 5)
-			ExitImage.Size = UDim2.new(0, 10, 0, 10)
-			ExitImage.Image = "rbxassetid://5054663650"
-			ExitImage.ZIndex = 10
-
-			task.wait(1)
-			AnnGUI:TweenPosition(UDim2.new(0.5, -180, 0, 150), "InOut", "Quart", 0.5, true, nil)
-
-			Exit.MouseButton1Click:Connect(function()
-				AnnGUI:TweenPosition(UDim2.new(0.5, -180, 0, -500), "InOut", "Quart", 0.5, true, nil)
-				task.wait(0.6)
-				AnnGUI:Destroy()
-			end)
-		end
+		task.wait(1000)
 	end
 end)
 
