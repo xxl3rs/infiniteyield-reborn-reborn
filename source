@@ -10289,7 +10289,7 @@ addcmd('nohead', {'rhead', 'headless'}, function(args, speaker)
 
 		local hum2 = Instance.new("Humanoid")
 		hum2.Parent = char
-		hum2.Jump = true
+                char:FindFirstChildOfClass("Humanoid").Jump = true
 
 		humanoidanimation.Animator.Parent = hum2
 		char.Animate.Disabled = true
