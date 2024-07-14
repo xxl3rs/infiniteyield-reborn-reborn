@@ -1961,6 +1961,7 @@ TextChatService = cloneref(game:GetService("TextChatService"))
 
 sethidden = sethiddenproperty or set_hidden_property or set_hidden_prop
 gethidden = gethiddenproperty or get_hidden_property or get_hidden_prop
+setsimulation = setsimulationradius or set_simulation_radius
 queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
 httprequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
 PlaceId, JobId = game.PlaceId, game.JobId
@@ -4889,6 +4890,8 @@ CMDs[#CMDs + 1] = {NAME = 'mousesensitivity / ms [0-10]', DESC = 'Sets your mous
 CMDs[#CMDs + 1] = {NAME = 'clickdelete', DESC = 'Go to settings>Keybinds>Add for clicktp'}
 CMDs[#CMDs + 1] = {NAME = 'clickteleport', DESC = 'Go to settings>Keybinds>Add for click tp'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
+CMDs[#CMDs + 1] = {NAME = 'simulationradius / simradius', DESC = 'Set the simulation radius.'}
+CMDs[#CMDs + 1] = {NAME = 'nosimulationradius / nosimradius / unsimradius', DESC = 'Set the simulation radius to the default values (139).'}
 CMDs[#CMDs + 1] = {NAME = 'tools', DESC = 'Copies tools from ReplicatedStorage and Lighting'}
 CMDs[#CMDs + 1] = {NAME = 'notools / removetools / deletetools', DESC = 'Removes tools from character and backpack'}
 CMDs[#CMDs + 1] = {NAME = 'deleteselectedtool / dst', DESC = 'Removes any currently selected tools'}
@@ -10256,18 +10259,18 @@ addcmd('nolimbs',{'rlimbs'},function(args, speaker)
 	end
 end)
 
-addcmd('nohead',{'rhead','headless'},function(args, speaker)
+addcmd('nohead', {'rhead', 'headless'}, function(args, speaker)
 	if sethidden then
 		-- Full credit to Thomas_Cornez#0272 @Discord
 		local lplr = Players.LocalPlayer
 		local char = lplr.Character
-		local rigType = tostring(char:FindFirstChildOfClass('Humanoid').RigType) == "Enum.HumanoidRigType.R6" and 1 or tostring(char:FindFirstChildOfClass('Humanoid').RigType) == "Enum.HumanoidRigType.R15" and 2
+		local humanoid = char:FindFirstChildOfClass('Humanoid')
+		local rigType = humanoid.RigType
 
-		local speaker = Players.LocalPlayer
-
+		sethidden(lplr, "SimulationRadius", math.huge)
 
 		local test = Instance.new("Model")
-		local hum  = Instance.new("Humanoid")
+		local hum = Instance.new("Humanoid")
 		local animation = Instance.new("Model")
 		local humanoidanimation = Instance.new("Humanoid")
 		test.Parent = workspace
@@ -10277,16 +10280,16 @@ addcmd('nohead',{'rhead','headless'},function(args, speaker)
 
 		lplr.Character = test
 		task.wait(2)
-		char:FindFirstChildOfClass('Humanoid').Animator.Parent = humanoidanimation
-		char:FindFirstChildOfClass('Humanoid'):Destroy()
+		humanoid.Animator.Parent = humanoidanimation
+		humanoid:Destroy()
 
 		char.Head:Destroy()
 		task.wait(5)
-		Players.LocalPlayer.Character = char
+		lplr.Character = char
 
 		local hum2 = Instance.new("Humanoid")
 		hum2.Parent = char
-		char:FindFirstChildOfClass("Humanoid").Jump = true
+		hum2.Jump = true
 
 		humanoidanimation.Animator.Parent = hum2
 		char.Animate.Disabled = true
@@ -10294,13 +10297,13 @@ addcmd('nohead',{'rhead','headless'},function(args, speaker)
 		char.Animate.Disabled = false
 		task.wait()
 
-		if rig == 1 then
+		if rigType == Enum.HumanoidRigType.R6 then
 			hum2.HipHeight = 0
-		elseif rig == 2 then
+		elseif rigType == Enum.HumanoidRigType.R15 then
 			hum2.HipHeight = 2.19
 		end
 	else
-		notify('Incompatible Exploit','Your exploit does not support this command (missing sethiddenproperty)')
+		notify('Incompatible Exploit', 'Your exploit does not support this command (missing sethiddenproperty)')
 	end
 end)
 
@@ -11784,6 +11787,40 @@ end)
 
 addcmd('notifyping',{'ping'},function(args, speaker)
 	notify("Ping", math.round(speaker:GetNetworkPing() * 1000) .. "ms")
+end)
+
+
+simRadius = false
+addcmd('simulationradius',{'simradius'},function(args, speaker)
+	if sethidden then		
+		simRadLoop = game:GetService('RunService').Stepped:Connect(function()
+			if setsimulation then
+				setsimulation(1e308, 1/0)
+			else	
+				sethidden(speaker,"MaximumSimulationRadius",1/0)
+				sethidden(speaker,"SimulationRadius", 1e308)
+			end
+		end)
+		simRadius = true
+	else
+		notify('Incompatible Exploit','Your exploit does not support this command (missing sethiddenproperty)')
+	end
+end)
+
+addcmd('nosimulationradius',{'nosimradius','unsimradius'},function(args, speaker)
+	if sethidden then		
+		if simRadLoop then simRadLoop:Disconnect() end
+		wait()
+		if setsimulation then
+			setsimulation(139,139)
+		else	
+			sethidden(speaker,"MaximumSimulationRadius",139)
+			sethidden(speaker,"SimulationRadius", 139)
+		end
+		simRadius = false
+	else
+		notify('Incompatible Exploit','Your exploit does not support this command (missing sethiddenproperty)')
+	end
 end)
 
 addcmd('grabtools', {}, function(args, speaker)
@@ -13717,6 +13754,9 @@ addcmd('freezeunanchored',{'freezeua'},function(args, speaker)
 							c:Destroy()
 						end
 					end
+					if not simRadius then
+						execCmd('simulationradius')
+					end
 					local bodypos = Instance.new("BodyPosition")
 					bodypos.Parent = v
 					bodypos.Position = v.Position
@@ -13744,6 +13784,9 @@ addcmd('thawunanchored',{'thawua','unfreezeunanchored','unfreezeua'},function(ar
 	if sethidden then
 		if freezingua then
 			freezingua:Disconnect()
+		end
+		if not simRadius then
+			execCmd('simulationradius')
 		end
 		for i,v in pairs(frozenParts) do
 			for i,c in pairs(v:GetChildren()) do
@@ -13783,6 +13826,9 @@ addcmd('tpunanchored',{'tpua'},function(args, speaker)
 						table.insert(frozenParts,part)
 					end
 				end
+			end
+			if not simRadius then
+				execCmd('simulationradius')
 			end
 			for i,c in pairs(Forces) do
 				c.Position = Players[v].Character.Head.Position
