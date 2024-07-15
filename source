@@ -1971,7 +1971,6 @@ everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and 
 -- Developers for IY Reborn (EDIT we need to move this to the storage)
 devblacklist = {
 	"faceb00k_real",
-	"Femboi_real",
 	"QQQQQQQQOQQQQQQQQQOQ",
 	"FurryBoy_YT4000",
 	"BeatBanger_User",
