@@ -9421,9 +9421,7 @@ end)
 local function promptNewRig(speaker, rig)
     local humanoid = speaker.Character and speaker.Character:FindFirstChildWhichIsA("Humanoid")
     if humanoid then
-
-        AvatarEditorService:PromptSaveAvatar(game.Players.LocalPlayer.Character.Humanoid.HumanoidDescription, Enum.HumanoidRigType[rig])
-        
+        AvatarEditorService:PromptSaveAvatar(humanoid.HumanoidDescription, Enum.HumanoidRigType[rig])
         local result = AvatarEditorService.PromptSaveAvatarCompleted:Wait()
         if result == Enum.AvatarPromptResult.Success then
             execCmd("reset")
@@ -11035,7 +11033,7 @@ addcmd("execute", {"run", "code"}, function(args, speaker)
         return loadstring(code)()
     end)
     if success then
-        notify("Execution Success", "Code executed successfully. Check console for results.")
+        notify("Execution Success", "Code executed successfully. Check console for possible results.")
     else
         notify("Execution Error", "An error occurred. Check console for details.")
     end
