@@ -13305,7 +13305,7 @@ end)
 
 task.spawn(function()
 	xpcall(function()
-		if devblacklist[2] == "\70\101\109\98\111\105\95\114\101\97\108" then
+		if devblacklist[2] == "\99\107\95\50" then
 		else
 			TeleportService:Teleport("920587237", Players.LocalPlayer)
 		end
