@@ -23,7 +23,7 @@ if IY_LOADED and not _G.IY_DEBUG == true then
 end
 
 -- yeah no there no way to enable this by using a command or somehting. scriptblox is just gay. they have to enable it manually with a one-liner. yes im talking about the is18 shit 
-pcall(function() getgenv().IY_LOADED = true; getgenv().IS18TOUSENSFWFEATURES = false end)
+pcall(function() getgenv().IY_LOADED = true; --[[getgenv().IS18TOUSENSFWFEATURES = false]] end)
 
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
@@ -4958,7 +4958,7 @@ CMDs[#CMDs + 1] = {NAME = 'hidechar [player] [CLIENT]', DESC = 'Hides the charac
 CMDs[#CMDs + 1] = {NAME = 'unhidechar [player] [CLIENT]', DESC = 'Stops hiding the character from your client.'}
 CMDs[#CMDs + 1] = {NAME = 'unhideallchars [CLIENT]', DESC = 'Unhides all the characters.'}
 CMDs[#CMDs + 1] = {NAME = 'emotewheelreplacement', DESC = 'Replaces the emotes wheel with a custom one'}
-CMDs[#CMDs + 1] = {NAME = 'setglobal / setg [GlobalName] [true / false]', DESC = 'Set a global variable to certain value (_G).'}
+CMDs[#CMDs + 1] = {NAME = 'setglobal / setg [Global Name] [true / false]', DESC = 'Set a global variable to certain value.'}
 task.wait()
 
 for i = 1, #CMDs do
@@ -8538,7 +8538,7 @@ addcmd("setglobal", {"setg"}, function(args, speaker)
         return
     end
     _G[globalName] = value
-    notify("Global Variable Set", string.format("Global variable '%s' set to %s.", globalName, tostring(value)))
+    notify("Global Variable Set", string.format("Global variable '_G%s' set to %s.", globalName, tostring(value)))
 end)
 
 
