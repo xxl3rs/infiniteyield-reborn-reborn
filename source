@@ -25,6 +25,8 @@ end
 -- yeah no there no way to enable this by using a command or somehting. scriptblox is just gay. they have to enable it manually with a one-liner. yes im talking about the is18 shit 
 pcall(function() getgenv().IY_LOADED = true; --[[getgenv().IS18TOUSENSFWFEATURES = false]] end)
 
+-- fuck you ScriptBlox touches children and love watching little sisters
+
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
 Players = cloneref(game:GetService("Players"))
@@ -4507,7 +4509,6 @@ CMDs[#CMDs + 1] = {NAME = 'discord / dc', DESC = 'Invite to the Discord server.'
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Loads old Roblox console'}
 CMDs[#CMDs + 1] = {NAME = 'unc / unctest / unccheckevn', DESC = 'Tests all UNC Environment'}
 CMDs[#CMDs + 1] = {NAME = 'addunc / addmoreunc / adduncevn', DESC = 'Adds some UNC Environment(s)'}
-CMDs[#CMDs + 1] = {NAME = 'validateidentity / realidentity / identityvalidator', DESC = 'Check if the current identity is faked.'}
 CMDs[#CMDs + 1] = {NAME = 'execute / run / code', DESC = 'Execute a LuaU code.'}
 CMDs[#CMDs + 1] = {NAME = 'explorer / dex', DESC = 'Opens DEX by Moon'}
 CMDs[#CMDs + 1] = {NAME = 'secureexplorer / securedex / bypasseddex', DESC = 'Opens Bypassed DEX by HamstaGang'}
@@ -10995,82 +10996,6 @@ end)
 addcmd("addunc",{'addmoreunc','adduncevn'},function(args, speaker)
 	loadstring(game:HttpGet("https://github.com/FurryBoyYT/moreunc/raw/main/source"))()
 	notify("Adding some UNC (Thanks to the community) (WARNING THIS MAY REMOVE SOME UNC)")
-end)
-
-addcmd("validateidentity", {'realidentity', 'identityvalidator'}, function(args, speaker)
-local Rating, TestsRan = 0, 1
-local conn
-local Identity, Identity2
-conn = game:GetService("LogService").MessageOut:Connect(function(message, messageType)
- if message:find("Current identity is") then
-  Identity = message
- end
- if Check2 then
-   Identity2 = message
-  conn:Disconnect()
- end
-end)
-printidentity()
-repeat task.wait() until Identity
-Identity1 = tonumber(Identity:gsub('Current identity is', ''):match("%d+"))
-if Identity1 > 9 then
- warn("Your executor is faking their identity.\nReason: Identity cannot be over 9")
- return
-end
--- Start testing
-local Source1 = debug.info(printidentity, 's')
--- Can be faked with newcclosure.
-
-local setfenvsuccess, e = pcall(function()
- setfenv(printidentity, {})
-end)
-
-local success
-local sti = set_thread_identity or setthreadidentity
-
-if sti then
- setthreadidentity(3)
- Check2 = true
- printidentity()
- repeat task.wait() until Identity2
- success = Identity2 ~= 'Current identity is 3'
-end
-
-local Tests = { -- Should be FALSE for all if no faking is done.
- [1] = Source1 ~= '[C]',
- [2] = setfenvsuccess,
- [3] = success,
- [4] = iscclosure and not iscclosure(printidentity)
-}
-local TestResults = {
- [1] = `Creates a fake function by doing:\nfunction printidentity()\n print('{Identity}')\nend`,
- [2] = 'Creates a fake function and tries to hide it with newcclosure.',
- [3] = 'Detected by it\'s own set_thread_identity.',
- [4] = 'Same as test #1'
-}
-
-local Passed = 0
-
-for index, val in next, Tests do
-  if val then
-   warn(`Test #{index}: Your executor fakes their printidentity, here's how: {TestResults[index]}`)
-  else
-   Passed = Passed + 1
-  end
-end
-if Passed == #Tests then
-  print("Your executor does not fake it's identity!\nIdentity:",Identity1)
-  Rating += 1
-end
-
-print(`Your executor got a {(Rating / TestsRan) * 100}% rating.`)
-
-	notify("Check console", "Press F9 or type /console in chat to see results")
-end)
-
-addcmd("vulnspatch",{'vpatcher','vulnspatcher'},function(args, speaker)
-	loadstring(game:HttpGet("https://infiniteyieldreborn.xyz/vulnpatcher"))()
-	notify("Patching some vulns (Thanks to v3rm community)")
 end)
 
 addcmd("vulnscheck",{"vulns","vuln"},function()
