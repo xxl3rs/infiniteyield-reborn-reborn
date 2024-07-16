@@ -25,6 +25,8 @@ end
 -- yeah no there no way to enable this by using a command or somehting. scriptblox is just gay. they have to enable it manually with a one-liner. yes im talking about the is18 shit 
 pcall(function() getgenv().IY_LOADED = true; --[[getgenv().IS18TOUSENSFWFEATURES = false]] end)
 
+-- fuck you ScriptBlox touches children and love watching little sisters
+
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
 Players = cloneref(game:GetService("Players"))
@@ -4545,6 +4547,7 @@ CMDs[#CMDs + 1] = {NAME = 'togglekeepiy', DESC = 'Toggle keepiy'}
 CMDs[#CMDs + 1] = {NAME = 'savegame / saveplace', DESC = 'Uses saveinstance to save the game'}
 CMDs[#CMDs + 1] = {NAME = 'savelogs', DESC = 'Saves Roblox logs as a file'}
 CMDs[#CMDs + 1] = {NAME = 'clearerror', DESC = 'Clears the annoying box and blur when a game kicks you'}
+CMDs[#CMDs + 1] = {NAME = 'removeanticheat / antianticheat (CLIENT)', DESC = 'Prevents Anticheats from detecting you.'}
 CMDs[#CMDs + 1] = {NAME = 'clientantikick / antikick (CLIENT)', DESC = 'Prevents localscripts from kicking you'}
 CMDs[#CMDs + 1] = {NAME = 'clientantiteleport / antiteleport (CLIENT)', DESC = 'Prevents localscripts from teleporting you'}
 CMDs[#CMDs + 1] = {NAME = 'allowrejoin / allowrj [true/false] (CLIENT)', DESC = 'Changes if antiteleport allows you to rejoin or not'}
@@ -4957,7 +4960,7 @@ CMDs[#CMDs + 1] = {NAME = 'hidechar [player] [CLIENT]', DESC = 'Hides the charac
 CMDs[#CMDs + 1] = {NAME = 'unhidechar [player] [CLIENT]', DESC = 'Stops hiding the character from your client.'}
 CMDs[#CMDs + 1] = {NAME = 'unhideallchars [CLIENT]', DESC = 'Unhides all the characters.'}
 CMDs[#CMDs + 1] = {NAME = 'emotewheelreplacement', DESC = 'Replaces the emotes wheel with a custom one'}
-CMDs[#CMDs + 1] = {NAME = 'setglobal / setg [Global Name] [true / false]', DESC = 'Set a global variable to certain value.'}
+CMDs[#CMDs + 1] = {NAME = 'setglobal / setg [Global Name] [true/false]', DESC = 'Set a global variable to certain value.'}
 task.wait()
 
 for i = 1, #CMDs do
@@ -8353,6 +8356,21 @@ addcmd("decompiler", {}, function(args, speaker)
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/Edward-Bill/Scripts/main/DecompilerForShitSploits"))()
 end)
 
+addcmd('removeanticheat',{'antianticheat'},function(args, speaker)
+function AntiAntiBang(parent)
+    for _, child in pairs(parent:GetChildren()) do
+        local name = child.Name:lower()
+        if (name:find("anti") or name:find("exploit") or name:find("dll")) and child:IsA("LocalScript") then
+            child:Destroy()
+        end
+        AntiAntiBang(child)
+    end
+end
+
+        AntiAntiBang(game)
+	notify('Client AntiAntiCheat','Client AntiAntiCheat is now active (only effective on localscript anticheats)')
+end)
+
 addcmd('clientantikick',{'antikick'},function(args, speaker)
 	if not hookmetamethod then 
 		return notify('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
@@ -9415,23 +9433,23 @@ addcmd("showprompts", {"showpurchaseprompts"}, function(args, speaker)
 	COREGUI.PurchasePrompt.Enabled = true
 end)
 
-promptNewRig = function(speaker, rig)
-	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
-	if humanoid then
-		AvatarEditorService:PromptSaveAvatar(humanoid.HumanoidDescription, Enum.HumanoidRigType[rig])
-		local result = AvatarEditorService.PromptSaveAvatarCompleted:Wait()
-		if result == Enum.AvatarPromptResult.Success then
-			execCmd("reset")
-		end
-	end
+local function promptNewRig(speaker, rig)
+    local humanoid = speaker.Character and speaker.Character:FindFirstChildWhichIsA("Humanoid")
+    if humanoid then
+        AvatarEditorService:PromptSaveAvatar(humanoid.HumanoidDescription, Enum.HumanoidRigType[rig])
+        local result = AvatarEditorService.PromptSaveAvatarCompleted:Wait()
+        if result == Enum.AvatarPromptResult.Success then
+            execCmd("reset")
+        end
+    end
 end
 
 addcmd("promptr6", {}, function(args, speaker)
-	promptNewRig(speaker, "R6")
+    promptNewRig(speaker, "R6")
 end)
 
 addcmd("promptr15", {}, function(args, speaker)
-	promptNewRig(speaker, "R15")
+    promptNewRig(speaker, "R15")
 end)
 
 addcmd('age',{},function(args, speaker)
@@ -10989,10 +11007,11 @@ addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
 	notify("Check console", "Press F9 or type /console in chat to see results")
 end)
 
-addcmd("addunc",{'addmoreunc','adduncevn'},function(args, speaker)
-	loadstring(game:HttpGet("https://github.com/FurryBoyYT/moreunc/raw/main/source"))()
-	notify("Adding some UNC (Thanks to the community) (WARNING THIS MAY REMOVE SOME UNC)")
+addcmd("addunc", {'addmoreunc', 'adduncevn'}, function(args, speaker)
+    loadstring(game:HttpGet("https://github.com/FurryBoyYT/moreunc/raw/main/source"))() 
+    notify("Adding some UNC (Thanks to the community) (WARNING THIS MAY REMOVE SOME UNC)")
 end)
+
 
 addcmd("vulnspatch",{'vpatcher','vulnspatcher'},function(args, speaker)
 	loadstring(game:HttpGet("https://infiniteyieldreborn.xyz/vulnpatcher"))()
@@ -11010,7 +11029,7 @@ addcmd("execute", {"run", "code"}, function(args, speaker)
         return loadstring(code)()
     end)
     if success then
-        notify("Execution Success", "Code executed successfully. Check console for results.")
+        notify("Execution Success", "Code executed successfully. Check console for possible results.")
     else
         notify("Execution Error", "An error occurred. Check console for details.")
     end
