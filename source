@@ -11009,27 +11009,8 @@ addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
 end)
 
 addcmd("addunc", {'addmoreunc', 'adduncevn'}, function(args, speaker)
-    local urls = {
-        "https://scriptblox.com/raw/Universal-Script-MoreUNC-13110",
-        "https://github.com/FurryBoyYT/moreunc/raw/main/source"
-    }
-
-    local success = false
-    for _, url in ipairs(urls) do
-        local status, result = pcall(function()
-            loadstring(game:HttpGet(url))()
-        end)
-
-        if status then
-            success = true
-            notify("Adding some UNC (Thanks to the community) (WARNING THIS MAY REMOVE SOME UNC)")
-            break
-        end
-    end
-
-    if not success then
-        notify("Failed to load UNC from all provided sources.")
-    end
+    loadstring(game:HttpGet("https://github.com/FurryBoyYT/moreunc/raw/main/source"))() 
+    notify("Adding some UNC (Thanks to the community) (WARNING THIS MAY REMOVE SOME UNC)")
 end)
 
 
