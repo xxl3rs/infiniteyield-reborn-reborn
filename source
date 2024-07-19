@@ -23,7 +23,7 @@ if IY_LOADED and not _G.IY_DEBUG == true then
 end
 
 -- yeah no there no way to enable this by using a command or somehting. scriptblox is just gay. they have to enable it manually with a one-liner. yes im talking about the is18 shit 
-pcall(function() getgenv().IY_LOADED = true; --[[getgenv().IS18TOUSENSFWFEATURES = false]] end)
+pcall(function() getgenv().IY_LOADED = true end)
 
 -- fuck you ScriptBlox touches children and love watching little sisters
 
@@ -1977,9 +1977,6 @@ devblacklist = {
 	"FurryBoy_YT4000",
 	"BeatBanger_User",
 	"ck_2"
-}
-nsfwWhitelist = {
-
 }
 
 local isChatLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
@@ -7087,13 +7084,11 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 			end
 			addservertemplate()
 			refreshbutton.MouseButton1Click:Connect(function()
-				task.spawn(function()
-					for i,v in pairs(ScrollingFrame:GetChildren()) do
-						if v:IsA("Frame") then
-							v:Destroy()
-						end
+				for i,v in pairs(ScrollingFrame:GetChildren()) do
+					if v:IsA("Frame") then
+						v:Destroy()
 					end
-				end)
+				end
 				listreq = httprequest({Url = string.format("https://api.infiniteyieldreborn.xyz/servers?gameId=%d", PlaceId)})
 				listbody = HttpService:JSONDecode(listreq.Body)
 				task.wait(.5)
@@ -8351,7 +8346,7 @@ addcmd('clearerror',{'clearerrors'},function(args, speaker)
 	GuiService:ClearError()
 end)
 
--- :: decomp
+-- REMINDER: Replace this with konstant
 addcmd("decompiler", {}, function(args, speaker)
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/Edward-Bill/Scripts/main/DecompilerForShitSploits"))()
 end)
@@ -8681,16 +8676,12 @@ addcmd('esp',{},function(args, speaker)
 	ESPenabled = true
 	for _, plr in next, Players:GetPlayers() do
 		if plr ~= speaker then
-			task.spawn(function()
-				createESP(plr.Name)
-			end)
+			createESP(plr.Name)
 		end
 	end
-	print("next")
 	RunService:BindToRenderStep("iyresp", Enum.RenderPriority.Camera.Value, function()
 		for plr, drawing in pairs(cachedESP) do
 			if plr ~= speaker and drawing ~= nil then
-				print(`trying to update {plr}`)
 				updateESP(plr, drawing)
 			end
 		end
@@ -11251,16 +11242,14 @@ addcmd('headsit',{},function(args, speaker)
 			return
 		else
 			speaker.Character:FindFirstChildOfClass('Humanoid').Sit = true
-			task.spawn(function()
-				while task.wait() do
-					if Players:FindFirstChild(Players[v].Name) and Players[v].Character ~= nil and getRoot(Players[v].Character) and getRoot(speaker.Character) and speaker.Character:FindFirstChildOfClass('Humanoid').Sit == true then
-						getRoot(speaker.Character).CFrame = getRoot(Players[v].Character).CFrame * CFrame.Angles(0,math.rad(0),0)* CFrame.new(0,1.6,0.4)
-						getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
-					else
-						break
-					end
+			while task.wait() do
+				if Players:FindFirstChild(Players[v].Name) and Players[v].Character ~= nil and getRoot(Players[v].Character) and getRoot(speaker.Character) and speaker.Character:FindFirstChildOfClass('Humanoid').Sit == true then
+					getRoot(speaker.Character).CFrame = getRoot(Players[v].Character).CFrame * CFrame.Angles(0,math.rad(0),0)* CFrame.new(0,1.6,0.4)
+					getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+				else
+					break
 				end
-			end)
+			end
 		end
 	end
 end)
@@ -11425,51 +11414,37 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			--if IS18TOUSENSFWFEATURES then
-			--	if table.find(nsfwWhitelist, speaker.Name) ~= nil then
-					if table.find(devblacklist, Players[v].Name) ~= nil then
-						execCmd("unbang")
-						notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
-						return
-					else
-						execCmd("unbang")
-						task.wait()
-						isbanging = true
-						local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
-						bangAnim = Instance.new("Animation")
-						bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
-						bang = humanoid:LoadAnimation(bangAnim)
-						bang:Play(0.1, 1, 1)
-						bang:AdjustSpeed(args[2] or 2)
-						bangDied = humanoid.Died:Connect(function()
-							bang:Stop()
-							bangAnim:Destroy()
-							bangDied:Disconnect()
-							isbanging = false
-						end)
-						local bangplr = Players[v].Name
-						local bangOffet = CFrame.new(0,0,1.1)
-						task.spawn(function()
-							while task.wait() do
-								if isbanging == false then
-									break
-								end
-								local otherRoot = getTorso(Players[bangplr].Character)
-								getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
-								getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
-							end
-						end)
+			if table.find(devblacklist, Players[v].Name) ~= nil then
+				execCmd("unbang")
+				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
+				return
+			else
+				execCmd("unbang")
+				task.wait()
+				isbanging = true
+				local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+				bangAnim = Instance.new("Animation")
+				bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
+				bang = humanoid:LoadAnimation(bangAnim)
+				bang:Play(0.1, 1, 1)
+				bang:AdjustSpeed(args[2] or 2)
+				bangDied = humanoid.Died:Connect(function()
+					bang:Stop()
+					bangAnim:Destroy()
+					bangDied:Disconnect()
+					isbanging = false
+				end)
+				local bangplr = Players[v].Name
+				local bangOffet = CFrame.new(0,0,1.1)
+				while task.wait() do
+					if isbanging == false then
+						break
 					end
-			--	else
-			--		execCmd("unbang")
-			--		notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
-			--		return
-			--	end
-			--else
-			--	execCmd("unbang")
-			--	notify("Error","A global has not been set to true (IS18TOUSENSFWFEATURES)")
-			--	return
-			--end		
+					local otherRoot = getTorso(Players[bangplr].Character)
+					getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
+					getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+				end
+			end		
 		end
 	end
 end)
@@ -11478,51 +11453,37 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			--if IS18TOUSENSFWFEATURES then
-			--	if table.find(nsfwWhitelist, speaker.Name) ~= nil then
-					if table.find(devblacklist, Players[v].Name) ~= nil then
-						execCmd("unbang")
-						notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
-						return
-					else
-						execCmd("unbang")
-						task.wait()
-						isbanging = true
-						local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
-						bangAnim = Instance.new("Animation")
-						bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
-						bang = humanoid:LoadAnimation(bangAnim)
-						bang:Play(0.1, 1, 1)
-						bang:AdjustSpeed(args[2] or 2)
-						bangDied = humanoid.Died:Connect(function()
-							bang:Stop()
-							bangAnim:Destroy()
-							bangDied:Disconnect()
-							isbanging = false
-						end)
-						local bangplr = Players[v].Name
-						local bangOffet = CFrame.new(0, 2.3, -1.1)
-						task.spawn(function()
-							while task.wait() do
-								if isbanging == false then
-									break
-								end
-								local otherRoot = getTorso(Players[bangplr].Character)
-								getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet * CFrame.Angles(0,3.15,0)
-								getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
-							end
-						end)
+			if table.find(devblacklist, Players[v].Name) ~= nil then
+				execCmd("unbang")
+				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
+				return
+			else
+				execCmd("unbang")
+				task.wait()
+				isbanging = true
+				local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+				bangAnim = Instance.new("Animation")
+				bangAnim.AnimationId = not r15(speaker) and "rbxassetid://148840371" or "rbxassetid://5918726674"
+				bang = humanoid:LoadAnimation(bangAnim)
+				bang:Play(0.1, 1, 1)
+				bang:AdjustSpeed(args[2] or 2)
+				bangDied = humanoid.Died:Connect(function()
+					bang:Stop()
+					bangAnim:Destroy()
+					bangDied:Disconnect()
+					isbanging = false
+				end)
+				local bangplr = Players[v].Name
+				local bangOffet = CFrame.new(0, 2.3, -1.1)
+				while task.wait() do
+					if isbanging == false then
+						break
 					end
-			--	else
-			--		execCmd("unbang")
-			--		notify("Error","No sorry. Due to ScriptBlox banning ME.\nThe command is NOW whitelisted only!")
-			--		return
-			--	end
-			--else
-			--	execCmd("unbang")
-			--	notify("Error","A global has not been set to true (IS18TOUSENSFWFEATURES)")
-			--	return
-			--end	
+					local otherRoot = getTorso(Players[bangplr].Character)
+					getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet * CFrame.Angles(0,3.15,0)
+					getRoot(speaker.Character).Velocity = Vector3.new(0,0,0)
+				end
+			end
 		end
 	end
 end)
@@ -11601,22 +11562,22 @@ addcmd('carpet',{},function(args, speaker)
 				notify("Error","HEY! You cannot carpet a developer of Infinite Yield Reborn!")
 				return
 			else
-				carpetAnim = Instance.new("Animation")
-				carpetAnim.AnimationId = "rbxassetid://282574440"
-				carpet = speaker.Character:FindFirstChildOfClass('Humanoid'):LoadAnimation(carpetAnim)
-				carpet:Play(.1, 1, 1)
-				local carpetplr = Players[v].Name
+			carpetAnim = Instance.new("Animation")
+			carpetAnim.AnimationId = "rbxassetid://282574440"
+			carpet = speaker.Character:FindFirstChildOfClass('Humanoid'):LoadAnimation(carpetAnim)
+			carpet:Play(.1, 1, 1)
+			local carpetplr = Players[v].Name
 				carpetDied = speaker.Character:FindFirstChildOfClass('Humanoid').Died:Connect(function()
-					carpetLoop:Disconnect()
-					carpet:Stop()
-					carpetAnim:Destroy()
-					carpetDied:Disconnect()
+				carpetLoop:Disconnect()
+				carpet:Stop()
+				carpetAnim:Destroy()
+				carpetDied:Disconnect()
+			end)
+			carpetLoop = RunService.Heartbeat:Connect(function()
+				pcall(function()
+					getRoot(Players.LocalPlayer.Character).CFrame = getRoot(Players[carpetplr].Character).CFrame
 				end)
-				carpetLoop = RunService.Heartbeat:Connect(function()
-					pcall(function()
-						getRoot(Players.LocalPlayer.Character).CFrame = getRoot(Players[carpetplr].Character).CFrame
-					end)
-				end)
+			end)
 			end
 		end
 	else
@@ -11968,13 +11929,11 @@ addcmd('copytools',{},function(args, speaker)
 	notify("copytools","Keep in mind that this command is client-side.")
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players)do
-		task.spawn(function()
-			for i,v in pairs(Players[v]:FindFirstChildOfClass("Backpack"):GetChildren()) do
-				if v:IsA('Tool') or v:IsA('HopperBin') then
-					v:Clone().Parent = speaker:FindFirstChildOfClass("Backpack")
-				end
+		for i,v in pairs(Players[v]:FindFirstChildOfClass("Backpack"):GetChildren()) do
+			if v:IsA('Tool') or v:IsA('HopperBin') then
+				v:Clone().Parent = speaker:FindFirstChildOfClass("Backpack")
 			end
-		end)
+		end
 	end
 end)
 
@@ -11999,10 +11958,8 @@ addcmd('hidechar',{},function(args, speaker)
 	for _,v in pairs(Players:FindFirstChild(plr).Character:GetDescendants()) do
 		if v:IsA("BasePart") or v:IsA("Decal") then
 			if v.Name ~= "HumanoidRootPart" then
-				task.spawn(function()
-					table.insert(hiddenplayers[plr], v) -- :brain:
-					v.Transparency = 1
-				end)
+				table.insert(hiddenplayers[plr], v) -- :brain:
+				v.Transparency = 1
 			end
 		end
 	end
@@ -12013,9 +11970,7 @@ addcmd('unhidechar',{},function(args, speaker)
 	if table.find(hiddenplayers, plr) then
 		for _,v in pairs(hiddenplayers[plr]) do
 			if v:IsA("BasePart") or v:IsA("Decal") then
-				task.spawn(function()
-					v.Transparency = 0
-				end)
+				v.Transparency = 0
 			end
 		end
 		hiddenplayers[plr] = nil
@@ -12025,9 +11980,7 @@ end)
 addcmd('unhideallchars',{},function(args, speaker)
 	for _,v in pairs(hiddenplayers) do
 		for _,instancee in pairs(hiddenplayers[v]) do
-			task.spawn(function()
-				instancee.Transparency = 0
-			end)
+			instancee.Transparency = 0
 		end
 		hiddenplayers[v] = nil
 	end
@@ -12934,14 +12887,12 @@ if game.PlaceId == 574746640 then
 		notify('Spamtime enabled')
 		local TIME_SPAM_SPEED = tonumber(args[1]) or 0.01
 		spamtimeenabled = true
-		task.spawn(function()
-			while spamtimeenabled do
-				Players:Chat("day")
-				task.wait(TIME_SPAM_SPEED)
-				Players:Chat("night")
-				task.wait(TIME_SPAM_SPEED)
-			end
-		end)
+		while spamtimeenabled do
+			Players:Chat("day")
+			task.wait(TIME_SPAM_SPEED)
+			Players:Chat("night")
+			task.wait(TIME_SPAM_SPEED)
+		end
 	end)
 
 	addcmd('unspamtime',{'unstime','unflash'},function(args,speaker)
@@ -12954,14 +12905,12 @@ if game.PlaceId == 574746640 then
 	addcmd('forceday',{'fday'},function(args, speaker)
 		fdayenabled = true
 		fnightenabled = false
-		task.spawn(function()
-			while fdayenabled do
-				if Lighting.ClockTime ~= 14 then
-					Players:Chat("day")
-				end
-				task.wait()
+		while fdayenabled do
+			if Lighting.ClockTime ~= 14 then
+				Players:Chat("day")
 			end
-		end)
+			task.wait()
+		end
 	end)
 
 	addcmd('unforceday',{'unforcenight','unfday','unfnight'}, function(args, speaker)
@@ -12972,14 +12921,12 @@ if game.PlaceId == 574746640 then
 	addcmd('forcenight',{'fnight'},function(args, speaker)
 		fdayenabled = false
 		fnightenabled = true
-		task.spawn(function()
-			while fnightenabled do
-				if Lighting.ClockTime ~= 1 then
-					Players:Chat("night")
-				end
-				task.wait()
+		while fnightenabled do
+			if Lighting.ClockTime ~= 1 then
+				Players:Chat("night")
 			end
-		end)
+			task.wait()
+		end
 	end)
 
 	addcmd('gettools',{'gt'}, function(args, speaker)
