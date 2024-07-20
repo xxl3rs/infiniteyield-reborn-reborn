@@ -8308,7 +8308,7 @@ end)
 addcmd("savelogs", {}, function(args, speaker)
 	local LogService = cloneref(game:GetService('LogService'))
 	local placeName = CleanFileName(MarketplaceService:GetProductInfo(PlaceId).Name)
-	local writelogs = '-- Infinite Yield Reborn Roblox logs for "'..placeName..'"\n'
+	local writelogs = '-- Infinite Yield Reborn Console logs for "'..placeName..'"\n'
 	local getLogMessages = LogService:GetLogHistory()
 	local array = {}
 	local writelogsFile
@@ -8327,7 +8327,7 @@ addcmd("savelogs", {}, function(args, speaker)
 		local fileext = 0
 		local function nameFile()
 			local file
-			pcall(function() file = readfile(placeName..' Roblox Logs ('..fileext..').txt') end)
+			pcall(function() file = readfile(placeName..' Console Logs ('..fileext..').txt') end)
 			if file then
 				fileext += 1
 				nameFile()
