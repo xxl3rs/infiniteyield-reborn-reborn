@@ -4442,27 +4442,28 @@ spawn(function()
 			RootPart = Humanoid and Humanoid.RootPart
 
 			if GetNearestPlayers() and Humanoid and RootPart and not IsVoiding then
-				IsVoiding = true
-
-				local CurrentPosition = RootPart.Velocity.Magnitude < 50 and RootPart.CFrame or Camera.Focus
-				local Timer = tick()
-
 				if (RanTP) then
 					RootPart.CFrame = RootPart.CFrame + Vector3.new(math.random(1,50), 0, math.random(1,50))
 				else
+					IsVoiding = true
+
+					local CurrentPosition = RootPart.Velocity.Magnitude < 50 and RootPart.CFrame or Camera.Focus
+					local Timer = tick()
+
+					
 					repeat
 						RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
 						RootPart.AssemblyLinearVelocity = Vector3.new()
 						task.wait()
 					until tick() > Timer + 1
+
+					RootPart.AssemblyLinearVelocity = Vector3.new()
+					RootPart.CFrame = CurrentPosition
+
+					Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+
+					IsVoiding = false
 				end
-
-				RootPart.AssemblyLinearVelocity = Vector3.new()
-				RootPart.CFrame = CurrentPosition
-
-				Humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
-
-				IsVoiding = false
 			end
 		end
 
