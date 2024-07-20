@@ -4899,6 +4899,7 @@ CMDs[#CMDs + 1] = {NAME = 'grabtools', DESC = 'Automatically get tools that are 
 CMDs[#CMDs + 1] = {NAME = 'ungrabtools / nograbtools', DESC = 'Disables grabtools'}
 CMDs[#CMDs + 1] = {NAME = 'copytools [player] (CLIENT)', DESC = 'Copies a players tools'}
 CMDs[#CMDs + 1] = {NAME = 'givetool / givetools', DESC = 'Gives all the tools you\'re holding to [player] using the attach method.'}
+CMDs[#CMDs + 1] = {NAME = 'sendtool', DESC = 'Sends the tool you\'re holding to [player].'}
 CMDs[#CMDs + 1] = {NAME = 'droptools', DESC = 'Drops your tools'}
 CMDs[#CMDs + 1] = {NAME = 'droppabletools', DESC = 'Makes your tools droppable'}
 CMDs[#CMDs + 1] = {NAME = 'equiptools', DESC = 'Equips every tool in your inventory at once'}
@@ -12213,6 +12214,56 @@ addcmd('givetool', {'givetools'}, function(args, speaker)
 		RS:Wait()
 	end
 	execCmd('re')
+end)
+
+addcmd('sendtool', {}, function(args, speaker)
+	if not firetouchinterest then
+		notify("Incompatible Exploit", "Your exploit does not support this command (missing firetouchinterest)")
+		return
+	end
+	local target = getPlayer(args[1], speaker)[1] 
+	local Character = speaker.Character
+	local tool = Character:FindFirstChildWhichIsA("Tool")
+	if not tool then
+		return notify("Notification", "Please equip a tool")
+	else
+		if not tool.CanBeDropped then
+			return notify("Error", "Tool cannot be dropped")
+		end
+	end
+	if not target then
+		return notify("Error", "Target has not been found")
+	end
+    local Humanoid = Character:FindFirstChildWhichIsA("Humanoid")
+	local targetHumanoidRootPart = target.Character:FindFirstChild("HumanoidRootPart")
+	if not Humanoid then
+		return notify("Error", "Your character is missing Humanoid")
+	end
+	if not targetHumanoidRootPart then
+		return notify("Error", "Target's character is missing HumanoidRootPart")
+	end
+    tool.Parent = workspace
+	repeat
+        task.wait(0.01)
+    until tool.Handle.ReceiveAge ~= 0
+    local x = 0
+    repeat
+        x = x + 1
+        if x >= 300 then
+			if tool then
+            	if tool.Parent == workspace then
+                	Humanoid:EquipTool(tool)
+					local tool = Character:WaitForChild(tool.Name)
+					return execCmd("sendtool " .. target.Name)
+            	end
+			end
+            break
+        end
+        task.wait(0.01)
+    until tool.Handle.ReceiveAge == 0
+	pcall(firetouchinterest, tool.Handle, targetHumanoidRootPart, 1)
+	pcall(firetouchinterest, tool.Handle, targetHumanoidRootPart, 0)
+	notify("Notification", "Tool sent successfully!")
 end)
 
 addcmd('touchinterests', {'touchinterest', 'firetouchinterests', 'firetouchinterest'}, function(args, speaker)
