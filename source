@@ -8344,13 +8344,13 @@ addcmd("savelogs", {}, function(args, speaker)
 				fileext += 1
 				nameFile()
 			else
-				writefileCooldown(placeName..' Roblox Logs ('..fileext..').txt', writelogsFile)
+				writefileCooldown(placeName..' Console Logs ('..fileext..').txt', writelogsFile)
 			end
 		end
 		nameFile()
-		notify('Roblox Logs','Saved Roblox logs to the workspace folder within your exploit folder.')
+		notify('Success','Saved Console logs to the workspace folder within your exploit folder.')
 	else
-		notify('Roblox Logs','Your exploit does not support write file. You cannot save Roblox logs.')
+		notify('Incompatible Exploit','Your exploit does not support read/write file. You cannot save Console logs.')
 	end
 end)
 
@@ -8374,7 +8374,7 @@ function AntiAntiBang(parent)
     end
 end
 
-        AntiAntiBang(game)
+    AntiAntiBang(game)
 	notify('Client AntiAntiCheat','Client AntiAntiCheat is now active (only effective on localscript anticheats)')
 end)
 
