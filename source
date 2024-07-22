@@ -11011,6 +11011,7 @@ addcmd("unc",{"unctest","unccheckevn"},function(args, speaker)
 end)
 
 addcmd("addunc", {'addmoreunc', 'adduncevn'}, function(args, speaker)
+	print_moreunc_results = false
     loadstring(game:HttpGet("https://github.com/FurryBoyYT/moreunc/raw/main/source"))() 
     notify("Adding some UNC (Thanks to the community) (WARNING THIS MAY REMOVE SOME UNC)")
 end)
