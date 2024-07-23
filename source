@@ -8216,7 +8216,7 @@ addcmd("report", {},function(args, speaker)
 
 		Players:ReportAbuse(rplayer, rreason, adinfo)
 
-		notify("Report Abuse", "Reported ")
+		notify("Report Abuse", "Reported "..rplayer.." for "..rreason..". ["..adinfo.."]")
 	end
 end)
 
