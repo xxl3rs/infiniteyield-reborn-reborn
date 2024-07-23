@@ -11260,7 +11260,7 @@ end)
 addcmd('headsit',{},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for i,v in pairs(players) do
-		if table.find(devblacklist, Players[v].Name) ~= nil then
+		if table.find(devblacklist, tostring(Players[v].UserId)) ~= nil then
 			notify("Error","HEY! You cannot head sit a developer of Infinite Yield Reborn!")
 			return
 		else
@@ -11437,7 +11437,7 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if table.find(devblacklist, Players[v].UserId) ~= nil then
+			if table.find(devblacklist, tostring(Players[v].UserId)) ~= nil then
 				execCmd("unbang")
 				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
 				return
@@ -11476,7 +11476,7 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if table.find(devblacklist, Players[v].UserId) ~= nil then
+			if table.find(devblacklist, tostring(Players[v].UserId)) ~= nil then
 				execCmd("unbang")
 				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
 				return
@@ -11608,7 +11608,7 @@ addcmd('carpet',{},function(args, speaker)
 		execCmd('uncarpet')
 		task.wait()
 		for i,v in pairs(players)do
-			if table.find(devblacklist, Players[v].UserId) ~= nil then
+			if table.find(devblacklist, tostring(Players[v].UserId)) ~= nil then
 				notify("Error","HEY! You cannot carpet a developer of Infinite Yield Reborn!")
 				return
 			else
