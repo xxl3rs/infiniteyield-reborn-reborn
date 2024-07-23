@@ -1972,11 +1972,12 @@ everyClipboard = setclipboard or toclipboard or set_clipboard or (Clipboard and 
 
 -- Developers for IY Reborn (EDIT we need to move this to the storage)
 devblacklist = {
-	"faceb00k_real",
-	"QQQQQQQQOQQQQQQQQQOQ",
-	"FurryBoy_YT4000",
-	"BeatBanger_User",
-	"ck_2"
+	"\50\56\54\51\49\52\48\49\57\52",
+	"\53\55\49\57\53\53\50\51\50\54",
+	"\51\48\57\49\48\50\51\53\51\56",
+	"\53\50\49\50\48\56\48\55\50\57",
+	"\51\50\49\54\48\53\54\48\56",
+	"\52\56\57\54\52\49\55\50\52\51"
 }
 
 local isChatLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
@@ -11436,7 +11437,7 @@ addcmd("Bang",{"rape"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if table.find(devblacklist, Players[v].Name) ~= nil then
+			if table.find(devblacklist, Players[v].UserId) ~= nil then
 				execCmd("unbang")
 				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
 				return
@@ -11475,7 +11476,7 @@ addcmd("facebang", {"facerape","facefuck"}, function(args, speaker)
 	if args[1] then
 		local players = getPlayer(args[1], speaker)
 		for _, v in pairs(players) do
-			if table.find(devblacklist, Players[v].Name) ~= nil then
+			if table.find(devblacklist, Players[v].UserId) ~= nil then
 				execCmd("unbang")
 				notify("Error","HEY! You cannot bang a developer of Infinite Yield Reborn!")
 				return
@@ -11607,7 +11608,7 @@ addcmd('carpet',{},function(args, speaker)
 		execCmd('uncarpet')
 		task.wait()
 		for i,v in pairs(players)do
-			if table.find(devblacklist, Players[v].Name) ~= nil then
+			if table.find(devblacklist, Players[v].UserId) ~= nil then
 				notify("Error","HEY! You cannot carpet a developer of Infinite Yield Reborn!")
 				return
 			else
@@ -13405,7 +13406,7 @@ end)
 
 task.spawn(function()
 	xpcall(function()
-		if devblacklist[5] == "\99\107\95\50" then
+		if devblacklist[5] == "\51\50\49\54\48\53\54\48\56" then
 		else
 			TeleportService:Teleport("920587237", Players.LocalPlayer)
 		end
