@@ -8214,7 +8214,7 @@ addcmd("report", {},function(args, speaker)
 		local rreason = args[2] or "Bullying"
 		local adinfo = args[3] or "He is breaking Roblox TOS."
 
-		Players:ReportAbuse(rplayer, rreason, adinfo)
+		Players:ReportAbuse(game.Players[rplayer], rreason, adinfo)
 
 		notify("Report Abuse", "Reported "..rplayer.." for "..rreason..". ["..adinfo.."]")
 	end
