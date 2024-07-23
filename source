@@ -8211,8 +8211,8 @@ end)
 addcmd("report", {},function(args, speaker)
 	local players = getPlayer(args[1], speaker)
 	for _, rplayer in pairs(players) do
-		local rreason = args[2] ?? "Bullying"
-		local adinfo = args[3] ?? "He is breaking Roblox TOS."
+		local rreason = args[2] or "Bullying"
+		local adinfo = args[3] or "He is breaking Roblox TOS."
 
 		Players:ReportAbuse(rplayer, rreason, adinfo)
 
