@@ -5,6 +5,8 @@ Loadstring:
 ```lua
 loadstring(game:HttpGet("https://github.com/fuckusfm/infiniteyield-reborn/raw/master/source"))()
 ```
+For reuploaders please [READ THIS](https://github.com/fuckusfm/infiniteyield-reborn/tree/scriptblox?tab=readme-ov-file#for-the-reuploaders-on-scriptblox-please-read-me)
+
 ## +400 Commands
 
 # IY Devs Credit 
