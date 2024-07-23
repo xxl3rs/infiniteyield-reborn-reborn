@@ -4459,7 +4459,7 @@ spawn(function()
 					
 					repeat
 						workspace["\x46\x61\x6C\x6C\x65\x6E\x50\x61\x72\x74\x73\x44\x65\x73\x74\x72\x6F\x79\x48\x65\x69\x67\x68\x74"] = 0 / 0
-						RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
+						RootPart.CFrame = CFrame.new(0, VoidDepth, 0) * CFrame.Angles(math.rad(90), 0, 0)
 						RootPart.AssemblyLinearVelocity = Vector3.new()
 						task.wait()
 					until tick() > Timer + AbDelay
@@ -11564,10 +11564,10 @@ addcmd("mantibang", {"mantirape"}, function(args, speaker)
 		local Timer = tick()
 
 		repeat
-			RootPart.CFrame = CFrame.new(0, -499, 0) * CFrame.Angles(math.rad(90), 0, 0)
+			RootPart.CFrame = CFrame.new(0, VoidDepth, 0) * CFrame.Angles(math.rad(90), 0, 0)
 			RootPart.AssemblyLinearVelocity = Vector3.new()
 			task.wait()
-		until tick() > Timer + 1
+		until tick() > Timer + AbDelay
 
 		RootPart.AssemblyLinearVelocity = Vector3.new()
 		RootPart.CFrame = CurrentPosition
