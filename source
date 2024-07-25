@@ -11602,7 +11602,7 @@ end)
 addcmd("abdelay", {"ardistance"}, function(args, speaker)
 	local rdelay = args[1]
 	AbDelay = tonumber(rdelay)
-	notify("Anti-Bang Delay", "The delay has been set to "..AntiBangDelay)
+	notify("Anti-Bang Delay", "The delay has been set to "..AbDelay)
 end)
 
 addcmd("unbang", {"unrape","unfacebang","unfacerape","unfacefuck"}, function(args, speaker)
