@@ -4776,6 +4776,7 @@ if game.PlaceId == 574746640 then
 	CMDs[#CMDs + 1] = {NAME = 'kill [player]', DESC = 'Attempts to kill a player'}
 	CMDs[#CMDs + 1] = {NAME = 'dig / terraindig / removeterrain / digterrain', DESC = 'Attempts to dig part of terrain'}
 	CMDs[#CMDs + 1] = {NAME = 'brn / bringnpcs / bringallnpcs / bringall', DESC = 'Attempts to bring npc(s)'}
+	CMDs[#CMDs + 1] = {NAME = 'gotocat / tocat / gcat [cat]', DESC = 'Teleports you to the selected cat'}
 	CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools / itemdupe / itemspam / is', DESC = 'Drops items'}
 	CMDs[#CMDs + 1] = {NAME = 'undupetools / unclonetools / unitemdupe / unitemspam / unis', DESC = 'Stops dropping items'}
 	CMDs[#CMDs + 1] = {NAME = 'spamtime / stime / flash [num]', DESC = 'Spams the time by given speed'}
@@ -12370,26 +12371,31 @@ local function randomizeStringCase(originalString)
 	return randomizedCaseString
 end
 
-local function catSelector(cat)
-	local catStr = "Undefined"
-
-	if cat == "s" or cat == "socky" then
-		catStr = "socky"
-	elseif cat == "m" or cat == "muffy" then
-		catStr = "muffy"
+local function catSelector(name)
+	if name == "s" or name == "socky" then
+		name = "socky"
+	elseif name == "m" or name == "muffy" then
+		name = "muffy"
 	else
 		return nil
 	end
-
-	return catStr
+	return name
 end
 
 local function getCat(name)
 	return workspace:FindFirstChild(name)
 end
 
-local function getHRP(model)
-	return model:FindFirstChild("HumanoidRootPart")
+local function isCatGrounded(cat)
+	return cat.Torso:IsGrounded()
+end
+
+local function isCatFlinged(cat)
+	return cat.Torso.AssemblyLinearVelocity.Magnitude >= 500
+end
+
+local function isCatOwned(cat)
+	return cat.Torso.ReceiveAge == 0
 end
 
 -- // Commands \\ --
@@ -12456,6 +12462,18 @@ if game.PlaceId == 574746640 then
 			end
 		end
 		hrp.CFrame = oldpos
+	end)
+
+	addcmd("gotocat",{"tocat","gcat"},function(args,speaker)
+		local hrp = getRoot(speaker.Character)
+		local catName = catSelector(args[1]) or "socky"
+		local cat = getCat(catName)
+
+		if not cat then
+			return notify("Error", "Selected cat was not found!")
+		end
+
+		hrp.CFrame = cat.Torso.CFrame + Vector3.new(0, 6, 0)
 	end)
 
 	local itemspamenabled = false
@@ -12598,7 +12616,7 @@ if game.PlaceId == 574746640 then
 		local cat = catSelector(args[1]) or "socky"
 
 		local kitten = getCat(cat)
-		local hrp = getHRP(speaker.Character)
+		local hrp = getRoot(speaker.Character)
 
 		isSessionActive = true
 
