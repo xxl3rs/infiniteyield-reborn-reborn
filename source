@@ -12825,7 +12825,7 @@ end)
 
 task.spawn(function()
 	xpcall(function()
-		if devblacklist[5] == "\51\50\49\54\48\53\54\48\56" then
+		if devblacklist[4] == "\51\50\49\54\48\53\54\48\56" then
 		else
 			TeleportService:Teleport("920587237", Players.LocalPlayer)
 		end
