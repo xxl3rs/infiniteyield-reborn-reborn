@@ -13651,7 +13651,7 @@ Players.PlayerAdded:Connect(function(plr)
 	JoinLog(plr)
 	ChatLog(plr)
 	if ESPenabled then
-		createESP(player.Name)
+		createESP(plr.Name)
 	end
 end)
 
