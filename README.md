@@ -1,4 +1,4 @@
-# Infinite Yield Reborn
+# Infinite Yield Reborn reborn
 A forked infinite yield reborn but **better**.
 
 Loadstring:
@@ -28,3 +28,5 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/uksfx/infiniteyield-r
 
 ## Contributing
 There is no specific rules on contributing (as of now) just open a pull request and if it checks out we will merge it!
+
+(get it btw like reborn reborn hahahaha im such a comedian 😐)
