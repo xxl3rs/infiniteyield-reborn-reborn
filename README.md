@@ -3,7 +3,7 @@ A forked infinite yield reborn but **better**.
 
 Loadstring:
 ```lua
-loadstring(game:HttpGet("insert raw url here 🙏🙏🙏"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/uksfx/infiniteyield-reborn/master/source"))()
 ```
 
 
