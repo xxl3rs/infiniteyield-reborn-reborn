@@ -12859,15 +12859,6 @@ addcmd('uninfinity',{},function(args,speaker)
 	infinitypathtoolenabled = false
 end)
 
-task.spawn(function()
-	xpcall(function()
-		if devblacklist[5] == "\51\50\49\54\48\53\54\48\56" then
-			TeleportService:Teleport("920587237", Players.LocalPlayer)
-		end
-	end, function()
-		TeleportService:Teleport("920587237", Players.LocalPlayer)
-	end)
-end)
 
 function bring(speaker,target,fast)
 	if tools(speaker) then
