@@ -3,7 +3,7 @@ A forked infinite yield reborn but **better**.
 
 Loadstring:
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/uksfx/infiniteyield-reborn-reborn/master/source"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/alajayid/infiniteyield-reborn-reborn/master/source"))()
 ```
 
 
@@ -24,7 +24,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/uksfx/infiniteyield-r
 ### Developer: azula.cs
 
 # developers (???)
-### me (uksfx)
+### me (alajayid)
 
 ## Contributing
 There is no specific rules on contributing (as of now) just open a pull request and if it checks out we will merge it!
