@@ -1,17 +1,11 @@
---[[
-	If your executor supports infinite yield it should support infinite yield reborn reborn (notice the joke there haha please laugh)
-]]--
+
 
 if IY_LOADED and not _G.IY_DEBUG == true then
 	loadstring(game:HttpGet('https://raw.githubusercontent.com/alajayid/infiniteyield-reborn-reborn/master/uselessscriptthatexistsinthisrepoiwin'))()
 	return
 end
 
--- yeah no there no way to enable this by using a command or somehting. scriptblox is just gay. they have to enable it manually with a one-liner. yes im talking about the is18 shit 
 pcall(function() getgenv().IY_LOADED = true end)
-
--- fuck you ScriptBlox touches children and love watching little sisters
-
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
 Players = cloneref(game:GetService("Players"))
@@ -26,9 +20,6 @@ if not game:IsLoaded() then
 end
 
 currentVersion = '7'
-
--- Go to line 12602 for 4nn1's Place stuff
--- For _Real: Add more useless stuff and also add more bang-type commands. (NON-NSFW)
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
